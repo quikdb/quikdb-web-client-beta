@@ -1,3 +1,5 @@
+
+'use client';
 import { FormHeader } from '../../components/onboarding';
 import React from "react"
 
