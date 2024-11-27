@@ -1,5 +1,5 @@
-import Link from 'next/link'; // Import Next.js Link
-import { FormHeader, Input } from '../'; // Import local components
+import Link from 'next/link'; 
+import { FormHeader, Input } from '../';
 import { Button } from '../../ui/button';
 
 interface CodeAuthenticationProps {
