@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Button } from '../../../components/ui/button';
-import { Input, FormDivider, PasswordInput, FormHeader } from '../../../components/onboarding';
+import { Button } from '../../components/ui/button';
+import { Input, FormDivider, PasswordInput, FormHeader } from '../../components/onboarding';
 
 const SignInPage = () => {
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
