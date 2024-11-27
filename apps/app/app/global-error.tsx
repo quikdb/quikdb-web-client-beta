@@ -16,10 +16,12 @@ const GlobalError = ({ error, reset }: GlobalErrorProperties) => {
   }, [error]);
 
   return (
-    <html lang="en">
+    <html lang='en'>
       <body>
-        <h1>Oops, something went wrong</h1>
-        <Button onClick={() => reset()}>Try again</Button>
+        <div className='grid place-content-center min-h-screen max-md:text-xl text-3xl'>
+          <h2>404: Page Not Found</h2>
+          <p>Uh oh! Wrong page 😞</p>
+        </div>
       </body>
     </html>
   );
