@@ -1,11 +1,10 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '../../ui/button';
 import { Input, FormDivider, PasswordInput, FormHeader } from '..';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link'; // Import Next.js Link
 
 interface SignUpProps {
   isSignUp?: boolean;
-  // signUp: () => void;
 }
 
 const SignUp: React.FC<SignUpProps> = ({ isSignUp }) => {
@@ -32,7 +31,7 @@ const SignUp: React.FC<SignUpProps> = ({ isSignUp }) => {
               <PasswordInput placeholder='Enter Password' required />
 
               {!isSignUp && (
-                <Link to='/forgot_password' className='text-sm font-light text-right w-full pr-2 text-gradient'>
+                <Link href='/forgot_password' className='text-sm font-light text-right w-full pr-2 text-gradient'>
                   Forgot Password?
                 </Link>
               )}
@@ -47,7 +46,7 @@ const SignUp: React.FC<SignUpProps> = ({ isSignUp }) => {
             <section className='flex flex-col items-center my-6 gap-y-4 w-full'>
               <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
                 <Button className={buttonStyle}>{buttonTextPrefix} with internet identity</Button>
-                <Button className={buttonStyle}>{buttonTextPrefix} with on time link</Button>
+                <Button className={buttonStyle}>{buttonTextPrefix} with one-time link</Button>
               </div>
 
               {seeOtherOptions ? (
@@ -65,11 +64,11 @@ const SignUp: React.FC<SignUpProps> = ({ isSignUp }) => {
             <section className='flex flex-col items-center gap-y-6'>
               <p className='text-sm font-light text-[#B3B4B3] text-center'>
                 By clicking continue, you agree to our{' '}
-                <Link to='/terms' className='underline'>
+                <Link href='/terms' className='underline'>
                   Terms of Service
                 </Link>{' '}
                 and{' '}
-                <Link to='/privacy' className='underline'>
+                <Link href='/privacy' className='underline'>
                   Privacy Policy
                 </Link>
               </p>
@@ -77,14 +76,14 @@ const SignUp: React.FC<SignUpProps> = ({ isSignUp }) => {
               {isSignUp ? (
                 <p className='text-lg font-light text-[#B3B4B3]'>
                   Already have an account?{' '}
-                  <Link to='/login' className=' text-gradient'>
+                  <Link href='/login' className=' text-gradient'>
                     Log in
                   </Link>
                 </p>
               ) : (
                 <p className='text-lg font-light text-[#B3B4B3]'>
                   Don't have an account?{' '}
-                  <Link to='/signup' className=' text-gradient'>
+                  <Link href='/signup' className=' text-gradient'>
                     Sign up
                   </Link>
                 </p>
