@@ -20,6 +20,7 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { Input } from '@repo/design-system/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/design-system/components/ui/table';
 import Link from 'next/link';
+
 const data: Project[] = [
   {
     project: 'UrbanLfe Suite',
@@ -153,9 +154,9 @@ export function ProjectTable() {
     <div className='w-full'>
       <div className='flex items-center pt-7 pb-5'>
         <Input
-          placeholder='Filter emails...'
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
+          placeholder='Search by Project name...'
+          value={(table.getColumn('project')?.getFilterValue() as string) ?? ''}
+          onChange={(event) => table.getColumn('project')?.setFilterValue(event.target.value)}
           className='max-w-sm h-11'
         />
         <DropdownMenu>

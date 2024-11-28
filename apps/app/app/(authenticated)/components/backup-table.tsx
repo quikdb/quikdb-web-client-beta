@@ -116,9 +116,9 @@ export function BackupTable() {
     <div className='w-full'>
       <div className='flex items-center pt-7 pb-5'>
         <Input
-          placeholder='Filter emails...'
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
+          placeholder='Search by Project name...'
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
           className='max-w-sm h-11'
         />
         <DropdownMenu>
