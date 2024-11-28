@@ -1,6 +1,6 @@
-import { Button } from '../../components/ui/button';
-import { Card } from '../../components/ui/card';
-import { Checkbox } from '../../components/ui/checkbox';
+import { Button } from '@repo/design-system/components/ui/button';
+import { Card } from '@repo/design-system/components/ui/card';
+import { Checkbox } from '@repo/design-system/components/ui/checkbox';
 import { ArrowLeftCircle } from 'lucide-react';
 import { useState } from 'react';
 // import { useNavigate } from "react-router-dom"

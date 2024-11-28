@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { FormHeader, Input } from '../../components/onboarding';
-import { Button } from '../../components/ui/button';
+import { Button } from '@repo/design-system/components/ui/button';
 // import { CryptoUtils } from "@/utils";
 
 // const BASE_URL = import.meta.env.VITE_API_BASE_URL;
