@@ -3,12 +3,12 @@ import {
     GlobeIcon,
 } from "lucide-react";
 
-import { Button } from "./ui/button";
+import { Button } from "../../components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../../components/ui/dropdown-menu";
 import Link from "next/link"; // Use Next.js Link
 
 const DashHeader = () => {
