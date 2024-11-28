@@ -1,5 +1,5 @@
 import { Card } from '@repo/design-system/components/ui/card';
-import Input from '@repo/design-system/components/onboarding/input';
+import Input from '@repo/design-system/components/onboarding/Input';
 import { PlusIcon, Search } from 'lucide-react';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Label } from '@repo/design-system/components/ui/label';
