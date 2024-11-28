@@ -22,7 +22,16 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+  			satoshi_light: ['Satoshi-Light', 'sans-serif'],
+  			satoshi_regular: ['Satoshi-Regular', 'sans-serif'],
+  			satoshi_medium: ['Satoshi-Medium', 'sans-serif'],
+  			satoshi_bold: ['Satoshi-Bold', 'sans-serif'],
+  			satoshi_black: ['Satoshi-Black', 'sans-serif']
+  		},
       colors: {
+        blacko: '#030500',
+  			blackoff: '#18171C',
         border: 'hsl(var(--border) / <alpha-value>)',
         input: 'hsl(var(--input) / <alpha-value>)',
         ring: 'hsl(var(--ring) / <alpha-value>)',
@@ -79,10 +88,21 @@ const config: Config = {
           ring: 'hsl(var(--sidebar-ring))',
         },
       },
-      fontFamily: {
-        sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans],
-        mono: ['var(--font-geist-mono)', ...defaultTheme.fontFamily.mono],
-      },
+      backgroundImage: {
+  			gradient: 'linear-gradient(#40E39D 0%, #8A46FF 83%)'
+  		},
+  		borderColor: {
+  			gradient: 'linear-gradient(#40E39D 0%, #8A46FF 83%)'
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		},
+      // fontFamily: {
+      //   sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans],
+      //   mono: ['var(--font-geist-mono)', ...defaultTheme.fontFamily.mono],
+      // },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
