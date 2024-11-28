@@ -8,11 +8,11 @@ type LayoutProps = {
 
 export default function AppLayout({ children }: LayoutProps) {
   return (
-    <div className="flex">
+    <div className='flex'>
       <GlobalSidebar />
-      <div className="flex-grow pl-[18%]">
+      <div className='flex-grow pl-[18%]'>
         <DashHeader />
-        <div className="p-6">{children}</div>
+        <div className=' max-md:mt-5 mb-10 p-10 bg-transparent min-h-screen'>{children}</div>
       </div>
     </div>
   );
