@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { FormHeader, Input } from '../../components/onboarding';
+import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding'
 import { Button } from '@repo/design-system/components/ui/button';
 // import { CryptoUtils } from "@/utils";
 

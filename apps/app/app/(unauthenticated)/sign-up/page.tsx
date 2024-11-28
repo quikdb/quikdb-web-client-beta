@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@repo/design-system/components/ui/button';
-import { Input, FormDivider, PasswordInput, FormHeader } from '../../components/onboarding';
+import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding'
 
 const SignUpPage = () => {
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
