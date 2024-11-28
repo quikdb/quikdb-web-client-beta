@@ -1,5 +1,5 @@
 // import { useParams } from 'react-router-dom';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/design-system/components/ui/tabs';
 import Groups from '../components/Groups';
 import Collaborators from '../components/Collaborators';
 import Query from '../components/Query';

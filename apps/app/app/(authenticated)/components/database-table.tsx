@@ -15,11 +15,11 @@ import {
 } from '@tanstack/react-table';
 import { ChevronDown, Trash2Icon } from 'lucide-react';
 
-import { Button } from '../../components/ui/button';
-import { Checkbox } from '../../components/ui/checkbox';
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '../../components/ui/dropdown-menu';
-import { Input } from '../../components/onboarding';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
+import { Button } from '@repo/design-system/components/ui/button';
+import { Checkbox } from '@repo/design-system/components/ui/checkbox';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@repo/design-system/components/ui/dropdown-menu';
+import { Input } from '@repo/design-system/components/ui/input';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/design-system/components/ui/table';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,7 +30,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '../../components/ui/alert-dialog';
+} from '@repo/design-system/components/ui/alert-dialog';
 import Link from 'next/link';
 
 const data: Database[] = [
