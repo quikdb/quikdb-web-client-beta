@@ -5,19 +5,19 @@ const Onboarding = () => {
   return (
     <main className='min-h-screen px-20 py-7'>
       <header>
-        <p className='text-gradient'>quikdb</p>
+        <p className='text-gradient font-satoshi_medium text-3xl'>quikdb</p>
       </header>
       <div className='flex flex-col mt-20 gap-7'>
-        <Link href='/sign-up' className='container'>
+        <Link href='/signup' className='container'>
           <Button className='bg-gradient'>Go to Signup</Button>
         </Link>
-        <Link href='/sign-in' className='container'>
+        <Link href='/login' className='container'>
           <Button className='bg-gradient'>Go to Login</Button>
         </Link>
         <Link href='/organizations' className='container'>
           <Button className='bg-gradient'>Go to Organizations</Button>
         </Link>
-        <Link href='/' className='container'>
+        <Link href='/dashboard' className='container'>
           <Button className='bg-gradient'>Go to Dashboard</Button>
         </Link>
       </div>
