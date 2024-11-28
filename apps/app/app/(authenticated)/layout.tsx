@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import GlobalSidebar from './components/sidebar';
+import DashHeader from './components/DashHeader'; // Import the header component
 
 type LayoutProps = {
   children: ReactNode;
@@ -8,11 +9,10 @@ type LayoutProps = {
 export default function AppLayout({ children }: LayoutProps) {
   return (
     <div className="flex">
-      {/* Sidebar on the left */}
       <GlobalSidebar />
-      {/* Main content area, take remaining space */}
       <div className="flex-grow pl-[18%]">
-        {children}
+        <DashHeader />
+        <div className="p-6">{children}</div>
       </div>
     </div>
   );
