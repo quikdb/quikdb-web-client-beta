@@ -3,13 +3,57 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@repo/design-system/components/ui/button';
-import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding'
+import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding';
+import axios from 'axios';
+import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils'; // Adjust the import path as necessary
 
 const SignUpPage = () => {
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white';
   const buttonTextPrefix = 'Sign Up';
+
+  const handleSignUp = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    setError(''); // Reset error
+    setSuccess(false); // Reset success
+
+    try {
+      const data = { email, password };
+      
+      // Encrypt the data before sending
+      const encryptedData = CryptoUtils.aesEncrypt(
+        JSON.stringify(data),
+        'mysecurekey1234567890',
+        'uniqueiv12345678'
+      );
+
+      // Send the encrypted data to signup API
+      const response = await axios.post(
+        'https://quikdb-core-beta.onrender.com/a/signupWithEP',
+        { data: encryptedData },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+
+      if (response.status === 200) {
+        setSuccess(true); 
+        setError(''); 
+      } else {
+        setError('Failed to create user: ' + response.data.error);
+      }
+    } catch (err: any) {
+      console.error('Error during sign-up:', err);
+      setError('An error occurred during sign-up. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className='flex justify-center items-center w-full'>
@@ -18,13 +62,31 @@ const SignUpPage = () => {
 
         <main className='flex flex-col items-center justify-center w-full'>
           <div className='flex flex-col w-full md:w-[680px] items-center'>
-            <form className='flex flex-col gap-y-4 items-center w-full'>
-              <Input type='email' placeholder='Email Address' required />
-              <PasswordInput placeholder='Enter Password' required />
-              <Button type='submit' className='w-full bg-[#141414] h-[50px] text-lg rounded-2xl p-6 text-[#A5A5A5]'>
-                Continue
+            <form onSubmit={handleSignUp} className='flex flex-col gap-y-4 items-center w-full'>
+              <Input
+                type='email'
+                placeholder='Email Address'
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <PasswordInput
+                placeholder='Enter Password'
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button
+                type='submit'
+                disabled={loading}
+                className='w-full bg-[#141414] h-[50px] text-lg rounded-2xl p-6 text-[#A5A5A5]'
+              >
+                {loading ? 'Signing up...' : 'Continue'}
               </Button>
             </form>
+
+            {error && <p className='text-red-500'>{error}</p>}
+            {success && <p className='text-green-500'>Signup successful! Please check your email for OTP.</p>}
 
             <FormDivider />
 

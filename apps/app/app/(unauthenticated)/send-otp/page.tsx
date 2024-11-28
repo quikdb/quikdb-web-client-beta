@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding';
 import { Button } from '@repo/design-system/components/ui/button';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils'; // Adjust the import path as necessary
+import axios from 'axios'; // Import Axios
 
 const SendOTP: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -24,21 +25,16 @@ const SendOTP: React.FC = () => {
 
       const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify(data), 'mysecurekey1234567890', 'uniqueiv12345678');
 
-      const response = await fetch('https://quikdb-core-beta.onrender.com/a/sendOtp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data: encryptedData }),
+      // Using Axios for the POST request
+      const response = await axios.post('https://quikdb-core-beta.onrender.com/a/sendOtp', {
+        data: encryptedData,
       });
 
-      const responseData = await response.json();
-
-      if (response.ok) {
+      if (response.status === 200) {
         setSuccess(true); // Set success state
         setError(''); // Clear error
       } else {
-        setError('Failed to verify OTP: ' + responseData.error);
+        setError('Failed to verify OTP: ' + response.data.error);
       }
     } catch (err: any) {
       console.error('Error verifying OTP:', err);
