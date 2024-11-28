@@ -4,9 +4,10 @@ import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-syst
 import { Button } from '@repo/design-system/components/ui/button';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils'; // Adjust the import path as necessary
 
-const SendOTP: React.FC = () => {
+const VerifyOTP: React.FC = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [otp, setOtp] = useState('');
   const [error, setError] = useState(''); // Declare error state
   const [success, setSuccess] = useState(false); // Declare success state
 
@@ -20,11 +21,12 @@ const SendOTP: React.FC = () => {
       const data = {
         email,
         OTPType: 'signup',
+        otp,
       };
 
       const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify(data), 'mysecurekey1234567890', 'uniqueiv12345678');
 
-      const response = await fetch('https://quikdb-core-beta.onrender.com/a/sendOtp', {
+      const response = await fetch('https://quikdb-core-beta.onrender.com/a/verifyOtp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,12 +52,14 @@ const SendOTP: React.FC = () => {
 
   return (
     <div className='flex flex-col w-full p-10'>
-      <FormHeader title='Send OTP' description={`One-time Password code sent to ${email || 'your email'}.`} showLogo />
+      <FormHeader title='Verify OTP' description={`Enter your One-time Password code sent to ${email || 'your email'}.`} showLogo />
 
       <main className='flex flex-col items-center justify-center my-16 w-full'>
         <div className='flex flex-col w-full md:w-[680px] items-center'>
           <form onSubmit={handleSubmit} className='flex flex-col gap-y-4 items-center w-full'>
             <Input type='email' placeholder='Enter Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+
+            <Input type='text' placeholder='Enter Code' value={otp} onChange={(e) => setOtp(e.target.value)} required />
 
             <Button
               type='submit'
@@ -66,7 +70,7 @@ const SendOTP: React.FC = () => {
             </Button>
 
             {error && <p className='text-red-500'>{error}</p>}
-            {success && <p className='text-green-500'>OTP sent successfully! Check your inbox.</p>}
+            {success && <p className='text-green-500'>OTP verified successfully! Check your inbox.</p>}
 
             <span className='text-[16px] text-gradient cursor-pointer' onClick={handleSubmit}>
               Resend code
@@ -78,4 +82,4 @@ const SendOTP: React.FC = () => {
   );
 };
 
-export default SendOTP;
+export default VerifyOTP;
