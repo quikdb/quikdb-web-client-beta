@@ -65,7 +65,9 @@
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.1",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "ksuid": "^3.0.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
@@ -76,6 +78,7 @@
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3",
-    "ultracite": "^4.1.6"
+    "ultracite": "^4.1.6",
+    "@types/uuid": "^10.0.0"
   }
 }
