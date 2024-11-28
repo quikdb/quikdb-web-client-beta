@@ -27,7 +27,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
     { name: 'Overview', to: '/', icon: <DashboardIcon /> },
     { name: 'Projects', to: '/projects', icon: <FileTextIcon /> },
     { name: 'User Management', to: '/user-mgt', icon: <PersonIcon /> },
-    { name: 'Audit Logs', to: '/', icon: <ListBulletIcon /> },
+    { name: 'Audit Logs', to: '/audit-logs', icon: <ListBulletIcon /> },
     { name: 'Analytics', to: '/analytics', icon: <BarChartIcon /> },
     { name: 'Access Token', to: '/access-token', icon: <Crosshair2Icon /> },
     { name: 'Rewards', to: '/rewards', icon: <BookmarkFilledIcon /> },
