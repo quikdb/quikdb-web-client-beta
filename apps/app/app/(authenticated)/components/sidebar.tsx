@@ -32,7 +32,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
     { name: 'Access Token', to: '/access-token', icon: <Crosshair2Icon /> },
     { name: 'Rewards', to: '/rewards', icon: <BookmarkFilledIcon /> },
     { name: 'Data Backup', to: '/data-backup', icon: <CloudUpload size={16} /> },
-    { name: 'Settings', to: '/settings', icon: <GearIcon /> },
+    { name: 'Settings', to: '/', icon: <GearIcon /> },
   ];
 
   return (
