@@ -24,7 +24,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
   const pathname = usePathname();
 
   const navigation = [
-    { name: 'Overview', to: '/', icon: <DashboardIcon /> },
+    { name: 'Overview', to: '/overview', icon: <DashboardIcon /> },
     { name: 'Projects', to: '/projects', icon: <FileTextIcon /> },
     { name: 'User Management', to: '/user-mgt', icon: <PersonIcon /> },
     { name: 'Audit Logs', to: '/audit-logs', icon: <ListBulletIcon /> },
