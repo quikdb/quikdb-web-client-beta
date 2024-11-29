@@ -1,12 +1,22 @@
-export default function middleware() {
-  return;
+import { NextResponse } from 'next/server';
+import { parseCookies } from 'nookies';
+
+export function middleware(req: any) {
+  // const cookies = parseCookies({ req });
+  // console.log('Cookies:', cookies);  // Check if cookies are being parsed correctly
+  // const accessToken = cookies.accessToken;
+
+  // if (!accessToken) {
+  //   const url = req.nextUrl.clone();
+  //   url.pathname = '/sign-in';  // Redirect to /sign-in if token is not found
+  //   console.log('Access Token Not Found:', accessToken);  // Log if no access token is found
+  //   return NextResponse.redirect(url);
+  // }
+
+  // return NextResponse.next();  // Continue if access token exists
 }
 
+
 export const config = {
-  matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
-  ],
+  matcher: ['/overview', '/projects', '/add-collaborators', '/access-token', '/analytics', '/rewards', '/data-backup', '/user-invite', '/user-mgt'],
 };

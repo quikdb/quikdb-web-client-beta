@@ -1,30 +1,19 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@repo/design-system/components/ui/breadcrumb';
+"use client";
 import { Button } from '@repo/design-system/components/ui/button';
-import { Separator } from '@repo/design-system/components/ui/separator';
-import { SidebarTrigger } from '@repo/design-system/components/ui/sidebar';
 import { PlusIcon } from 'lucide-react';
-import type { Metadata } from 'next';
 import type { ReactElement } from 'react';
+import { parseCookies } from 'nookies';
 
-const title = 'Acme Inc';
-const description = 'My application.';
 
-export const metadata: Metadata = {
-  title,
-  description,
-};
 
-const App = async (): Promise<ReactElement> => {
+const Overview = () => {
+  const cookies = parseCookies();
+  const userEmail = cookies.userEmail || 'User';
+  const firstName = userEmail.split('@')[0]
+
   return (
     <div className='mt-10'>
-      <p className='text-2xl font-satoshi_medium'>Welcome Oluwatimileyin 👋</p>
+      <p className='text-2xl font-satoshi_medium'>Welcome {firstName} 👋</p>
       <div className='flex flex-col justify-center items-center gap-10 h-[60vh]'>
         <div className='flex flex-col items-center'>
           <img src='/images/empty_box.png' alt='empty_box' />
@@ -39,4 +28,4 @@ const App = async (): Promise<ReactElement> => {
   );
 };
 
-export default App;
+export default Overview;

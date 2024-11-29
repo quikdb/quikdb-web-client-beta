@@ -101,7 +101,6 @@ export const columns: ColumnDef<Database>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const database = row.original;
-      console.log(database.id);
 
       return (
         <AlertDialog>
@@ -154,8 +153,8 @@ export function DatabaseTable() {
       <div className='flex items-center pt-7 pb-5'>
         <Input
           placeholder='Filter emails...'
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
+          value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
+          onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
           className='max-w-sm h-11'
         />
         <DropdownMenu>
