@@ -86,13 +86,15 @@ export function ProjectTable({ projects }: ProjectTableProps) {
           <TableBody className='font-satoshi_light'>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className='py-6'>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                <Link href={`/project/${row.getValue('_id')}`} key={row.id}>
+                  <TableRow data-state={row.getIsSelected() && 'selected'}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className='py-6'>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </Link>
               ))
             ) : (
               <TableRow>
@@ -109,11 +111,9 @@ export function ProjectTable({ projects }: ProjectTableProps) {
           <Button size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
             Previous
           </Button>
-          <Link href='/dashboard/project-1'>
-            <Button size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-              Next
-            </Button>
-          </Link>
+          <Button size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            Next
+          </Button>
         </div>
       </div>
     </div>

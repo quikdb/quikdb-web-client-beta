@@ -22,10 +22,11 @@ const Projects = () => {
             Authorization: token,
           },
         });
+        console.log("project response::", response);
 
-        if (response.data?.data?.projectData) {
-          const projectList = Array.isArray(response.data.data.projectData) 
-            ? response.data.data.projectData 
+        if (response.data?.data?.projects) {
+          const projectList = Array.isArray(response.data.data.projects) 
+            ? response.data.data.projects 
             : []; // Ensure it is an array
           setProjects(projectList);
         } else {
