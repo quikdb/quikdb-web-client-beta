@@ -2,12 +2,13 @@ import { ChevronDown, GlobeIcon } from 'lucide-react';
 import { Button } from '@repo/design-system/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@repo/design-system/components/ui/dropdown-menu';
 import Link from 'next/link';
-import { parseCookies } from 'nookies';
 
-const DashHeader = () => {
-  const cookies = parseCookies();
-  const userEmail = cookies.userEmail || 'User';
-  const firstName = userEmail.split('@')[0]
+type DashHeaderProps = {
+  userEmail: string;  // Define the type for the email prop
+};
+
+const DashHeader = ({ userEmail }: DashHeaderProps) => {
+  const firstName = userEmail.split('@')[0];  // Extract first name from the email
 
   return (
     <div className='flex justify-between p-6 border-b border-b-[#1B1C1F]'>
