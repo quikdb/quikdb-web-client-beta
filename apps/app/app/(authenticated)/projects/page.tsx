@@ -23,8 +23,10 @@ const Projects = () => {
           },
         });
 
-        if (response.data?.data?.projects) {
-          const projectList = response.data.data.projects;
+        if (response.data?.data?.projectData) {
+          const projectList = Array.isArray(response.data.data.projectData) 
+            ? response.data.data.projectData 
+            : []; // Ensure it is an array
           setProjects(projectList);
         } else {
           setError('No projects found.');
