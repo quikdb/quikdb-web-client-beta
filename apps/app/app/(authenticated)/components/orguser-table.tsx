@@ -180,7 +180,6 @@ export const columns: ColumnDef<Database>[] = [
     header: 'Action',
     cell: ({ row }) => {
       const orgUsers = row.original;
-      console.log(orgUsers.name);
 
       return (
         <AlertDialog>

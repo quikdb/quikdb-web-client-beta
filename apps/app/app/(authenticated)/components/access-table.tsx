@@ -167,7 +167,6 @@ export const columns: ColumnDef<Access>[] = [
     header: 'Action',
     cell: ({ row }) => {
       const orgUsers = row.original;
-      console.log(orgUsers.name);
 
       return (
         <div className='flex items-center gap-2'>
