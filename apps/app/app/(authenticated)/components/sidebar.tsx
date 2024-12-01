@@ -39,13 +39,17 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
     try {
       const response = await fetch('/api/sign-out', {
         method: 'POST',
-        
-      })
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-      if (response.status === 200 && response.data.status === 'success') {
+      const result = await response.json();
+
+      if (response.ok && result.status === 'success') {
         setSuccess(true);
+        setError('');
+        router.push('/sign-in');
       } else {
-        setError('Failed to sign out: ' + response.data.message || 'Unknown error');
+        setError(result.error || 'Failed to sign out.');
       }
     } catch (err: any) {
       console.error('Error during sign-out:', err);

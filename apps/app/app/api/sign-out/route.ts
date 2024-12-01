@@ -1,24 +1,23 @@
 import { cookies } from 'next/headers';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   const cookieStore = await cookies();
-  const token = cookieStore.get('accessToken')?.value
+  const token = cookieStore.get('accessToken')?.value;
   console.log('token::', token);
 
   try {
-    const body = await req.json();
-    const { email, password } = body;
+    const headers = new Headers({
+      'Content-Type': 'application/json',
+    });
 
-    const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ email, password }), 'mysecurekey1234567890', 'uniqueiv12345678');
+    if (token) {
+      headers.set('Authorization', token);
+    }
 
     const response = await fetch('https://quikdb-core-beta.onrender.com/a/signout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-      body: JSON.stringify({ data: encryptedData }),
+      method: 'GET',
+      headers,
     });
 
     const result = await response.json();
