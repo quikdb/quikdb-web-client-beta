@@ -38,7 +38,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
 
     try {
       const response = await fetch('/api/sign-out', {
-        method: 'POST',
+        method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
 
