@@ -17,5 +17,16 @@ export async function middleware(req: any) {
 }
 
 export const config = {
-  matcher: ['/overview', '/projects', '/add-collaborators', '/access-token', '/analytics', '/rewards', '/data-backup', '/user-invite', '/user-mgt'],
+  matcher: [
+    '/overview',
+    '/projects',
+    '/add-collaborators',
+    '/access-token',
+    '/analytics',
+    '/rewards',
+    '/data-backup',
+    '/user-invite',
+    '/user-mgt',
+    '/project/:path*',
+  ],
 };
