@@ -6,6 +6,7 @@ import { Button } from '@repo/design-system/components/ui/button';
 import { Input } from '@repo/design-system/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/design-system/components/ui/table';
 import Link from 'next/link';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@repo/design-system/components/ui/dropdown-menu';
 
 type Project = {
   _id: string;
@@ -64,9 +65,30 @@ export function ProjectTable({ projects }: ProjectTableProps) {
     <div className='w-full'>
       <div className='flex items-center pt-7 pb-5'>
         <Input placeholder='Search by Project name...' className='max-w-sm h-11' />
-        <Button className='ml-auto'>
-          Columns <ChevronDown />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild className='h-11'>
+            <Button className='ml-auto'>
+              Columns <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end' className='bg-[#111015] text-white border-gray-600'>
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className='capitalize'
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className='rounded-md border border-[#242527]'>
         <Table>
@@ -90,11 +112,14 @@ export function ProjectTable({ projects }: ProjectTableProps) {
                       {flexRender(row.getVisibleCells()[0]?.column.columnDef.cell, row.getVisibleCells()[0]?.getContext())}
                     </TableCell>
                   </Link>
-                  {row.getVisibleCells().slice(1).map((cell) => (
-                    <TableCell key={cell.id} className='py-6'>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
+                  {row
+                    .getVisibleCells()
+                    .slice(1)
+                    .map((cell) => (
+                      <TableCell key={cell.id} className='py-6'>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
                 </TableRow>
               ))
             ) : (
