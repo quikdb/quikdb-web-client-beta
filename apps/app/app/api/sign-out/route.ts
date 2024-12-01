@@ -19,12 +19,13 @@ export async function GET(req: Request) {
       method: 'GET',
       headers,
     });
+    
+    cookieStore.delete('accessToken');
+    cookieStore.delete('userEmail');
 
     const result = await response.json();
 
     if (response.ok && result.status === 'success') {
-      cookieStore.delete('accessToken');
-      cookieStore.delete('userEmail');
 
       return new Response(JSON.stringify({ ...result, redirect: '/sign-in' }), { status: response.status });
     }
