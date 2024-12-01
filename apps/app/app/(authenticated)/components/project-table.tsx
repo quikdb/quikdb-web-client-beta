@@ -38,9 +38,7 @@ export const columns: ColumnDef<Project>[] = [
   {
     accessorKey: 'isActive',
     header: 'Active Status',
-    cell: ({ row }) => (
-      <div>{row.getValue('isActive') ? 'Active' : 'Inactive'}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue('isActive') ? 'Active' : 'Inactive'}</div>,
   },
   {
     accessorKey: '_id',
@@ -86,15 +84,18 @@ export function ProjectTable({ projects }: ProjectTableProps) {
           <TableBody className='font-satoshi_light'>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <Link href={`/project/${row.getValue('_id')}`} key={row.id}>
-                  <TableRow data-state={row.getIsSelected() && 'selected'}>
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className='py-6'>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </Link>
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className='hover:bg-blacko'>
+                  <Link href={`/project/${row.getValue('_id')}`} passHref>
+                    <TableCell className='py-6 cursor-pointer'>
+                      {flexRender(row.getVisibleCells()[0]?.column.columnDef.cell, row.getVisibleCells()[0]?.getContext())}
+                    </TableCell>
+                  </Link>
+                  {row.getVisibleCells().slice(1).map((cell) => (
+                    <TableCell key={cell.id} className='py-6'>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
               ))
             ) : (
               <TableRow>
