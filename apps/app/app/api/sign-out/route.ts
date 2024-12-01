@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
 
 export async function GET(req: Request) {
   const cookieStore = await cookies();
@@ -19,14 +18,13 @@ export async function GET(req: Request) {
       method: 'GET',
       headers,
     });
-    
+
     cookieStore.delete('accessToken');
     cookieStore.delete('userEmail');
 
     const result = await response.json();
 
     if (response.ok && result.status === 'success') {
-
       return new Response(JSON.stringify({ ...result, redirect: '/sign-in' }), { status: response.status });
     }
     return new Response(JSON.stringify(result), { status: response.status });

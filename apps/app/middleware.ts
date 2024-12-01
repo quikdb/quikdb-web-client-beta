@@ -1,21 +1,20 @@
 import { NextResponse } from 'next/server';
-import { parseCookies } from 'nookies';
+import { cookies } from 'next/headers';
 
-export function middleware(req: any) {
-  // const cookies = parseCookies({ req });
-  // console.log('Cookies:', cookies);  // Check if cookies are being parsed correctly
-  // const accessToken = cookies.accessToken;
+export async function middleware(req: any) {
+  const cookieStore = await cookies();
+  console.log('Cookies:', cookies);
+  const token = cookieStore.get('accessToken')?.value;
 
-  // if (!accessToken) {
-  //   const url = req.nextUrl.clone();
-  //   url.pathname = '/sign-in';  // Redirect to /sign-in if token is not found
-  //   console.log('Access Token Not Found:', accessToken);  // Log if no access token is found
-  //   return NextResponse.redirect(url);
-  // }
+  if (!token) {
+    const url = req.nextUrl.clone();
+    url.pathname = '/sign-in';
+    console.log('Access Token Not Found:', token);
+    return NextResponse.redirect(url);
+  }
 
-  // return NextResponse.next();  // Continue if access token exists
+  return NextResponse.next();
 }
-
 
 export const config = {
   matcher: ['/overview', '/projects', '/add-collaborators', '/access-token', '/analytics', '/rewards', '/data-backup', '/user-invite', '/user-mgt'],
