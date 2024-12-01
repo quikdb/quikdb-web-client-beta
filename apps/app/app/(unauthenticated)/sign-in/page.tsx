@@ -1,13 +1,12 @@
 'use client';
-
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
+// import axios from 'axios';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
-import { setCookie } from 'nookies';
+// import { setCookie } from 'nookies';
 
 const SignInPage = () => {
   const [email, setEmail] = useState('');
@@ -23,42 +22,26 @@ const SignInPage = () => {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccess(false); // Reset success
     setLoading(true);
     setError('');
 
     try {
-      const data = { email, password };
+      const response = await fetch('/api/sign-in', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify(data), 'mysecurekey1234567890', 'uniqueiv12345678');
+      const result = await response.json();
 
-      const response = await axios.post(
-        'https://quikdb-core-beta.onrender.com/a/signinWithEP',
-        { data: encryptedData },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-
-      if (response.status === 200 && response.data.status === 'success') {
-        const accessToken = response.data.data.accessToken;
-        const userEmail = response.data.data.user.email;
-
-        setCookie(null, 'accessToken', accessToken, {
-          maxAge: 60 * 60 * 24,
-          path: '/',
-        });
-
-        setCookie(null, 'userEmail', userEmail, {
-          maxAge: 60 * 60 * 24,
-          path: '/',
-        });
-
-        router.push('/overview');
+      if (response.ok && result.status === 'success') {
+        router.push(result.redirect);
       } else {
-        setError(response.data.message || 'An error occurred during sign in');
+        setError(result.error || 'Failed to sign in.');
       }
     } catch (error) {
-      console.error('Error during sign-in:', error);
-      setError('Failed to connect to the server. Please try again later.');
+      console.error('Sign-in error:', error);
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }

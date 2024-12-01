@@ -21,10 +21,10 @@ import { useState } from 'react';
 
 interface GlobalSidebarProps {
   children?: ReactNode;
-  token?: string;
+  // token?: string;
 }
 
-const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children, token }) => {
+const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -32,19 +32,18 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children, token }) => {
   const [success, setSuccess] = useState(false);
 
   const handleSignout = async () => {
-    if (!token) return;
-
     setLoading(true);
     setError('');
     setSuccess(false);
+
     try {
-      const response = await axios.get('https://quikdb-core-beta.onrender.com/a/signout', {
-        headers: { 'Content-Type': 'application/json', authorization: token },
-      });
+      const response = await fetch('/api/sign-out', {
+        method: 'POST',
+        
+      })
 
       if (response.status === 200 && response.data.status === 'success') {
         setSuccess(true);
-        router.push('/sign-in');
       } else {
         setError('Failed to sign out: ' + response.data.message || 'Unknown error');
       }
@@ -53,6 +52,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children, token }) => {
       setError('An error occurred during sign-out. Please try again.');
     } finally {
       setLoading(false);
+      router.push('/sign-in');
     }
   };
 
