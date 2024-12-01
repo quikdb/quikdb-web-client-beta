@@ -6,6 +6,8 @@ import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-syst
 import { useRouter } from 'next/navigation';
 // import axios from 'axios';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
+import { useDispatch } from 'react-redux';
+import { setAuthState } from '@/app/store';
 // import { setCookie } from 'nookies';
 
 const SignInPage = () => {
@@ -16,6 +18,7 @@ const SignInPage = () => {
   const [success, setSuccess] = useState(false);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white';
   const buttonTextPrefix = 'Sign In';
@@ -35,6 +38,10 @@ const SignInPage = () => {
       const result = await response.json();
 
       if (response.ok && result.status === 'success') {
+        const { accessToken, user } = result.data;
+
+        dispatch(setAuthState({ token: accessToken, userEmail: user.email }));
+
         router.push(result.redirect);
       } else {
         setError(result.error || 'Failed to sign in.');
