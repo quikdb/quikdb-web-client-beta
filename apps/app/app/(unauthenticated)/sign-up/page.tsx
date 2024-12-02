@@ -1,5 +1,4 @@
-'use client'; // Client component
-
+'use client';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@repo/design-system/components/ui/button';
@@ -10,6 +9,7 @@ import { useRouter } from 'next/navigation';
 
 const SignUpPage = () => {
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,6 +21,7 @@ const SignUpPage = () => {
   const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white hover:text-blacko';
   const buttonTextPrefix = 'Sign Up';
 
+
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
@@ -30,17 +31,29 @@ const SignUpPage = () => {
     try {
       const data = { email, password };
 
+      // Encrypt the data for security
       const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify(data), 'mysecurekey1234567890', 'uniqueiv12345678');
 
-      const response = await axios.post(
-        'https://quikdb-core-beta.onrender.com/a/signupWithEP',
-        { data: encryptedData },
+      // Post request to sign up and send OTP
+      const response = await axios.post('https://quikdb-core-beta.onrender.com/a/signupWithEP', 
+        { data: encryptedData }, 
         { headers: { 'Content-Type': 'application/json' } }
       );
+
       if (response.status === 200) {
         setSuccess(true);
         setError('');
-        router.push('/sign-in');
+        // After signup success, trigger OTP send, passing email
+        const otpResponse = await axios.post('https://quikdb-core-beta.onrender.com/a/sendOtp', {
+          data: CryptoUtils.aesEncrypt(JSON.stringify({ email, OTPType: 'signup' }), 'mysecurekey1234567890', 'uniqueiv12345678')
+        });
+
+        if (otpResponse.status === 200) {
+          setSuccess(true);
+          router.push(`/verify-otp?email=${email}`);  // Redirect to Verify OTP page with email
+        } else {
+          setError('Failed to send OTP: ' + otpResponse.data.error);
+        }
       } else {
         setError('Failed to create user: ' + response.data.error);
       }
