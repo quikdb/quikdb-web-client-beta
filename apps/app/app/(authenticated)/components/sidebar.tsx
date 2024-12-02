@@ -84,8 +84,9 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
               <Link
                 key={item.name}
                 href={item.to}
-                className={`flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 ${pathname === item.to ? 'bg-gradient' : 'hover:bg-gradient'
-                  }`}
+                className={`flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 ${
+                  pathname === item.to ? 'bg-gradient' : 'hover:bg-gradient'
+                }`}
               >
                 {item.icon}
                 {item.name}
@@ -94,11 +95,14 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
           </div>
         </div>
         <div className='py-6 mt-6 flex flex-col gap-2 w-full'>
-          <Button size='lg' className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient'>
+          <Button
+            size='lg'
+            className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient w-full'
+          >
             <HeadphonesIcon /> Support
           </Button>
           <Button
-            className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient'
+            className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient w-full'
             onClick={handleSignout}
             disabled={loading}
           >
