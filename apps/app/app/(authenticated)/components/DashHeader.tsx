@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { ChevronDown, GlobeIcon } from 'lucide-react';
 import { Button } from '@repo/design-system/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@repo/design-system/components/ui/dropdown-menu';
@@ -6,12 +6,8 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 
-// type DashHeaderProps = {
-//   userEmail: string;  // Define the type for the email prop
-// };{ userEmail }: DashHeaderProps
-
 const DashHeader = () => {
-  const { token, userEmail } = useSelector((state: RootState) => state.auth);
+  const { userEmail } = useSelector((state: RootState) => state.auth);
 
   const firstName = userEmail ? userEmail.split('@')[0] : 'User';
 
