@@ -1,4 +1,6 @@
 'use client';
+import { Inter, Roboto_Mono } from 'next/font/google';
+import localFont from 'next/font/local'
 
 import '@repo/design-system/styles/globals.css';
 import { Toaster } from '@repo/design-system/components/ui/sonner';
@@ -16,9 +18,49 @@ type RootLayoutProperties = {
   readonly children: ReactNode;
 };
 
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
+
+export const roboto_mono = Roboto_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+})
+
+const satoshi = localFont({
+  src: [
+    {
+      path: '../public/fonts/Satoshi-Light.otf',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/Satoshi-Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/Satoshi-Medium.otf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/Satoshi-Bold.otf',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/Satoshi-Black.otf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-satoshi',
+})
 
 const RootLayout = ({ children }: RootLayoutProperties) => (
-  <html lang='en' className={cn(GeistSans.variable, GeistMono.variable, 'touch-manipulation font-sans antialiased')} suppressHydrationWarning>
+  <html lang='en' className={cn(satoshi.className, 'touch-manipulation font-sans antialiased')} suppressHydrationWarning>
     <body>
       <Provider store={store}>
         <DesignSystemProvider>

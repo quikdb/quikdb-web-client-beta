@@ -83,7 +83,7 @@ export function ProjectTable({ projects }: ProjectTableProps) {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='font-satoshi_light'>
+          <TableBody className='font-light'>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <Link href={`/project/${row.getValue('_id')}`} key={row.id}>

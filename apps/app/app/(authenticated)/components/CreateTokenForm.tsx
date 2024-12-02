@@ -29,9 +29,9 @@ export default function CreateToken({ isEditing }: TokenProps) {
           <Pencil2Icon className='w-4 h-5 cursor-pointer' />
         )}
       </DialogTrigger>
-      <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-satoshi_regular'>
+      <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
         <DialogHeader>
-          <DialogTitle className='font-satoshi_medium'>Create Token</DialogTitle>
+          <DialogTitle className='font-medium'>Create Token</DialogTitle>
           <DialogDescription>
             {!isEditing ? 'Set Up a Custom Access Token for Your Project Needs' : 'Edit Token Settings to Refine Access Privileges'}
           </DialogDescription>

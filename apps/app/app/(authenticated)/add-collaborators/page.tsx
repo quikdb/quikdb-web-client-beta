@@ -36,7 +36,7 @@ const AddCollaborators = () => {
     <div className='mt-10'>
       <ArrowLeftCircle className='text-gray-300 mb-7 cursor-pointer' />
       {/* <ArrowLeftCircle className="text-gray-300 mb-7 cursor-pointer" onClick={() => navigate(-1)} /> */}
-      <p className='text-xl font-satoshi_medium'>Add Collaborators</p>
+      <p className='text-xl font-medium'>Add Collaborators</p>
 
       <div className='text-sm mt-5 flex flex-col gap-3'>
         <p>Users</p>

@@ -26,7 +26,7 @@ const UserProfile = () => {
   return (
     <div className='mt-10'>
       <ArrowLeftCircle className='text-gray-300 mb-7 cursor-pointer' />
-      <p className='text-xl font-satoshi_medium'>Profile</p>
+      <p className='text-xl font-medium'>Profile</p>
 
       <div className='flex gap-40 mt-5'>
         <div className='flex flex-col gap-2'>
@@ -47,8 +47,8 @@ const UserProfile = () => {
 
       <div className='flex flex-col gap-5'>
         <div className='flex flex-col gap-1'>
-          <p className='font-satoshi_medium text-xl'>Organization Roles</p>
-          {isEditing && <p className='font-satoshi_light text-base text-gray-400'>Select the roles you want to assign to new user.</p>}
+          <p className='font-medium text-xl'>Organization Roles</p>
+          {isEditing && <p className='font-light text-base text-gray-400'>Select the roles you want to assign to new user.</p>}
         </div>
         <div>
           <p>Roles</p>
@@ -92,7 +92,7 @@ const UserProfile = () => {
       <hr className='border-[#1B1C1F] my-10' />
 
       <div>
-        <p className='font-satoshi_medium'>Multi-Factor Authentication (MFA)</p>
+        <p className='font-medium'>Multi-Factor Authentication (MFA)</p>
         <p className='text-gray-400 text-sm'>
           We recommend that you enable Multi-Factor Authentication (MFA) to add extra layer of security to your Couchbase Capella account.{' '}
         </p>
@@ -102,7 +102,7 @@ const UserProfile = () => {
 
       <div className='flex flex-col gap-5'>
         <div>
-          <p className='font-satoshi_medium'>Remove User</p>
+          <p className='font-medium'>Remove User</p>
           <p className='text-gray-400 text-sm'>
             Lorem ipsum dolor sit amet consectetur. Aliquet vitae sapien tristique mauris lacinia molestie. Bibendum in volutpat euismod risus auctor
             aenean mauris sed. Sit tellus egestas sed ac cursus nunc nisl egestas vestibulum. Aliquam pretium amet adipiscing scelerisque vitae.

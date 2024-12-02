@@ -5,7 +5,7 @@ const Onboarding = () => {
   return (
     <main className='min-h-screen px-20 py-7'>
       <header>
-        <p className='text-gradient font-satoshi_medium text-3xl'>quikdb</p>
+        <p className='text-gradient font-medium text-3xl'>quikdb</p>
       </header>
       <div className='flex flex-col mt-20 gap-7'>
         <Link href='/sign-up' className='container'>

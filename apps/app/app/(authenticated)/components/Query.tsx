@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 const Query = () => {
   return (
     <div className='mt-6'>
-      <Card className='bg-[#151418] text-white border-none py-4 px-8 font-satoshi_medium'>Query Data</Card>
+      <Card className='bg-[#151418] text-white border-none py-4 px-8 font-medium'>Query Data</Card>
 
       <div className='px-8 mt-4 flex gap-20'>
         <div className='flex flex-col items-center w-1/2'>
@@ -38,7 +38,7 @@ const Query = () => {
               Save Query
             </Button>
           </div>
-          <Button size='lg' className='bg-gradient w-fit px-4 text-base font-satoshi_medium text-[#0F1407]'>
+          <Button size='lg' className='bg-gradient w-fit px-4 text-base font-medium text-[#0F1407]'>
             Execute
           </Button>
         </div>
@@ -53,7 +53,7 @@ const Query = () => {
             <p className='text-gray-400 text-sm mt-3'>Query 1 description</p>
           </Card>
           <div className='text-right'>
-            <Button variant='outline' className='font-satoshi_medium borde border-[#8A46FF]/60 px-4 w-fit text-gradient'>
+            <Button variant='outline' className='font-medium borde border-[#8A46FF]/60 px-4 w-fit text-gradient'>
               Export Results
             </Button>
           </div>

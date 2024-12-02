@@ -81,8 +81,8 @@ const Groups = () => {
       <div className="w-full">
         <div className="flex justify-between">
           <div className="flex flex-col gap-1">
-            <p className="font-satoshi_medium text-xl">Organizations</p>
-            <p className="font-satoshi_light text-xs text-gray-400">Unlock API Access with Personal Tokens</p>
+            <p className="font-medium text-xl">Organizations</p>
+            <p className="font-light text-xs text-gray-400">Unlock API Access with Personal Tokens</p>
           </div>
           <AddDataGroup />
         </div>

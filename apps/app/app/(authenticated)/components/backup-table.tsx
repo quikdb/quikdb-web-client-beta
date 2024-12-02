@@ -161,7 +161,7 @@ export function BackupTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='font-satoshi_light'>
+          <TableBody className='font-light'>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
