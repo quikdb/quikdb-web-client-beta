@@ -93,7 +93,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
             ))}
           </div>
         </div>
-        <div className='py-6 mt-6 flex flex-col gap-2 w-full'>
+        <div className='py-6 mt-6 flex flex-col gap-2 w-full items-'>
           <Button size='lg' className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient'>
             <HeadphonesIcon /> Support
           </Button>

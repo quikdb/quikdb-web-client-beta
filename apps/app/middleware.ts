@@ -28,5 +28,6 @@ export const config = {
     '/user-invite',
     '/user-mgt',
     '/project/:path*',
+    // 'notifications',
   ],
 };

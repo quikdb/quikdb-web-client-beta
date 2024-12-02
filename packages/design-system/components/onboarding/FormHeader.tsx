@@ -8,7 +8,7 @@ interface FormHeaderProps {
 }
 
 const FormHeader: React.FC<FormHeaderProps> = ({ title, description, showLogo }) => (
-  <div className='flex flex-col w-full max-w-screen-2xl gap-y-16'>
+  <div className='flex flex-col w-full max-w-screen-2xl gap-y-16 mt-10'>
     {showLogo && (
       <header>
         <Link href="/" className='text-gradient'>
