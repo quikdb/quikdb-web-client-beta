@@ -114,7 +114,7 @@ const SignUpPage = () => {
               </p>
               <p className='text-lg font-light text-[#B3B4B3]'>
                 Already have an account?{' '}
-                <Link href='/sign-in' className='text-gradient'>
+                <Link href='/sign-in' className='text-gradient font-medium hover:text-white'>
                   Log in
                 </Link>
               </p>
