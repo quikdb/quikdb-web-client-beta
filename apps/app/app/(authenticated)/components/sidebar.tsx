@@ -76,7 +76,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
     <div className='bg-blackoff w-[18%] border-r-2 border-r-[#1B1C1F] fixed hidden lg:flex flex-col items-center justify-start p-10 py-20 min-h-screen h-full overflow-y-auto'>
       <div className='flex flex-col justify-between h-full w-full'>
         <div>
-          <Link href='/' className='font-satoshi_medium text-gradient text-2xl pl-10'>
+          <Link href='/' className='font-medium text-gradient text-2xl pl-10'>
             quikDB
           </Link>
           <div className='flex flex-col gap-2 mt-16'>
@@ -84,9 +84,8 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
               <Link
                 key={item.name}
                 href={item.to}
-                className={`flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 ${
-                  pathname === item.to ? 'bg-gradient' : 'hover:bg-gradient'
-                }`}
+                className={`flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 ${pathname === item.to ? 'bg-gradient' : 'hover:bg-gradient'
+                  }`}
               >
                 {item.icon}
                 {item.name}

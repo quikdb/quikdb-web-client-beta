@@ -23,11 +23,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-  			satoshi_light: ['Satoshi-Light', 'sans-serif'],
-  			satoshi_regular: ['Satoshi-Regular', 'sans-serif'],
-  			satoshi_medium: ['Satoshi-Medium', 'sans-serif'],
-  			satoshi_bold: ['Satoshi-Bold', 'sans-serif'],
-  			satoshi_black: ['Satoshi-Black', 'sans-serif']
+        sans: ['var(--font-satoshi)', ...defaultTheme.fontFamily.sans],
   		},
       colors: {
         blacko: '#030500',

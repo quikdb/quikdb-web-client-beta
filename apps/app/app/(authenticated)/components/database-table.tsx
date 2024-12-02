@@ -107,7 +107,7 @@ export const columns: ColumnDef<Database>[] = [
           <AlertDialogTrigger asChild className='cursor-pointer'>
             <Trash2Icon size={18} />
           </AlertDialogTrigger>
-          <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-satoshi_regular'>
+          <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
               <AlertDialogDescription>You are about to remove this dataset from your group list</AlertDialogDescription>
@@ -197,7 +197,7 @@ export function DatabaseTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='font-satoshi_light'>
+          <TableBody className='font-light'>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>

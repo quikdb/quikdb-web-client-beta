@@ -156,7 +156,7 @@ export const columns: ColumnDef<Access>[] = [
       const status = tokens.status;
       return (
         <div className={`${status === 'Active' ? 'bg-[#17211D]' : 'bg-[#BA2543]/10'} rounded-2xl flex items-center justify-center gap-2 py-1`}>
-          <p className={`${status === 'Active' ? 'text-[#027A48]' : 'text-[#BA2543]'} text-xs font-satoshi_regular`}>{status}</p>
+          <p className={`${status === 'Active' ? 'text-[#027A48]' : 'text-[#BA2543]'} text-xs font-regular`}>{status}</p>
         </div>
       );
     },
@@ -174,7 +174,7 @@ export const columns: ColumnDef<Access>[] = [
             <AlertDialogTrigger asChild className='cursor-pointer'>
               <Trash2Icon size={18} />
             </AlertDialogTrigger>
-            <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-satoshi_regular'>
+            <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                 <AlertDialogDescription>You are about to remove this dataset from your group list</AlertDialogDescription>
@@ -234,7 +234,7 @@ export function AccessTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='font-satoshi_light'>
+          <TableBody className='font-light'>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>

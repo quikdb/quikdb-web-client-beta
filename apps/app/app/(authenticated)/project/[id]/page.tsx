@@ -69,7 +69,7 @@ const Project = () => {
         <p>Active: {project.isActive ? 'Yes' : 'No'}</p> |<p>Created At: {project.createdAt}</p>
       </div>
       <Tabs defaultValue='groups' className='mt-5'>
-        <TabsList className='grid w-1/3 grid-cols-3 bg-transparent text-gray-400 font-satoshi_medium border-none border-b border-b-[#242527] gap-'>
+        <TabsList className='grid w-1/3 grid-cols-3 bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-'>
           <TabsTrigger value='groups'>Groups</TabsTrigger>
           <TabsTrigger value='collaborators'>Project Collaborators</TabsTrigger>
           <TabsTrigger value='query'>Query</TabsTrigger>

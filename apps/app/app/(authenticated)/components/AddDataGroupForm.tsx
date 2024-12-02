@@ -16,14 +16,14 @@ export default function AddDataGroup() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant='outline' className='font-satoshi_medium border border-[#8A46FF]/60 px-4 w-fit text-gradient'>
+        <Button variant='outline' className='font-medium border border-[#8A46FF]/60 px-4 w-fit text-gradient'>
           <PlusIcon className='text-gradient border border-[#8A46FF] border-dotted rounded-lg' />
           Add Data Group
         </Button>
       </DialogTrigger>
-      <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-satoshi_regular'>
+      <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
         <DialogHeader>
-          <DialogTitle className='font-satoshi_medium'>Add Data Group</DialogTitle>
+          <DialogTitle className='font-medium'>Add Data Group</DialogTitle>
           <DialogDescription>Lorem Ipsum lorem ipsum lorem ipsum lorem ipsum</DialogDescription>
         </DialogHeader>
         <hr className='border-gray-400' />

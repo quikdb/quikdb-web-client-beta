@@ -59,7 +59,7 @@ const Overview = () => {
 
   return (
     <div className='mt-10'>
-      <p className='text-2xl font-satoshi_medium'>Welcome {firstName} 👋</p>
+      <p className='text-2xl font-medium'>Welcome {firstName} 👋</p>
       <div className='flex flex-col justify-center items-center gap-10 h-[60vh]'>
         <div className='flex flex-col items-center'>
           <img src='/images/empty_box.png' alt='empty_box' />
@@ -67,7 +67,7 @@ const Overview = () => {
         </div>
 
         {!isCreating ? (
-          <Button size='lg' className='font-satoshi_medium bg-gradient px-4 w-fit text-[#0F1407]' onClick={() => setIsCreating(true)}>
+          <Button size='lg' className='font-medium bg-gradient px-4 w-fit text-[#0F1407]' onClick={() => setIsCreating(true)}>
             <PlusIcon className='text-white border border-dotted rounded-lg' />
             New Project
           </Button>
@@ -83,13 +83,13 @@ const Overview = () => {
             <div className='flex gap-4'>
               <Button
                 size='lg'
-                className='font-satoshi_medium bg-gradient px-4 w-fit text-[#0F1407]'
+                className='font-medium bg-gradient px-4 w-fit text-[#0F1407]'
                 onClick={handleCreateProject}
                 disabled={loading}
               >
                 {loading ? 'Creating...' : 'Create Project'}
               </Button>
-              <Button size='lg' className='font-satoshi_medium text-[#0F1407]' onClick={() => setIsCreating(false)}>
+              <Button size='lg' className='font-medium text-[#0F1407]' onClick={() => setIsCreating(false)}>
                 Cancel
               </Button>
             </div>
