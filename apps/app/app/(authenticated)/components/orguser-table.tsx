@@ -139,7 +139,7 @@ export const columns: ColumnDef<Database>[] = [
             className={`${status === 'Verified' ? 'bg-[#12B76A]' : status === 'Pending' ? 'bg-[#FFB422]' : 'bg-[#CB4862]'} w-1 h-1 rounded-full`}
           ></div>
           <div
-            className={`${status === 'Verified' ? 'text-[#027A48]' : status === 'Pending' ? 'text-[#FFB422]' : 'text-[#BA2543]'} text-xs font-satoshi_regular`}
+            className={`${status === 'Verified' ? 'text-[#027A48]' : status === 'Pending' ? 'text-[#FFB422]' : 'text-[#BA2543]'} text-xs font-regular`}
           >
             {status}
           </div>
@@ -158,7 +158,7 @@ export const columns: ColumnDef<Database>[] = [
           {orgRoles.map((role, index) => (
             <div
               key={index}
-              className={`${role === 'Organization Owner' ? 'bg-[#513542]' : 'bg-[#2F2F35]'} text-gray-400 font-satoshi_regular rounded-xl w-fit px-3 py-1`}
+              className={`${role === 'Organization Owner' ? 'bg-[#513542]' : 'bg-[#2F2F35]'} text-gray-400 font-regular rounded-xl w-fit px-3 py-1`}
             >
               {role}
             </div>
@@ -171,7 +171,7 @@ export const columns: ColumnDef<Database>[] = [
     accessorKey: 'projectRoles',
     header: 'Project Roles',
     cell: ({ row }) => (
-      <div className='bg-[#2F2F35] text-gray-400 font-satoshi_regular rounded-xl w-fit px-3 py-1'>{row.getValue('projectRoles')}</div>
+      <div className='bg-[#2F2F35] text-gray-400 font-regular rounded-xl w-fit px-3 py-1'>{row.getValue('projectRoles')}</div>
     ),
   },
   {
@@ -180,14 +180,13 @@ export const columns: ColumnDef<Database>[] = [
     header: 'Action',
     cell: ({ row }) => {
       const orgUsers = row.original;
-      console.log(orgUsers.name);
 
       return (
         <AlertDialog>
           <AlertDialogTrigger asChild className='cursor-pointer'>
             <Trash2Icon size={18} />
           </AlertDialogTrigger>
-          <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-satoshi_regular'>
+          <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
               <AlertDialogDescription>You are about to remove this dataset from your group list</AlertDialogDescription>
@@ -245,7 +244,7 @@ export function OrgUsersTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='font-satoshi_light'>
+          <TableBody className='font-light'>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>

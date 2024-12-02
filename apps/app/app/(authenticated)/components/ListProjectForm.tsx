@@ -19,9 +19,9 @@ export default function ListProject() {
           List new project
         </Button>
       </DialogTrigger>
-      <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-satoshi_regular'>
+      <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
         <DialogHeader>
-          <DialogTitle className='font-satoshi_medium'>List Project</DialogTitle>
+          <DialogTitle className='font-medium'>List Project</DialogTitle>
           <DialogDescription>Lorem Ipsum lorem ipsum lorem ipsum lorem ipsum</DialogDescription>
         </DialogHeader>
         <hr className='border-gray-400' />

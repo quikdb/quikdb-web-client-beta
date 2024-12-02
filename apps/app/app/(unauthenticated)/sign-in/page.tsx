@@ -1,50 +1,54 @@
 'use client';
-
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding';
-import { useRouter } from 'next/navigation'; // For redirecting after successful sign-in
-import axios from 'axios'; // Import Axios
+import { useRouter } from 'next/navigation';
+// import axios from 'axios';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
+import { useDispatch } from 'react-redux';
+import { setAuthState } from '@/app/store';
+// import { setCookie } from 'nookies';
 
 const SignInPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [seeOtherOptions, setSeeOtherOptions] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const router = useRouter(); // Used to redirect after successful login
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white';
   const buttonTextPrefix = 'Sign In';
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccess(false); // Reset success
     setLoading(true);
     setError('');
 
     try {
-      const data = { email, password };
+      const response = await fetch('/api/sign-in', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify(data), 'mysecurekey1234567890', 'uniqueiv12345678');
+      const result = await response.json();
 
-      const response = await axios.post(
-        'https://quikdb-core-beta.onrender.com/a/signinWithEP',
-        { data: encryptedData },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
+      if (response.ok && result.status === 'success') {
+        const { accessToken, user } = result.data;
 
-      if (response.status === 200) {
-        router.push('/dashboard');
+        dispatch(setAuthState({ token: accessToken, userEmail: user.email }));
+
+        router.push(result.redirect);
       } else {
-        setError(response.data.message || 'An error occurred during sign in');
+        setError(result.error || 'Failed to sign in.');
       }
     } catch (error) {
-      setError('Failed to connect to the server. Please try again later.');
+      console.error('Sign-in error:', error);
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -81,16 +85,10 @@ const SignInPage = () => {
                 <Button className={buttonStyle}>{buttonTextPrefix} with one-time link</Button>
               </div>
 
-              {seeOtherOptions ? (
-                <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
-                  <Button className={buttonStyle}>{buttonTextPrefix} with Google</Button>
-                  <Button className={buttonStyle}>{buttonTextPrefix} with Github</Button>
-                </div>
-              ) : (
-                <Button className={buttonStyle} onClick={() => setSeeOtherOptions(!seeOtherOptions)}>
-                  See other options
-                </Button>
-              )}
+              {/* Option to see other sign-in methods */}
+              <Button className={buttonStyle} onClick={() => setSuccess(!success)}>
+                See other options
+              </Button>
             </section>
 
             <section className='flex flex-col items-center gap-y-6'>

@@ -101,14 +101,13 @@ export const columns: ColumnDef<Database>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const database = row.original;
-      console.log(database.id);
 
       return (
         <AlertDialog>
           <AlertDialogTrigger asChild className='cursor-pointer'>
             <Trash2Icon size={18} />
           </AlertDialogTrigger>
-          <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-satoshi_regular'>
+          <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
               <AlertDialogDescription>You are about to remove this dataset from your group list</AlertDialogDescription>
@@ -154,8 +153,8 @@ export function DatabaseTable() {
       <div className='flex items-center pt-7 pb-5'>
         <Input
           placeholder='Filter emails...'
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
+          value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
+          onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
           className='max-w-sm h-11'
         />
         <DropdownMenu>
@@ -198,7 +197,7 @@ export function DatabaseTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='font-satoshi_light'>
+          <TableBody className='font-light'>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>

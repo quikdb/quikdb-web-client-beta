@@ -8,8 +8,8 @@ const Analytics = () => {
     <div className='mt-10'>
       <div className='flex justify-between'>
         <div className='flex flex-col gap-1'>
-          <p className='font-satoshi_medium text-3xl'>Analytics</p>
-          <p className='font-satoshi_light text-base text-gray-400'>Real-time overview of your listed projects</p>
+          <p className='font-medium text-3xl'>Analytics</p>
+          <p className='font-light text-base text-gray-400'>Real-time overview of your listed projects</p>
         </div>
         <div>
           <Button>
@@ -27,7 +27,7 @@ const Analytics = () => {
           <Card className='bg-transparent text-white border-[#242527] p-4 w-[32%]'>
             <p className='text-lg'>Total projects</p>
             <div className='mt-7'>
-              <p className='text-3xl font-satoshi_medium'>5 projects</p>
+              <p className='text-3xl font-medium'>5 projects</p>
               <div className='flex gap-3 text-xs mt-2'>
                 <p className='flex items-center gap-1 text-green-400'>
                   10% <TrendingUp size={16} />
@@ -39,7 +39,7 @@ const Analytics = () => {
           <Card className='bg-transparent text-white border-[#242527] p-4 w-[32%]'>
             <p className='text-lg'>Total projects</p>
             <div className='mt-7'>
-              <p className='text-3xl font-satoshi_medium'>5 projects</p>
+              <p className='text-3xl font-medium'>5 projects</p>
               <div className='flex gap-3 text-xs mt-2'>
                 <p className='flex items-center gap-1 text-green-400'>
                   10% <TrendingUp size={16} />
@@ -51,7 +51,7 @@ const Analytics = () => {
           <Card className='bg-transparent text-white border-[#242527] p-4 w-[32%]'>
             <p className='text-lg'>Total projects</p>
             <div className='mt-7'>
-              <p className='text-3xl font-satoshi_medium'>5 projects</p>
+              <p className='text-3xl font-medium'>5 projects</p>
               <div className='flex gap-3 text-xs mt-2'>
                 <p className='flex items-center gap-1 text-green-400'>
                   10% <TrendingUp size={16} />
@@ -65,18 +65,18 @@ const Analytics = () => {
         <Card className='bg-transparent text-white border-[#242527] p-4'>
           <div className='flex justify-between'>
             <p className='text-lg'>Database Size</p>
-            <p className='font-satoshi_light'>Increase disk size</p>
+            <p className='font-light'>Increase disk size</p>
           </div>
           <div className='mt-7 flex justify-between'>
-            <div className='flex flex-col gap-3 font-satoshi_medium flex-1'>
+            <div className='flex flex-col gap-3 font-medium flex-1'>
               <p className=''>Total Size</p>
               <p className=''>1.00GB</p>
             </div>
-            <div className='flex flex-col gap-3 font-satoshi_medium border-x-2 border-x-[#343434] flex-1 text-center'>
+            <div className='flex flex-col gap-3 font-medium border-x-2 border-x-[#343434] flex-1 text-center'>
               <p className=''>Total Size</p>
               <p className=''>1.00GB</p>
             </div>
-            <div className='flex flex-col gap-3 font-satoshi_medium flex-1 text-right'>
+            <div className='flex flex-col gap-3 font-medium flex-1 text-right'>
               <p className=''>Total Size</p>
               <p className=''>1.00GB</p>
             </div>

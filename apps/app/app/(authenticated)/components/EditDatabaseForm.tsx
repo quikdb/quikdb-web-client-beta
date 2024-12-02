@@ -17,9 +17,9 @@ export default function EditDatabase() {
       <DialogTrigger asChild>
         <Button className='bg-gradient w-fit px-4 text-[#0F1407]'>Edit Database</Button>
       </DialogTrigger>
-      <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-satoshi_regular'>
+      <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
         <DialogHeader>
-          <DialogTitle className='font-satoshi_medium'>Edit Database</DialogTitle>
+          <DialogTitle className='font-medium'>Edit Database</DialogTitle>
           <DialogDescription>Lorem Ipsum lorem ipsum lorem ipsum lorem ipsum</DialogDescription>
         </DialogHeader>
         <hr className='border-gray-400' />
