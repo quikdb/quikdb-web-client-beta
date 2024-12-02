@@ -16,9 +16,9 @@ const SignUpPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  const router = useRouter(); 
+  const router = useRouter();
 
-  const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white';
+  const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white hover:text-blacko';
   const buttonTextPrefix = 'Sign Up';
 
   const handleSignUp = async (event: React.FormEvent) => {
@@ -61,7 +61,11 @@ const SignUpPage = () => {
             <form onSubmit={handleSignUp} className='flex flex-col gap-y-4 items-center w-full'>
               <Input type='email' placeholder='Email Address' required value={email} onChange={(e) => setEmail(e.target.value)} />
               <PasswordInput placeholder='Enter Password' required value={password} onChange={(e) => setPassword(e.target.value)} />
-              <Button type='submit' disabled={loading} className='w-full bg-[#141414] h-[50px] text-lg rounded-2xl p-6 text-[#A5A5A5]'>
+              <Button
+                type='submit'
+                className='w-full bg-[#141414] h-[50px] text-lg rounded-2xl p-6 text-[#A5A5A5] hover:text-blacko'
+                disabled={loading}
+              >
                 {loading ? 'Signing up...' : 'Continue'}
               </Button>
             </form>
