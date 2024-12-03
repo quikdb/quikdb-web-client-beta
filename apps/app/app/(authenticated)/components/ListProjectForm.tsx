@@ -28,6 +28,7 @@ export default function ListProject() {
   const [success, setSuccess] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [projectId, setProjectId] = useState<string | null>(null);
+  const [selectedVersion, setSelectedVersion] = useState<DatabaseVersion>(DatabaseVersion.FREE);
 
   const handleCreateProject = async () => {
     if (!projectName) {
@@ -84,7 +85,7 @@ export default function ListProject() {
 
       const tokenData = JSON.stringify({
         email: userEmail,
-        databaseVersion: DatabaseVersion.FREE,
+        databaseVersion: selectedVersion,
         duration: 1000,
       });
 
@@ -112,6 +113,10 @@ export default function ListProject() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSelectVersion = (version: DatabaseVersion) => {
+    setSelectedVersion(version);
   };
 
   return (
@@ -148,43 +153,27 @@ export default function ListProject() {
 
       {showPopup && (
         <Dialog open={showPopup} onOpenChange={setShowPopup}>
+          <DialogTrigger asChild>
+            <Button>Create Project</Button>
+          </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Select Database Version</DialogTitle>
+              <DialogDescription>Choose a database version for your project:</DialogDescription>
             </DialogHeader>
-            <DialogDescription className='space-y-4'>
-              <p> Your project has been created successfully. You can now select a database for your project</p>
-              <div className='flex flex-col gap-4'>
-                <div className='flex items-center gap-3'>
-                  <CheckCircle className='text-green-500' />
-                  <span className='text-lg'>Free</span>
-                  <Button size='sm' className='ml-auto'>
-                    Select
-                  </Button>
-                </div>
-                <div className='flex items-center gap-3'>
-                  <DollarSign className='text-yellow-500' />
-                  <span className='text-lg'>Premium ($1/month)</span>
-                  <Button size='sm' className='ml-auto'>
-                    Select
-                  </Button>
-                </div>
-                <div className='flex items-center gap-3'>
-                  <Star className='text-blue-500' />
-                  <span className='text-lg'>Professional ($5/month)</span>
-                  <Button size='sm' className='ml-auto'>
-                    Select
-                  </Button>
-                </div>
-              </div>
-            </DialogDescription>
+            <div className='space-y-4'>
+              <Button onClick={() => handleSelectVersion(DatabaseVersion.FREE)}>
+                Free Plan <CheckCircle />
+              </Button>
+              <Button onClick={() => handleSelectVersion(DatabaseVersion.PREMIUM)}>
+                Premium Plan <DollarSign />
+              </Button>
+              <Button onClick={() => handleSelectVersion(DatabaseVersion.PROFESSIONAL)}>
+                Professional Plan <Star />
+              </Button>
+            </div>
             <DialogFooter>
-              {success && (
-                <div className='text-green-500'>
-                  <CheckCircle />
-                  Project token created successfully!
-                </div>
-              )}
+              <Button onClick={() => setShowPopup(false)}>Close</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
