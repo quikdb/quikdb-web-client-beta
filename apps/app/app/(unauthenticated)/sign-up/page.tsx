@@ -21,6 +21,20 @@ const SignUpPage = () => {
   const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white hover:text-blacko';
   const buttonTextPrefix = 'Sign Up';
 
+  const handleGoogleSignUp = async () => {
+    try {
+      const response = await axios.get('https://quikdb-core-beta.onrender.com/a/get-oauth-url');
+      if (response.status === 200) {
+        window.location.href = response.data.url; // Redirect to Google OAuth
+      } else {
+        setError('Failed to initiate Google signup. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error during Google sign-up:', err);
+      setError('An error occurred while initiating Google sign-up. Please try again.');
+    }
+  };
+  
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -92,7 +106,7 @@ const SignUpPage = () => {
               </div>
               {seeOtherOptions ? (
                 <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
-                  <Button className={buttonStyle}>{buttonTextPrefix} with Google</Button>
+                  <Button className={buttonStyle} onClick={handleGoogleSignUp}>Sign Up with Google</Button>
                   <Button className={buttonStyle}>{buttonTextPrefix} with Github</Button>
                 </div>
               ) : (

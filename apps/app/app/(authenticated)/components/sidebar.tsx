@@ -63,12 +63,12 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
   const navigation = [
     { name: 'Overview', to: '/overview', icon: <DashboardIcon /> },
     { name: 'Projects', to: '/projects', icon: <FileTextIcon /> },
-    { name: 'User Management', to: '/user-mgt', icon: <PersonIcon /> },
-    { name: 'Audit Logs', to: '/audit-logs', icon: <ListBulletIcon /> },
-    { name: 'Analytics', to: '/analytics', icon: <BarChartIcon /> },
-    { name: 'Access Token', to: '/access-token', icon: <Crosshair2Icon /> },
-    { name: 'Rewards', to: '/rewards', icon: <BookmarkFilledIcon /> },
-    { name: 'Data Backup', to: '/data-backup', icon: <CloudUpload size={16} /> },
+    // { name: 'User Management', to: '/user-mgt', icon: <PersonIcon /> },
+    // { name: 'Audit Logs', to: '/audit-logs', icon: <ListBulletIcon /> },
+    // { name: 'Analytics', to: '/analytics', icon: <BarChartIcon /> },
+    // { name: 'Access Token', to: '/access-token', icon: <Crosshair2Icon /> },
+    // { name: 'Rewards', to: '/rewards', icon: <BookmarkFilledIcon /> },
+    // { name: 'Data Backup', to: '/data-backup', icon: <CloudUpload size={16} /> },
     { name: 'Settings', to: '/settings', icon: <GearIcon /> },
   ];
 
@@ -95,12 +95,12 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
           </div>
         </div>
         <div className='py-6 mt-6 flex flex-col gap-2 w-full'>
-          <Button
+          {/* <Button
             size='lg'
             className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient w-full'
           >
             <HeadphonesIcon /> Support
-          </Button>
+          </Button> */}
           <Button
             className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient w-full'
             onClick={handleSignout}
