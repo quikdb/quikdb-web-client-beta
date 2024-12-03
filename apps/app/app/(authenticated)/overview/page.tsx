@@ -58,12 +58,12 @@ const Overview = () => {
   };
 
   return (
-    <div className='mt-10'>
+    <div className='mt-10 max-md:mt-5'>
       <p className='text-2xl font-medium'>Welcome {firstName} 👋</p>
       <div className='flex flex-col justify-center items-center gap-10 h-[60vh]'>
         <div className='flex flex-col items-center'>
           <img src='/images/empty_box.png' alt='empty_box' />
-          <p className='text-sm font-light text-gray-400'>No Project Available. Create a new project to get started.</p>
+          <p className='text-sm font-light text-gray-400 max-md:text-center'>No Project Available. Create a new project to get started.</p>
         </div>
 
         {!isCreating ? (

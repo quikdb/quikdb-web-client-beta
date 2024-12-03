@@ -3,7 +3,6 @@ import { Card } from '@repo/design-system/components/ui/card';
 import { Checkbox } from '@repo/design-system/components/ui/checkbox';
 import { ArrowLeftCircle } from 'lucide-react';
 import { useState } from 'react';
-// import { useNavigate } from "react-router-dom"
 
 const roles = [
   {
@@ -24,7 +23,7 @@ const UserProfile = () => {
   // const navigate = useNavigate()
   const [isEditing, setIsEditing] = useState(false);
   return (
-    <div className='mt-10'>
+    <div className='mt-10 max-md:mt-5'>
       <ArrowLeftCircle className='text-gray-300 mb-7 cursor-pointer' />
       <p className='text-xl font-medium'>Profile</p>
 

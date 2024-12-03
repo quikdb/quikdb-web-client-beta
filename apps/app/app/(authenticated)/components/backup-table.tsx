@@ -123,8 +123,8 @@ export function BackupTable() {
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild className='h-11'>
-            <Button className='ml-auto'>
-              Columns <ChevronDown />
+            <Button className='ml-auto bg-transparent text-white border border-[#242527] max-md:text-xs'>
+              Columns <ChevronDown className='max-md:scale-75' />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' className='bg-[#111015] text-white border-gray-600'>

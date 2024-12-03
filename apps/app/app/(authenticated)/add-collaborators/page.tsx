@@ -4,7 +4,6 @@ import { Card } from '@repo/design-system/components/ui/card';
 import { Checkbox } from '@repo/design-system/components/ui/checkbox';
 import { Input } from '@repo/design-system/components/ui/input';
 import { ArrowLeftCircle } from 'lucide-react';
-// import { useNavigate } from "react-router-dom"
 
 const roles = [
   {
@@ -33,7 +32,7 @@ const roles = [
 const AddCollaborators = () => {
   // const navigate = useNavigate()
   return (
-    <div className='mt-10'>
+    <div className='mt-10 max-md:mt-5'>
       <ArrowLeftCircle className='text-gray-300 mb-7 cursor-pointer' />
       {/* <ArrowLeftCircle className="text-gray-300 mb-7 cursor-pointer" onClick={() => navigate(-1)} /> */}
       <p className='text-xl font-medium'>Add Collaborators</p>
@@ -46,13 +45,13 @@ const AddCollaborators = () => {
 
       <div className='mt-5 flex flex-col gap-7'>
         <div>
-          <p className='text-xl'>Project Roles</p>
-          <p className='text-gray-400 text-base'>Select the roles you want to assign to new user.</p>
+          <p className='text-xl max-md:text-lg'>Project Roles</p>
+          <p className='text-gray-400 text-base max-md:text-sm'>Select the roles you want to assign to new user.</p>
         </div>
 
         <div className='flex flex-wrap gap-4 justify-between'>
           {roles.map((role, index) => (
-            <Card key={index} className='bg-[#151418] text-white border-[#242527] p-5 w-[49%]'>
+            <Card key={index} className='bg-[#151418] text-white border-[#242527] p-5 lg:w-[49%]'>
               <div className='flex items-center justify-between'>
                 <p>{role.name}</p>
                 <Checkbox className='border-gray-400' />

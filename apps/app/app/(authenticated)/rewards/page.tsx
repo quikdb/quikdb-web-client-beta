@@ -22,7 +22,7 @@ const rewards = [
 
 const Rewards = () => {
   return (
-    <div className='mt-10 flex flex-col gap-7'>
+    <div className='mt-10 max-md:mt-5 flex flex-col gap-7'>
       <div className='flex flex-col gap-1'>
         <p className='font-medium text-3xl'>Rewards</p>
         <p className='font-light text-base text-gray-400'>Real-time overview of your listed projects</p>

@@ -16,7 +16,7 @@ const NotifModal = () => {
     return (
         <Dialog>
             <DialogTrigger asChild className="cursor-pointer">
-                <div className="bg-[#181818] rounded-full p-2 text-gray-400"><Bell size={18} /></div>
+                <div className="bg-[#181818] rounded-full p-2 text-gray-400 max-md:scale-75"><Bell size={18} /></div>
             </DialogTrigger>
             <DialogContent className="s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-satoshi_regular translate-x-[55%] top- h-[75vh">
                 <DialogHeader>

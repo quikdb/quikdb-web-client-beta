@@ -15,7 +15,7 @@ const SignUp: React.FC<SignUpProps> = ({ isSignUp }) => {
   const buttonTextPrefix = isSignUp ? 'Sign Up' : 'Sign In';
 
   return (
-    <div className='flex justify-center items-center w-full'>
+    <div className='flex justify-center items-center w-full max-md:mx-10'>
       <div className='flex flex-col w-full max-w-screen-2xl'>
         <FormHeader
           title={isSignUp ? 'Create an account' : 'Welcome back'}

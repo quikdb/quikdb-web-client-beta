@@ -61,15 +61,15 @@ const Project = () => {
 
   console.log(project);
   return (
-    <div className='mt-10'>
+    <div className='mt-10 max-md:mt-5'>
       <p className='mb-7 text-base'>
         Project / <span className='text-[#72F5DD]'>{project.name}</span>
       </p>
-      <div className='flex gap-4'>
+      <div className='flex gap-4 max-md:text-[13px]'>
         <p>Active: {project.isActive ? 'Yes' : 'No'}</p> |<p>Created At: {project.createdAt}</p>
       </div>
       <Tabs defaultValue='groups' className='mt-5'>
-        <TabsList className='grid w-1/3 grid-cols-3 bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-'>
+        <TabsList className='grid w-1/3 max-md:w-full grid-cols-3 bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-'>
           <TabsTrigger value='groups'>Groups</TabsTrigger>
           <TabsTrigger value='collaborators'>Project Collaborators</TabsTrigger>
           <TabsTrigger value='query'>Query</TabsTrigger>

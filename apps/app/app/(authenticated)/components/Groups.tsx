@@ -47,23 +47,23 @@ const databases = [
 
 const Groups = () => {
   return (
-    <Card className="bg-[#151418] text-white border-[#242527] p-10 px-5 flex gap-10 mt-7">
+    <Card className="bg-[#151418] text-white border-[#242527] p-10 max-md:py-5 px-5 flex max-md:flex-col gap-10 mt-5">
       <div className="flex flex-col gap-5 pr-10 border-r border-r-[#242527]">
         <CreateDatabase />
         <div className="flex relative">
-          <Label className="absolute top-5 left-4 text-gray-400">
+          <Label className="absolute top-2.5 left-4 text-gray-400">
             <Search size={14} />
           </Label>
           <Input placeholder="Search by DB name..." className="pl-10" />
         </div>
 
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion type="single" collapsible className="w-full max-md:flex flex-wrap">
           {databases.map((database) => (
-            <AccordionItem key={database.id} value={`item-${database.id}`}>
+            <AccordionItem key={database.id} value={`item-${database.id}`} className='w-full'>
               <AccordionTrigger>
-                <div className="flex items-center justify-between w-[14vw]">
+                <div className="flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit">
                   <p className="text-base">{database.name}</p>
-                  <EllipsisVertical size={16} className="text-gray-" />
+                  <EllipsisVertical size={16} className="text-gray- max-md:" />
                 </div>
               </AccordionTrigger>
               <AccordionContent className="w-full flex flex-col gap-3 pl-10">
@@ -79,7 +79,7 @@ const Groups = () => {
       </div>
 
       <div className="w-full">
-        <div className="flex justify-between">
+        <div className="flex max-md:flex-col max-md:gap-3 justify-between">
           <div className="flex flex-col gap-1">
             <p className="font-medium text-xl">Organizations</p>
             <p className="font-light text-xs text-gray-400">Unlock API Access with Personal Tokens</p>

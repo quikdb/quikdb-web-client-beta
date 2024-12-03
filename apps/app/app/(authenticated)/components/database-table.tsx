@@ -159,8 +159,8 @@ export function DatabaseTable() {
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild className='h-11'>
-            <Button className='ml-auto'>
-              Columns <ChevronDown />
+            <Button className='ml-auto bg-transparent text-white border border-[#242527] max-md:text-xs'>
+              Columns <ChevronDown className='max-md:scale-75' />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' className='bg-[#111015] text-white border-gray-600'>
@@ -183,13 +183,13 @@ export function DatabaseTable() {
         </DropdownMenu>
       </div>
       <div className='rounded-md border border-[#242527]'>
-        <Table>
+        <Table className='max-md:text-xs'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className='py-4'>
+                    <TableHead key={header.id} className='py-4 max-md:first:pl-0'>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
@@ -202,7 +202,7 @@ export function DatabaseTable() {
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className='py-6'>
+                    <TableCell key={cell.id} className='py-6 max-md:first:pl-0 last:px-3'>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

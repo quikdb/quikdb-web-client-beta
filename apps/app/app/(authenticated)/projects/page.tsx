@@ -25,8 +25,8 @@ const Projects = () => {
         console.log("project response::", response);
 
         if (response.data?.data?.projects) {
-          const projectList = Array.isArray(response.data.data.projects) 
-            ? response.data.data.projects 
+          const projectList = Array.isArray(response.data.data.projects)
+            ? response.data.data.projects
             : []; // Ensure it is an array
           setProjects(projectList);
         } else {
@@ -44,11 +44,11 @@ const Projects = () => {
   }, [token]);
 
   return (
-    <div className='mt-10'>
-      <div className='flex justify-between'>
+    <div className='mt-10 max-md:mt-5'>
+      <div className='flex justify-between max-md:flex-col max-md:gap-3'>
         <div className='flex flex-col gap-1'>
-          <p className='font-medium text-3xl'>Projects</p>
-          <p className='font-light text-base text-gray-400'>Real-time overview of your listed projects</p>
+          <p className='font-medium text-3xl max-md:text-2xl'>Projects</p>
+          <p className='font-light text-base text-gray-400 max-md:text-sm'>Real-time overview of your listed projects</p>
         </div>
         <ListProject />
       </div>

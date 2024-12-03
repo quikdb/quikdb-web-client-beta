@@ -13,7 +13,7 @@ const PasswordInput: React.FC<InputProps> = ({ children, className, ...props }) 
   const [ seePassword, setSeePassword ] = useState(false);
 
   return (
-    <div className={'flex items-center justify-between w-full bg-[#141414] rounded-2xl p-6' + (className ? ' ' + className : '')}>
+    <div className={'flex items-center justify-between w-full bg-[#141414] rounded-2xl px-6 py-4' + (className ? ' ' + className : '')}>
       <input
         className='bg-transparent border-none outline-none flex-1 text-[#A5A5A5] text-[16px]'
         type={ seePassword ? 'text' : 'password' }
