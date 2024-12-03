@@ -80,23 +80,15 @@ export default function ListProject() {
     setLoading(true);
     setError('');
     try {
-      const encryptedData = CryptoUtils.aesEncrypt(
-        JSON.stringify({ id: projectId }),
-        'mysecurekey1234567890',
-        'uniqueiv12345678'
-      );
+      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
 
       const tokenData = JSON.stringify({
         email: userEmail,
         databaseVersion: DatabaseVersion.FREE,
-        duration: 1000, 
+        duration: 1000,
       });
-      
-      const encryptedTokenData = CryptoUtils.aesEncrypt(
-        tokenData,
-        'mysecurekey1234567890',
-        'uniqueiv12345678'
-      );
+
+      const encryptedTokenData = CryptoUtils.aesEncrypt(tokenData, 'mysecurekey1234567890', 'uniqueiv12345678');
 
       const response = await axios.post(
         `https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`,
@@ -121,7 +113,6 @@ export default function ListProject() {
       setLoading(false);
     }
   };
-
 
   return (
     <Dialog>
@@ -187,11 +178,14 @@ export default function ListProject() {
                 </div>
               </div>
             </DialogDescription>
-            {/* <DialogFooter>
-                <Button size='lg' onClick={() => setShowPopup(false)}>
-                  Close
-                </Button>
-              </DialogFooter> */}
+            <DialogFooter>
+              {success && (
+                <div className='text-green-500'>
+                  <CheckCircle />
+                  Project token created successfully!
+                </div>
+              )}
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       )}
