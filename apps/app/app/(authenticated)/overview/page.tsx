@@ -8,6 +8,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
+import ListProject from '../components/ListProjectForm';
 
 const Overview = () => {
   const [totalProjects, setTotalProjects] = useState(0); // Store the total number of projects
@@ -53,6 +54,7 @@ const Overview = () => {
           <p className='font-medium text-3xl'>Overview</p>
           <p className='font-light text-base text-gray-400'>Real-time overview of your listed projects</p>
         </div>
+        <ListProject />
       </div>
 
       <Card className='mt-7 p-5 bg-blackoff border-none flex flex-col gap-7'>

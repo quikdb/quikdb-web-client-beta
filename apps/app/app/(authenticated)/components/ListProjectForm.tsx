@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
 import axios from 'axios';
+import { DatabaseVersion } from '@/@types';
 
 export default function ListProject() {
   const { token, userEmail } = useSelector((state: RootState) => state.auth);
@@ -26,6 +27,7 @@ export default function ListProject() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [projectId, setProjectId] = useState<string | null>(null);
 
   const handleCreateProject = async () => {
     if (!projectName) {
@@ -55,7 +57,12 @@ export default function ListProject() {
         setSuccess(true);
         setProjectName('');
         setIsCreating(false);
-        setShowPopup(true); // Show the popup when the project is created successfully
+
+        const createdProjectId = response.data.data.projectData.id;
+        setProjectId(createdProjectId);
+
+        setShowPopup(true);
+        await createProjectToken(createdProjectId);
       } else {
         setError('Failed to create project. Please try again.' + response.data.error);
       }
@@ -66,6 +73,55 @@ export default function ListProject() {
       setLoading(false);
     }
   };
+
+  const createProjectToken = async (projectId: string) => {
+    if (!projectId) return;
+
+    setLoading(true);
+    setError('');
+    try {
+      const encryptedData = CryptoUtils.aesEncrypt(
+        JSON.stringify({ id: projectId }),
+        'mysecurekey1234567890',
+        'uniqueiv12345678'
+      );
+
+      const tokenData = JSON.stringify({
+        email: userEmail,
+        databaseVersion: DatabaseVersion.FREE,
+        duration: 1000, 
+      });
+      
+      const encryptedTokenData = CryptoUtils.aesEncrypt(
+        tokenData,
+        'mysecurekey1234567890',
+        'uniqueiv12345678'
+      );
+
+      const response = await axios.post(
+        `https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`,
+        { data: encryptedTokenData },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log('Project token created:', response.data);
+      } else {
+        console.error('Failed to create project token:', response.data);
+        setError('Failed to create project token. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error creating project token:', error);
+      setError('Failed to create project token. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <Dialog>
