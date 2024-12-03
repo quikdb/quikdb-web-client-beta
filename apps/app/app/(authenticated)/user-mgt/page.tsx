@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const UserMgt = () => {
   return (
-    <div className='mt-10'>
+    <div className='mt-10 max-md:mt-5'>
       <div className='flex justify-between'>
         <div className='flex flex-col gap-1'>
           <p className='font-medium text-3xl'>Organization Users</p>

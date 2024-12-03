@@ -3,7 +3,6 @@ import { Card } from '@repo/design-system/components/ui/card';
 import { Checkbox } from '@repo/design-system/components/ui/checkbox';
 import { Input } from '@repo/design-system/components/ui/input';
 import { ArrowLeftCircle } from 'lucide-react';
-// import { useNavigate } from "react-router-dom"
 import Link from 'next/link';
 
 const roles = [
@@ -24,7 +23,7 @@ const roles = [
 const UserInvite = () => {
   // const navigate = useNavigate()
   return (
-    <div className='mt-10'>
+    <div className='mt-10 max-md:mt-5'>
       <ArrowLeftCircle className='text-gray-300 mb-7 cursor-pointer' />
       {/* <ArrowLeftCircle className="text-gray-300 mb-7 cursor-pointer" onClick={() => navigate(-1)} /> */}
       <p className='text-xl font-medium'>Invite People</p>

@@ -36,9 +36,9 @@ export default function AppLayout({ children }: LayoutProps) {
   return (
     <div className='flex'>
       <GlobalSidebar />
-      <div className='flex-grow pl-[18%]'>
+      <div className='flex-grow pl-[18%] max-md:pl-0'>
         <DashHeader />
-        <div className='max-md:mt-5 mb-10 p-10 bg-transparent min-h-screen'>
+        <div className='mt-0 mb-10 px-10 py-0 max-md:px-4 bg-transparent min-h-screen'>
           {/* Ensure token and userEmail are passed to children */}
           {/* {React.cloneElement(children as React.ReactElement, { token, userEmail })} */}
           {children}

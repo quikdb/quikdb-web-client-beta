@@ -16,7 +16,7 @@ export default function AddDataGroup() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant='outline' className='font-medium border border-[#8A46FF]/60 px-4 w-fit text-gradient'>
+        <Button variant='outline' className='font-medium border border-[#8A46FF]/60 px-4 w-fit text-gradient max-md:scale-90'>
           <PlusIcon className='text-gradient border border-[#8A46FF] border-dotted rounded-lg' />
           Add Data Group
         </Button>

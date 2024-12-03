@@ -15,7 +15,7 @@ export default function ListProject() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size='lg' className='bg-gradient w-fit px-4 text-[#0F1407]'>
+        <Button size='lg' className='bg-gradient w-fit px-4 text-[#0F1407] max-md:scale-90 max-md:text-right'>
           List new project
         </Button>
       </DialogTrigger>

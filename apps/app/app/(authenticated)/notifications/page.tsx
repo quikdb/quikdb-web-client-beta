@@ -65,7 +65,7 @@ const AllNotifications = () => {
 
 const Notifications = () => {
     return (
-        <div className="mt-10">
+        <div className="mt-10 max-md:mt-5">
             <p className="text-2xl font-satoshi_medium">Notifications</p>
             <Tabs defaultValue="all" className="mt-5">
                 <TabsList className="grid w-1/3 grid-cols-3 bg-[#1D1D1D] text-gray-400 font-satoshi_medium border-none border-b border-b-[#242527] gap-">

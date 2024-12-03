@@ -87,14 +87,14 @@ export const columns: ColumnDef<Database>[] = [
     id: 'select',
     header: ({ table }) => (
       <Checkbox
-        className='ml-5'
+        className='ml-5 border-gray-500'
         checked={table.getIsAllPageRowsSelected() ? true : table.getIsSomePageRowsSelected() ? 'indeterminate' : false}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label='Select all'
       />
     ),
     cell: ({ row }) => (
-      <Checkbox className='ml-5' checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />
+      <Checkbox className='ml-5 border-gray-500' checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />
     ),
     enableSorting: false,
     enableHiding: false,
@@ -106,8 +106,8 @@ export const columns: ColumnDef<Database>[] = [
       const collaborators = row.original;
       return (
         <div>
-          <div className='text-base'>{collaborators.name}</div>
-          <div className='text-gray-400 text-sm mt-1'>{collaborators.email}</div>
+          <div className='text-base max-md:text-sm'>{collaborators.name}</div>
+          <div className='text-gray-400 text-sm max-md:text-xs mt-1'>{collaborators.email}</div>
         </div>
       );
     },
@@ -123,7 +123,7 @@ export const columns: ColumnDef<Database>[] = [
           {orgRoles.map((role, index) => (
             <div
               key={index}
-              className={`${role === 'Organization Owner' ? 'bg-[#513542]' : 'bg-[#2F2F35]'} text-gray-400 font-regular rounded-xl w-fit px-3 py-1`}
+              className={`${role === 'Organization Owner' ? 'bg-[#513542]' : 'bg-[#2F2F35]'} text-gray-400 font-regular max-md:text-xs rounded-xl w-fit px-3 py-1`}
             >
               {role}
             </div>
@@ -136,7 +136,7 @@ export const columns: ColumnDef<Database>[] = [
     accessorKey: 'projectRoles',
     header: 'Project Roles',
     cell: ({ row }) => (
-      <div className='bg-[#2F2F35] text-gray-400 font-regular rounded-xl w-fit px-3 py-1'>{row.getValue('projectRoles')}</div>
+      <div className='bg-[#2F2F35] text-gray-400 font-regular max-md:text-xs rounded-xl w-fit px-3 py-1'>{row.getValue('projectRoles')}</div>
     ),
   },
   {

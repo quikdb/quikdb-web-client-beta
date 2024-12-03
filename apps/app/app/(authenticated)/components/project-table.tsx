@@ -72,8 +72,8 @@ export function ProjectTable({ projects }: ProjectTableProps) {
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild className='h-11'>
-            <Button className='ml-auto'>
-              Columns <ChevronDown />
+            <Button className='ml-auto bg-transparent text-white border border-[#242527] max-md:text-xs'>
+              Columns <ChevronDown className='max-md:scale-75' />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' className='bg-[#111015] text-white border-gray-600'>
@@ -101,7 +101,7 @@ export function ProjectTable({ projects }: ProjectTableProps) {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className='py-4'>
+                  <TableHead key={header.id} className='py-4 first:px-8'>
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
@@ -113,7 +113,7 @@ export function ProjectTable({ projects }: ProjectTableProps) {
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className='hover:bg-blacko'>
                   <Link href={`/project/${row.getValue('_id')}`} passHref>
-                    <TableCell className='py-6 cursor-pointer'>
+                    <TableCell className='py-6 cursor-pointer px-10'>
                       {flexRender(row.getVisibleCells()[0]?.column.columnDef.cell, row.getVisibleCells()[0]?.getContext())}
                     </TableCell>
                   </Link>

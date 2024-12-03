@@ -9,8 +9,8 @@ const Query = () => {
     <div className='mt-6'>
       <Card className='bg-[#151418] text-white border-none py-4 px-8 font-medium'>Query Data</Card>
 
-      <div className='px-8 mt-4 flex gap-20'>
-        <div className='flex flex-col items-center w-1/2'>
+      <div className='px-8 mt-4 flex max-md:flex-col gap-20 max-md:gap-10'>
+        <div className='flex flex-col items-center lg:w-1/2'>
           <div className='grid gap-5 py-4 w-full'>
             <div className='grid gap-4'>
               <Label htmlFor='name'>Enterquery (SQL/NOSQL)</Label>
@@ -34,7 +34,7 @@ const Query = () => {
                 </SelectContent>
               </Select>
             </div>
-            <Button size='lg' className='w-fit'>
+            <Button size='lg' className='w-fit bg-gray-500'>
               Save Query
             </Button>
           </div>
@@ -43,7 +43,7 @@ const Query = () => {
           </Button>
         </div>
 
-        <div className='w-1/2 flex flex-col gap-5'>
+        <div className='lg:w-1/2 flex flex-col gap-5'>
           <p className='text-lg'>Results</p>
           <Card className='bg-transparent border-[#242527] text-white p-5'>
             <div className='flex justify-between items-center'>
