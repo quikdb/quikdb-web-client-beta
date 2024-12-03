@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 
 const Overview = () => {
-  const [projects, setProjects] = useState<any[]>([]); // Store the list of projects
+  const [totalProjects, setTotalProjects] = useState(0); // Store the total number of projects
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { token } = useSelector((state: RootState) => state.auth);
@@ -28,9 +28,8 @@ const Overview = () => {
         });
         console.log('project response::', response);
 
-        if (response.data?.data?.projects) {
-          const projectList = Array.isArray(response.data.data.projects) ? response.data.data.projects : [];
-          setProjects(projectList);
+        if (response.data?.data?.total) {
+          setTotalProjects(response.data.data.total); // Set total number of projects from API response
         } else {
           setError('No projects found.');
         }
@@ -46,8 +45,6 @@ const Overview = () => {
       fetchProjects();
     }
   }, [token]); // Dependency array includes token
-
-  const totalProjects = projects.length; // Get the total number of projects
 
   return (
     <div className='mt-10'>
@@ -121,38 +118,6 @@ const Overview = () => {
             </div>
           </div>
         </Card>
-
-        {/* <Card className='bg-transparent text-white border-[#242527] p-4'>
-          <div className='flex justify-between mb-5'>
-            <div>
-              <p className='text-lg'>Investor growth</p>
-              <div className='flex gap-3 text-xs mt-2'>
-                <p className='flex items-center gap-1 text-green-400'>
-                  10% <TrendingUp size={16} />
-                </p>
-                <p className='text-gray-400'>+10 this week</p>
-              </div>
-            </div>
-            <div>
-              <Select>
-                <SelectTrigger className='p-6 py-4 h-14 border-none bg-[#141414] rounded-2xl text-[#A5A5A5] text-[16px]'>
-                  <SelectValue placeholder='All time' />
-                </SelectTrigger>
-                <SelectContent className='bg-[#141414] border-[#242527] text-white'>
-                  <SelectGroup>
-                    <SelectLabel>Databases</SelectLabel>
-                    <SelectItem value='apple'>UrbanLifeSuite</SelectItem>
-                    <SelectItem value='banana'>RealEstate</SelectItem>
-                    <SelectItem value='blueberry'>ECommerce</SelectItem>
-                    <SelectItem value='grapes'>Education</SelectItem>
-                    <SelectItem value='pineapple'>Travel</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          <img src='images/chart.png' alt='' />
-        </Card> */}
       </Card>
     </div>
   );

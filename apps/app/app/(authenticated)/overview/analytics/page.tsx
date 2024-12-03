@@ -6,10 +6,8 @@ import { Button } from '@repo/design-system/components/ui/button';
 import { PlusIcon } from 'lucide-react';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
 import axios from 'axios';
-
-import { CheckCircle, DollarSign, Star } from 'lucide-react'; // Importing icons
-
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@repo/design-system/components/ui/dialog';
+import { CheckCircle, DollarSign, Star } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@repo/design-system/components/ui/dialog';
 
 const Overview = () => {
   const { token, userEmail } = useSelector((state: RootState) => state.auth);
@@ -20,7 +18,7 @@ const Overview = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+  const [showPopup, setShowPopup] = useState(false); 
 
   const handleCreateProject = async () => {
     if (!projectName) {
@@ -99,7 +97,6 @@ const Overview = () => {
         {error && <p className='text-red-500'>{error}</p>}
         {success && <p className='text-green-500'>Project created successfully!</p>}
 
-        {/* Automatically show the popup when the project is created successfully */}
         {showPopup && (
           <Dialog open={showPopup} onOpenChange={setShowPopup}>
             <DialogContent>
@@ -132,11 +129,6 @@ const Overview = () => {
                   </div>
                 </div>
               </DialogDescription>
-              {/* <DialogFooter>
-                <Button size='lg' onClick={() => setShowPopup(false)}>
-                  Close
-                </Button>
-              </DialogFooter> */}
             </DialogContent>
           </Dialog>
         )}
