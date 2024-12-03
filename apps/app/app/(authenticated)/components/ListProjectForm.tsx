@@ -161,20 +161,20 @@ export default function ListProject() {
               <DialogTitle>Select Database Version</DialogTitle>
               <DialogDescription>Choose a database version for your project:</DialogDescription>
             </DialogHeader>
-            <div className='space-y-4'>
-              <Button onClick={() => handleSelectVersion(DatabaseVersion.FREE)}>
+            <div className='w-full flex flex-col gap-2'>
+              <Button onClick={() => handleSelectVersion(DatabaseVersion.FREE)} className='hover:bg-gradient'>
                 Free Plan <CheckCircle />
               </Button>
-              <Button onClick={() => handleSelectVersion(DatabaseVersion.PREMIUM)}>
+              <Button onClick={() => handleSelectVersion(DatabaseVersion.PREMIUM)} className='hover:bg-gradient'>
                 Premium Plan <DollarSign />
               </Button>
-              <Button onClick={() => handleSelectVersion(DatabaseVersion.PROFESSIONAL)}>
+              <Button onClick={() => handleSelectVersion(DatabaseVersion.PROFESSIONAL)} className='hover:bg-gradient'>
                 Professional Plan <Star />
               </Button>
             </div>
-            <DialogFooter>
+            {/* <DialogFooter>
               <Button onClick={() => setShowPopup(false)}>Close</Button>
-            </DialogFooter>
+            </DialogFooter> */}
           </DialogContent>
         </Dialog>
       )}
