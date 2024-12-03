@@ -63,7 +63,6 @@ export default function ListProject() {
         setProjectId(createdProjectId);
 
         setShowPopup(true);
-        await createProjectToken(createdProjectId);
       } else {
         setError('Failed to create project. Please try again.' + response.data.error);
       }
@@ -75,7 +74,7 @@ export default function ListProject() {
     }
   };
 
-  const createProjectToken = async (projectId: string) => {
+  const createProjectToken = async (projectId: string | null, version: DatabaseVersion) => {
     if (!projectId) return;
 
     setLoading(true);
@@ -85,7 +84,7 @@ export default function ListProject() {
 
       const tokenData = JSON.stringify({
         email: userEmail,
-        databaseVersion: selectedVersion,
+        databaseVersion: version,
         duration: 1000,
       });
 
@@ -101,11 +100,14 @@ export default function ListProject() {
         }
       );
 
+      console.log('token response::', response);
+
       if (response.status === 201) {
-        console.log('Project token created:', response.data);
+        setSuccess(true);
+        setShowPopup(false);
+        setProjectId(null); 
       } else {
-        console.error('Failed to create project token:', response.data);
-        setError('Failed to create project token. Please try again later.');
+        setError('Failed to create project token. Please try again.' + response.data.error);
       }
     } catch (error) {
       console.error('Error creating project token:', error);
@@ -114,9 +116,9 @@ export default function ListProject() {
       setLoading(false);
     }
   };
-
-  const handleSelectVersion = (version: DatabaseVersion) => {
+  const handleVersionSelection = (version: DatabaseVersion) => {
     setSelectedVersion(version);
+    createProjectToken(projectId, version);
   };
 
   return (
@@ -162,14 +164,14 @@ export default function ListProject() {
               <DialogDescription>Choose a database version for your project:</DialogDescription>
             </DialogHeader>
             <div className='w-full flex flex-col gap-2'>
-              <Button onClick={() => handleSelectVersion(DatabaseVersion.FREE)} className='hover:bg-gradient'>
-                Free Plan <CheckCircle />
+              <Button onClick={() => handleVersionSelection(DatabaseVersion.FREE)} className='hover:bg-gradient'>
+                Free <CheckCircle />
               </Button>
-              <Button onClick={() => handleSelectVersion(DatabaseVersion.PREMIUM)} className='hover:bg-gradient'>
-                Premium Plan <DollarSign />
+              <Button onClick={() => handleVersionSelection(DatabaseVersion.PROFESSIONAL)} className='hover:bg-gradient'>
+                Professional <Star />
               </Button>
-              <Button onClick={() => handleSelectVersion(DatabaseVersion.PROFESSIONAL)} className='hover:bg-gradient'>
-                Professional Plan <Star />
+              <Button onClick={() => handleVersionSelection(DatabaseVersion.PREMIUM)} className='hover:bg-gradient'>
+                Premium <DollarSign />
               </Button>
             </div>
             {/* <DialogFooter>
