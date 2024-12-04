@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/design-system/co
 import Groups from '../components/Groups';
 import Collaborators from '../components/Collaborators';
 import Query from '../components/Query';
+import { AccessTable } from '../components/access-table';
 
 function Project() {
   // const { projectId } = useParams();
@@ -18,6 +19,7 @@ function Project() {
           <TabsTrigger value='groups'>Groups</TabsTrigger>
           <TabsTrigger value='collaborators'>Project Collaborators</TabsTrigger>
           <TabsTrigger value='query'>Query</TabsTrigger>
+          <TabsTrigger value='tokens'>Project Tokens</TabsTrigger>
         </TabsList>
         <TabsContent value='groups' className='bg-[#151418] text-white'>
           <Groups />
@@ -27,6 +29,9 @@ function Project() {
         </TabsContent>
         <TabsContent value='query'>
           <Query />
+        </TabsContent>
+        <TabsContent value='tokens'>
+          <AccessTable />
         </TabsContent>
       </Tabs>
     </div>

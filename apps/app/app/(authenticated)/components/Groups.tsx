@@ -51,7 +51,7 @@ const Groups = () => {
       <div className="flex flex-col gap-5 pr-10 border-r border-r-[#242527]">
         <CreateDatabase />
         <div className="flex relative">
-          <Label className="absolute top-5 left-4 text-gray-400">
+          <Label className="absolute top-3 left-4 text-gray-400">
             <Search size={14} />
           </Label>
           <Input placeholder="Search by DB name..." className="pl-10" />

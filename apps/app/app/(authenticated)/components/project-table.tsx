@@ -122,6 +122,7 @@ export function ProjectTable({ projects }: ProjectTableProps) {
                     .getVisibleCells()
                     .slice(1)
                     .map((cell) => (
+
                       <TableCell key={cell.id} className='py-6'>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>

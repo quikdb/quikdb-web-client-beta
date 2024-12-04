@@ -1,16 +1,13 @@
 'use client';
 import { Inter, Roboto_Mono } from 'next/font/google';
-import localFont from 'next/font/local'
-
+import localFont from 'next/font/local';
 import '@repo/design-system/styles/globals.css';
 import { Toaster } from '@repo/design-system/components/ui/sonner';
 import { TooltipProvider } from '@repo/design-system/components/ui/tooltip';
 import { cn } from '@repo/design-system/lib/utils';
 import { DesignSystemProvider } from '@repo/design-system/providers';
 import { Analytics } from '@vercel/analytics/react';
-import { GeistMono } from 'geist/font/mono';
-import { GeistSans } from 'geist/font/sans';
-import { Provider } from 'react-redux'; // Import Provider
+import { Provider } from 'react-redux';
 import { store } from './store';
 import type { ReactNode } from 'react';
 
@@ -21,12 +18,12 @@ type RootLayoutProperties = {
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
-})
+});
 
 export const roboto_mono = Roboto_Mono({
   subsets: ['latin'],
   display: 'swap',
-})
+});
 
 const satoshi = localFont({
   src: [
@@ -57,7 +54,7 @@ const satoshi = localFont({
     },
   ],
   variable: '--font-satoshi',
-})
+});
 
 const RootLayout = ({ children }: RootLayoutProperties) => (
   <html lang='en' className={cn(satoshi.className, 'touch-manipulation font-sans antialiased')} suppressHydrationWarning>
