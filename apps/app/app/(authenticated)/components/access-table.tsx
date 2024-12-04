@@ -108,60 +108,18 @@ export const columns: ColumnDef<ProjectToken>[] = [
     header: 'User ID',
     cell: ({ row }) => <div>{row.getValue('userId')}</div>,
   },
-  // {
-  //   accessorKey: 'status',
-  //   header: 'Status',
-  //   cell: ({ row }) => {
-  //     const tokens = row.original;
-  //     const status = tokens.status;
-  //     return (
-  //       <div className={`${status === 'Active' ? 'bg-[#17211D]' : 'bg-[#BA2543]/10'} rounded-2xl flex items-center justify-center gap-2 py-1`}>
-  //         <p className={`${status === 'Active' ? 'text-[#027A48]' : 'text-[#BA2543]'} text-xs font-regular`}>{status}</p>
-  //       </div>
-  //     );
-  //   },
-  // },
-  // {
-  //   id: 'actions',
-  //   enableHiding: false,
-  //   header: 'Action',
-  //   cell: ({ row }) => {
-  //     const orgUsers = row.original;
-
-  //     return (
-  //       <div className='flex items-center gap-2'>
-  //         <AlertDialog>
-  //           <AlertDialogTrigger asChild className='cursor-pointer'>
-  //             <Trash2Icon size={18} />
-  //           </AlertDialogTrigger>
-  //           <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
-  //             <AlertDialogHeader>
-  //               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-  //               <AlertDialogDescription>You are about to remove this dataset from your group list</AlertDialogDescription>
-  //             </AlertDialogHeader>
-  //             <AlertDialogFooter>
-  //               <AlertDialogAction className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2'>Yes, Delete</AlertDialogAction>
-  //               <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>No, Cancel</AlertDialogCancel>
-  //             </AlertDialogFooter>
-  //           </AlertDialogContent>
-  //         </AlertDialog>
-  //         <CreateToken isEditing />
-  //       </div>
-  //     );
-  //   },
-  // },
 ];
 
 export function AccessTable({ projectId }: AccessTableProps) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const [tokens, setTokens] = useState<ProjectToken[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { token } = useSelector((state: RootState) => state.auth);
-  console.log('token access table::', token);
+  console.log('data access table::', tokens);
 
   const table = useReactTable({
     data: tokens,
@@ -195,7 +153,7 @@ export function AccessTable({ projectId }: AccessTableProps) {
         console.log('project tokens response::', response);
 
         if (response.status === 200) {
-          setTokens(response.data); // Set tokens to state
+          setTokens(response.data.data.tokens); // Set tokens to state
         } else {
           setError('Failed to fetch project tokens.');
         }
@@ -210,7 +168,6 @@ export function AccessTable({ projectId }: AccessTableProps) {
       fetchProjectTokens();
     }
   }, [projectId]);
-
 
   return (
     <div className='w-full mt-7'>

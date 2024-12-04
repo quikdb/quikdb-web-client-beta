@@ -63,21 +63,21 @@ const Project = () => {
   if (!project) return <div>No project found.</div>;
 
   return (
-    <div className="mt-10">
-      <p className="mb-7 text-base">
-        Project / <span className="text-[#72F5DD]">{project.name}</span>
+    <div className='mt-10'>
+      <p className='mb-7 text-base'>
+        Project / <span className='text-[#72F5DD]'>{project.name}</span>
       </p>
-      <div className="flex gap-4">
+      <div className='flex gap-4'>
         <p>Active: {project.isActive ? 'Yes' : 'No'}</p> | <p>Created At: {project.createdAt}</p>
       </div>
-      <Tabs defaultValue="groups" className="mt-5">
-      <TabsList className='flex bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-4 justify-start'>
-      <TabsTrigger value="groups">Groups</TabsTrigger>
-          <TabsTrigger value="tokens">Project Tokens</TabsTrigger>
-          <TabsTrigger value="collaborators">Project Collaborators</TabsTrigger>
-          <TabsTrigger value="query">Query</TabsTrigger>
+      <Tabs defaultValue='groups' className='mt-5'>
+        <TabsList className='flex bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-4 justify-start'>
+          <TabsTrigger value='groups'>Groups</TabsTrigger>
+          <TabsTrigger value='tokens'>Project Tokens</TabsTrigger>
+          <TabsTrigger value='collaborators'>Project Collaborators</TabsTrigger>
+          <TabsTrigger value='query'>Query</TabsTrigger>
         </TabsList>
-        <TabsContent value="tokens">
+        <TabsContent value='tokens'>
           <AccessTable projectId={project._id} />
         </TabsContent>
         <TabsContent value='groups' className='bg-[#151418] text-white'>
