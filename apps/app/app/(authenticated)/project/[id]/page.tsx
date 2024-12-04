@@ -22,11 +22,24 @@ interface Project {
   updatedAt: string;
 }
 
+export interface ProjectToken {
+  _id: string;
+  projectId: string;
+  token: string;
+  createdAt: string;
+  updatedAt: string;
+  duration: number;
+  type: string;
+  userId: string;
+}
+
 const Project = () => {
   const [project, setProject] = useState<Project | null>(null);
   const params = useParams();
-
+  const [tokens, setTokens] = useState<ProjectToken[]>([]);
   const projectId = params.id;
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const { token } = useSelector((state: RootState) => state.auth);
 
@@ -44,11 +57,24 @@ const Project = () => {
 
           if (response.status === 200) {
             setProject(response.data.data.project);
+            const tokenResponse = await axios.get(`https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`, {
+              headers: {
+                Authorization: token,
+              },
+            });
+
+            if (tokenResponse.status === 200) {
+              setTokens(tokenResponse.data); 
+            } else {
+              setError('Failed to fetch project tokens.');
+            }
           } else {
             console.error('Failed to fetch project details:', response.data.error);
           }
         } catch (error) {
           console.error('Error fetching project details:', error);
+           } finally {
+          setLoading(false);
         }
       };
 
@@ -60,7 +86,18 @@ const Project = () => {
     return <div>Loading...</div>;
   }
 
-  console.log(project);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!project) {
+    return <div>No project found.</div>;
+  }
+
   return (
     <div className='mt-10'>
       <p className='mb-7 text-base'>
@@ -81,8 +118,7 @@ const Project = () => {
           <Groups />
         </TabsContent>
         <TabsContent value='tokens'>
-          <AccessTable />
-        </TabsContent>
+        <AccessTable tokens={tokens} />        </TabsContent>
         <TabsContent value='collaborators'>
           <Collaborators />
         </TabsContent>

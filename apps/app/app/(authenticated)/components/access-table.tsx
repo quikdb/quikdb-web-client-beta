@@ -29,6 +29,11 @@ import {
 import Link from 'next/link';
 import { Trash2Icon } from 'lucide-react';
 import CreateToken from './CreateTokenForm';
+import { ProjectToken } from '../project/[id]/page';
+
+interface AccessTableProps {
+  tokens: ProjectToken[];
+}
 
 const data: Access[] = [
   {
@@ -192,7 +197,7 @@ export const columns: ColumnDef<Access>[] = [
   },
 ];
 
-export function AccessTable() {
+export function AccessTable({ tokens }: AccessTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
