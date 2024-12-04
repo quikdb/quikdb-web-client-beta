@@ -18,7 +18,7 @@ export default function CreateBackup() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-gradient w-fit px-4 text-[#0F1407]'>Create Backup</Button>
+        <Button className='bg-gradient w-fit px-4 max-md:scale-90 text-[#0F1407]'>Create Backup</Button>
       </DialogTrigger>
       <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
         <DialogHeader>
