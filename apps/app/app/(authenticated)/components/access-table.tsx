@@ -71,26 +71,31 @@ export const columns: ColumnDef<ProjectToken>[] = [
   {
     accessorKey: '_id',
     header: 'Token ID',
-    cell: ({ row }) => <div>{row.getValue('_id')}</div>,
+    cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('_id')}</div>,
+  },
+  {
+    accessorKey: 'userId',
+    header: 'User ID',
+    cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('userId')}</div>,
   },
   {
     accessorKey: 'projectId',
     header: 'Project ID',
-    cell: ({ row }) => <div>{row.getValue('projectId')}</div>,
+    cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('projectId')}</div>,
   },
   {
     accessorKey: 'token',
     header: 'Token',
-    cell: ({ row }) => <div>{row.getValue('token')}</div>,
+    cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('token')}</div>,
   },
   {
     accessorKey: 'createdAt',
-    header: 'Date Created',
+    header: 'Created At',
     cell: ({ row }) => <div>{row.getValue('createdAt')}</div>,
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Last Updated',
+    header: 'Updated At',
     cell: ({ row }) => <div>{row.getValue('updatedAt')}</div>,
   },
   {
@@ -102,11 +107,6 @@ export const columns: ColumnDef<ProjectToken>[] = [
     accessorKey: 'type',
     header: 'Type',
     cell: ({ row }) => <div>{row.getValue('type')}</div>,
-  },
-  {
-    accessorKey: 'userId',
-    header: 'User ID',
-    cell: ({ row }) => <div>{row.getValue('userId')}</div>,
   },
 ];
 
@@ -178,7 +178,7 @@ export function AccessTable({ projectId }: AccessTableProps) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className='py-4'>
+                    <TableHead key={header.id} className='py-4 w/1/8'>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
@@ -191,7 +191,7 @@ export function AccessTable({ projectId }: AccessTableProps) {
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className='py-6'>
+                    <TableCell key={cell.id} className='py-6 w-1/8'>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
