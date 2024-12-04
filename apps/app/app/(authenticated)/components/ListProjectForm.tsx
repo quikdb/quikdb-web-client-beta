@@ -100,7 +100,6 @@ export default function ListProject() {
         }
       );
 
-      console.log('token response::', response);
 
       if (response.status === 201) {
         setSuccess(true);

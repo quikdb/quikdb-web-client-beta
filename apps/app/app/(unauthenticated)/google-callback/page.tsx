@@ -17,7 +17,6 @@ const GoogleCallback = () => {
             "https://quikdb-core-beta.onrender.com/a/google-oauth-callback",
             { code }
           );
-          console.log("Tokens:", response.data); // Handle the tokens or user data here
         } catch (error) {
           console.error("Error exchanging code for tokens:", error);
         }

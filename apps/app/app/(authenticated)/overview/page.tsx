@@ -27,7 +27,6 @@ const Overview = () => {
             Authorization: token,
           },
         });
-        console.log('project response::', response);
 
         if (response.data?.data?.total) {
           setTotalProjects(response.data.data.total); // Set total number of projects from API response

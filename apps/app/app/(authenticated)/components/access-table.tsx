@@ -1,5 +1,7 @@
 'use client';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -29,89 +31,26 @@ import {
 import Link from 'next/link';
 import { Trash2Icon } from 'lucide-react';
 import CreateToken from './CreateTokenForm';
-import { ProjectToken } from '../project/[id]/page';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
 
-interface AccessTableProps {
-  tokens: ProjectToken[];
+export interface ProjectToken {
+  _id: string;
+  projectId: string;
+  token: string;
+  createdAt: string;
+  updatedAt: string;
+  duration: number;
+  type: string;
+  userId: string;
 }
 
-const data: Access[] = [
-  {
-    name: 'API Access Key',
-    id: 'A1B2C3D4E5F6G7',
-    date: '2024-01-15 10:23 AM',
-    exp_date: '2025-01-15',
-    permissions: 'Full Access',
-    status: 'Active',
-  },
-  {
-    name: 'CLI Token',
-    id: 'G5H6J7K8L9M0N1',
-    date: '2024-01-15 10:23 AM',
-    exp_date: '2025-01-15',
-    permissions: 'Read-only',
-    status: 'Expired',
-  },
-  {
-    name: 'Testing Key',
-    id: 'O2P3Q4R5S6T7U8',
-    date: '2024-01-15 10:23 AM',
-    exp_date: '2025-01-15',
-    permissions: 'Full Access',
-    status: 'Active',
-  },
-  {
-    name: 'API Analytics',
-    id: 'V9W0X1Y2Z3A4B5',
-    date: '2024-01-15 10:23 AM',
-    exp_date: '2025-01-15',
-    permissions: 'Backup Only',
-    status: 'Expired',
-  },
-  {
-    name: 'Frontend Access',
-    id: 'C6D7E8F9G0H1I2',
-    date: '2024-01-15 10:23 AM',
-    exp_date: '2025-01-15',
-    permissions: 'Read-only',
-    status: 'Active',
-  },
-  {
-    name: 'Backup Token',
-    id: 'J3K4L5M6N7O8P9',
-    date: '2024-01-15 10:23 AM',
-    exp_date: '2025-01-15',
-    permissions: 'Backup Only',
-    status: 'Active',
-  },
-  {
-    name: 'Webhook Listener',
-    id: 'Q1R2S3T4U5V6W7',
-    date: '2024-01-15 10:23 AM',
-    exp_date: '2025-01-15',
-    permissions: 'Read-only',
-    status: 'Expired',
-  },
-  {
-    name: 'Webhook Listener',
-    id: 'Q1R2S3T4U5V6W7',
-    date: '2024-01-15 10:23 AM',
-    exp_date: '2025-01-15',
-    permissions: 'Read-only',
-    status: 'Expired',
-  },
-];
+interface AccessTableProps {
+  projectId: string;
+}
 
-export type Access = {
-  name: string;
-  id: string;
-  date: string;
-  exp_date: string;
-  permissions: 'Full Access' | 'Read-only' | 'Backup Only';
-  status: 'Active' | 'Expired';
-};
-
-export const columns: ColumnDef<Access>[] = [
+export const columns: ColumnDef<ProjectToken>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -129,43 +68,58 @@ export const columns: ColumnDef<Access>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'name',
-    header: 'Token name',
-    cell: ({ row }) => <div>{row.getValue('name')}</div>,
-  },
-  {
-    accessorKey: 'id',
+    accessorKey: '_id',
     header: 'Token ID',
-    cell: ({ row }) => <div>{row.getValue('id')}</div>,
+    cell: ({ row }) => <div>{row.getValue('_id')}</div>,
   },
   {
-    accessorKey: 'date',
-    header: 'Date created',
-    cell: ({ row }) => <div>{row.getValue('date')}</div>,
+    accessorKey: 'projectId',
+    header: 'Project ID',
+    cell: ({ row }) => <div>{row.getValue('projectId')}</div>,
   },
   {
-    accessorKey: 'exp_date',
-    header: 'Expiration date',
-    cell: ({ row }) => <div>{row.getValue('exp_date')}</div>,
+    accessorKey: 'token',
+    header: 'Token',
+    cell: ({ row }) => <div>{row.getValue('token')}</div>,
   },
   {
-    accessorKey: 'permissions',
-    header: 'Permissions',
-    cell: ({ row }) => <div>{row.getValue('permissions')}</div>,
+    accessorKey: 'createdAt',
+    header: 'Date Created',
+    cell: ({ row }) => <div>{row.getValue('createdAt')}</div>,
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => {
-      const tokens = row.original;
-      const status = tokens.status;
-      return (
-        <div className={`${status === 'Active' ? 'bg-[#17211D]' : 'bg-[#BA2543]/10'} rounded-2xl flex items-center justify-center gap-2 py-1`}>
-          <p className={`${status === 'Active' ? 'text-[#027A48]' : 'text-[#BA2543]'} text-xs font-regular`}>{status}</p>
-        </div>
-      );
-    },
+    accessorKey: 'updatedAt',
+    header: 'Last Updated',
+    cell: ({ row }) => <div>{row.getValue('updatedAt')}</div>,
   },
+  {
+    accessorKey: 'duration',
+    header: 'Duration',
+    cell: ({ row }) => <div>{row.getValue('duration')}</div>,
+  },
+  {
+    accessorKey: 'type',
+    header: 'Type',
+    cell: ({ row }) => <div>{row.getValue('type')}</div>,
+  },
+  {
+    accessorKey: 'userId',
+    header: 'User ID',
+    cell: ({ row }) => <div>{row.getValue('userId')}</div>,
+  },
+  // {
+  //   accessorKey: 'status',
+  //   header: 'Status',
+  //   cell: ({ row }) => {
+  //     const tokens = row.original;
+  //     const status = tokens.status;
+  //     return (
+  //       <div className={`${status === 'Active' ? 'bg-[#17211D]' : 'bg-[#BA2543]/10'} rounded-2xl flex items-center justify-center gap-2 py-1`}>
+  //         <p className={`${status === 'Active' ? 'text-[#027A48]' : 'text-[#BA2543]'} text-xs font-regular`}>{status}</p>
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     id: 'actions',
     enableHiding: false,
@@ -197,14 +151,18 @@ export const columns: ColumnDef<Access>[] = [
   },
 ];
 
-export function AccessTable({ tokens }: AccessTableProps) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+export function AccessTable({ projectId }: AccessTableProps) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [tokens, setTokens] = useState<ProjectToken[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { token } = useSelector((state: RootState) => state.auth);
 
   const table = useReactTable({
-    data,
+    data: tokens,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -221,6 +179,36 @@ export function AccessTable({ tokens }: AccessTableProps) {
       rowSelection,
     },
   });
+
+  useEffect(() => {
+    const fetchProjectTokens = async () => {
+      try {
+        const response = await axios.get(`https://quikdb-core-beta.onrender.com/v/p/${projectId}/token`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        console.log('project tokens response::', response);
+
+        if (response.status === 200) {
+          setTokens(response.data); // Set tokens to state
+        } else {
+          setError('Failed to fetch project tokens.');
+        }
+      } catch (error) {
+        setError('Error fetching project tokens.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (projectId) {
+      fetchProjectTokens();
+    }
+  }, [projectId]);
+
+  if (loading) return <div>Loading Tokens...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className='w-full mt-7'>
