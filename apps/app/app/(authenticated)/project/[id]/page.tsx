@@ -71,7 +71,7 @@ const Project = () => {
         <p>Active: {project.isActive ? 'Yes' : 'No'}</p> | <p>Created At: {project.createdAt}</p>
       </div>
       <Tabs defaultValue='groups' className='mt-5'>
-        <TabsList className='grid w-1/3 max-md:w-full grid-cols-3 bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-'>
+        <TabsList className='flex bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-4 justify-start'>
           <TabsTrigger value='groups'>Groups</TabsTrigger>
           <TabsTrigger value='tokens'>Project Tokens</TabsTrigger>
           <TabsTrigger value='collaborators'>Project Collaborators</TabsTrigger>
