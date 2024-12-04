@@ -22,7 +22,7 @@ export default function CreateToken({ isEditing }: TokenProps) {
     <Dialog>
       <DialogTrigger asChild>
         {!isEditing ? (
-          <Button size='lg' className='bg-gradient w-fit px-4 text-[#0F1407]'>
+          <Button size='lg' className='bg-gradient max-md:scale-90 w-fit px-4 text-[#0F1407]'>
             {!isEditing ? 'Create Token' : 'Edit Permissions'}
           </Button>
         ) : (
