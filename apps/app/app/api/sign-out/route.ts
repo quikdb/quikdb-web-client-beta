@@ -3,7 +3,6 @@ import { cookies } from 'next/headers';
 export async function GET(req: Request) {
   const cookieStore = await cookies();
   const token = cookieStore.get('accessToken')?.value;
-  console.log('token::', token);
 
   try {
     const headers = new Headers({

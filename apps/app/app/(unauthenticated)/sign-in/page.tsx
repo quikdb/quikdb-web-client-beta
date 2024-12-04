@@ -20,7 +20,7 @@ const SignInPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white';
+  const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white hover:text-blacko';
   const buttonTextPrefix = 'Sign In';
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -70,7 +70,11 @@ const SignInPage = () => {
                 Forgot Password?
               </Link>
 
-              <Button type='submit' className='w-full bg-[#141414] h-[50px] text-lg rounded-2xl p-6 text-[#A5A5A5]' disabled={loading}>
+              <Button
+                type='submit'
+                className='w-full bg-[#141414] h-[50px] text-lg rounded-2xl p-6 text-[#A5A5A5] hover:text-blacko'
+                disabled={loading}
+              >
                 {loading ? 'Signing in...' : 'Continue'}
               </Button>
 
@@ -105,7 +109,7 @@ const SignInPage = () => {
 
               <p className='text-lg font-light text-[#B3B4B3]'>
                 Don't have an account?{' '}
-                <Link href='/sign-up' className='text-gradient'>
+                <Link href='/sign-up' className='text-gradient hover:text-white font-medium'>
                   Sign up
                 </Link>
               </p>

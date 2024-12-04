@@ -1,4 +1,3 @@
-// app/project/[projectId]/page.tsx
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'; // Use for client-side routing
@@ -11,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
+import { AccessTable } from '../../components/access-table';
 
 interface Project {
   _id: string;
@@ -24,8 +24,9 @@ interface Project {
 const Project = () => {
   const [project, setProject] = useState<Project | null>(null);
   const params = useParams();
-
   const projectId = params.id;
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const { token } = useSelector((state: RootState) => state.auth);
 
@@ -44,10 +45,12 @@ const Project = () => {
           if (response.status === 200) {
             setProject(response.data.data.project);
           } else {
-            console.error('Failed to fetch project details:', response.data.error);
+            setError('Failed to fetch project details.');
           }
         } catch (error) {
-          console.error('Error fetching project details:', error);
+          setError('Error fetching project details.');
+        } finally {
+          setLoading(false);
         }
       };
 
@@ -55,25 +58,28 @@ const Project = () => {
     }
   }, [projectId, token]);
 
-  if (!project) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (!project) return <div>No project found.</div>;
 
-  console.log(project);
   return (
     <div className='mt-10 max-md:mt-5'>
       <p className='mb-7 text-base'>
         Project / <span className='text-[#72F5DD]'>{project.name}</span>
       </p>
       <div className='flex gap-4 max-md:text-[13px]'>
-        <p>Active: {project.isActive ? 'Yes' : 'No'}</p> |<p>Created At: {project.createdAt}</p>
+        <p>Active: {project.isActive ? 'Yes' : 'No'}</p> | <p>Created At: {project.createdAt}</p>
       </div>
       <Tabs defaultValue='groups' className='mt-5'>
         <TabsList className='grid w-1/3 max-md:w-full grid-cols-3 bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-'>
           <TabsTrigger value='groups'>Groups</TabsTrigger>
+          <TabsTrigger value='tokens'>Project Tokens</TabsTrigger>
           <TabsTrigger value='collaborators'>Project Collaborators</TabsTrigger>
           <TabsTrigger value='query'>Query</TabsTrigger>
         </TabsList>
+        <TabsContent value='tokens'>
+          <AccessTable projectId={project._id} />
+        </TabsContent>
         <TabsContent value='groups' className='bg-[#151418] text-white'>
           <Groups />
         </TabsContent>

@@ -145,7 +145,6 @@ export const columns: ColumnDef<Database>[] = [
     header: 'Action',
     cell: ({ row }) => {
       const collaborators = row.original;
-      console.log(collaborators.name);
 
       return (
         <AlertDialog>

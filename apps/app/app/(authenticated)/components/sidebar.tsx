@@ -63,12 +63,12 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
   const navigation = [
     { name: 'Overview', to: '/overview', icon: <DashboardIcon /> },
     { name: 'Projects', to: '/projects', icon: <FileTextIcon /> },
-    { name: 'User Management', to: '/user-mgt', icon: <PersonIcon /> },
-    { name: 'Audit Logs', to: '/audit-logs', icon: <ListBulletIcon /> },
-    { name: 'Analytics', to: '/analytics', icon: <BarChartIcon /> },
+    // { name: 'User Management', to: '/user-mgt', icon: <PersonIcon /> },
+    // { name: 'Audit Logs', to: '/audit-logs', icon: <ListBulletIcon /> },
+    // { name: 'Analytics', to: '/analytics', icon: <BarChartIcon /> },
     { name: 'Access Token', to: '/access-token', icon: <Crosshair2Icon /> },
-    { name: 'Rewards', to: '/rewards', icon: <BookmarkFilledIcon /> },
-    { name: 'Data Backup', to: '/data-backup', icon: <CloudUpload size={16} /> },
+    // { name: 'Rewards', to: '/rewards', icon: <BookmarkFilledIcon /> },
+    // { name: 'Data Backup', to: '/data-backup', icon: <CloudUpload size={16} /> },
     { name: 'Settings', to: '/settings', icon: <GearIcon /> },
   ];
 
@@ -84,8 +84,9 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
               <Link
                 key={item.name}
                 href={item.to}
-                className={`flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 ${pathname === item.to ? 'bg-gradient' : 'hover:bg-gradient'
-                  }`}
+                className={`flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 ${
+                  pathname === item.to ? 'bg-gradient' : 'hover:bg-gradient'
+                }`}
               >
                 {item.icon}
                 {item.name}
@@ -98,7 +99,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
             <HeadphonesIcon /> Support
           </Button>
           <Button
-            className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient'
+            className='flex items-center gap-3 rounded-lg px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient w-full'
             onClick={handleSignout}
             disabled={loading}
           >

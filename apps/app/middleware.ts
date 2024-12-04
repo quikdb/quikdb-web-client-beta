@@ -3,13 +3,11 @@ import { cookies } from 'next/headers';
 
 export async function middleware(req: any) {
   const cookieStore = await cookies();
-  console.log('Cookies:', cookies);
   const token = cookieStore.get('accessToken')?.value;
 
   if (!token) {
     const url = req.nextUrl.clone();
     url.pathname = '/sign-in';
-    console.log('Access Token Not Found:', token);
     return NextResponse.redirect(url);
   }
 

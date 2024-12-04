@@ -64,12 +64,13 @@ export function ProjectTable({ projects }: ProjectTableProps) {
   return (
     <div className='w-full'>
       <div className='flex items-center pt-7 pb-5'>
-        <Input
-          placeholder='Search by Project name...'
-          value={(table.getColumn('project')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('project')?.setFilterValue(event.target.value)}
-          className='max-w-sm h-11'
-        />
+      <Input
+  placeholder='Search by Project name...'
+  value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+  onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+  className='max-w-sm h-11'
+/>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild className='h-11'>
             <Button className='ml-auto bg-transparent text-white border border-[#242527] max-md:text-xs'>
@@ -121,6 +122,7 @@ export function ProjectTable({ projects }: ProjectTableProps) {
                     .getVisibleCells()
                     .slice(1)
                     .map((cell) => (
+
                       <TableCell key={cell.id} className='py-6'>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>

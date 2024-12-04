@@ -18,12 +18,12 @@ type RootLayoutProperties = {
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
-})
+});
 
 export const roboto_mono = Roboto_Mono({
   subsets: ['latin'],
   display: 'swap',
-})
+});
 
 const satoshi = localFont({
   src: [
@@ -54,7 +54,7 @@ const satoshi = localFont({
     },
   ],
   variable: '--font-satoshi',
-})
+});
 
 const RootLayout = ({ children }: RootLayoutProperties) => (
   <html lang='en' className={cn(satoshi.className, 'touch-manipulation font-sans antialiased')} suppressHydrationWarning>
