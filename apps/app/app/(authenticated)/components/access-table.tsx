@@ -34,16 +34,17 @@ import CreateToken from './CreateTokenForm';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
+import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
 
 export interface ProjectToken {
   _id: string;
+  userId: string;
   projectId: string;
   token: string;
   createdAt: string;
   updatedAt: string;
   duration: number;
   type: string;
-  userId: string;
 }
 
 interface AccessTableProps {
@@ -120,35 +121,35 @@ export const columns: ColumnDef<ProjectToken>[] = [
   //     );
   //   },
   // },
-  {
-    id: 'actions',
-    enableHiding: false,
-    header: 'Action',
-    cell: ({ row }) => {
-      const orgUsers = row.original;
+  // {
+  //   id: 'actions',
+  //   enableHiding: false,
+  //   header: 'Action',
+  //   cell: ({ row }) => {
+  //     const orgUsers = row.original;
 
-      return (
-        <div className='flex items-center gap-2'>
-          <AlertDialog>
-            <AlertDialogTrigger asChild className='cursor-pointer'>
-              <Trash2Icon size={18} />
-            </AlertDialogTrigger>
-            <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                <AlertDialogDescription>You are about to remove this dataset from your group list</AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogAction className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2'>Yes, Delete</AlertDialogAction>
-                <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>No, Cancel</AlertDialogCancel>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          <CreateToken isEditing />
-        </div>
-      );
-    },
-  },
+  //     return (
+  //       <div className='flex items-center gap-2'>
+  //         <AlertDialog>
+  //           <AlertDialogTrigger asChild className='cursor-pointer'>
+  //             <Trash2Icon size={18} />
+  //           </AlertDialogTrigger>
+  //           <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
+  //             <AlertDialogHeader>
+  //               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+  //               <AlertDialogDescription>You are about to remove this dataset from your group list</AlertDialogDescription>
+  //             </AlertDialogHeader>
+  //             <AlertDialogFooter>
+  //               <AlertDialogAction className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2'>Yes, Delete</AlertDialogAction>
+  //               <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>No, Cancel</AlertDialogCancel>
+  //             </AlertDialogFooter>
+  //           </AlertDialogContent>
+  //         </AlertDialog>
+  //         <CreateToken isEditing />
+  //       </div>
+  //     );
+  //   },
+  // },
 ];
 
 export function AccessTable({ projectId }: AccessTableProps) {
@@ -160,6 +161,7 @@ export function AccessTable({ projectId }: AccessTableProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { token } = useSelector((state: RootState) => state.auth);
+  console.log('token access table::', token);
 
   const table = useReactTable({
     data: tokens,
@@ -181,9 +183,11 @@ export function AccessTable({ projectId }: AccessTableProps) {
   });
 
   useEffect(() => {
+    const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
+
     const fetchProjectTokens = async () => {
       try {
-        const response = await axios.get(`https://quikdb-core-beta.onrender.com/v/p/${projectId}/token`, {
+        const response = await axios.get(`https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`, {
           headers: {
             Authorization: token,
           },
@@ -207,8 +211,6 @@ export function AccessTable({ projectId }: AccessTableProps) {
     }
   }, [projectId]);
 
-  if (loading) return <div>Loading Tokens...</div>;
-  if (error) return <div>{error}</div>;
 
   return (
     <div className='w-full mt-7'>

@@ -71,14 +71,23 @@ const Project = () => {
         <p>Active: {project.isActive ? 'Yes' : 'No'}</p> | <p>Created At: {project.createdAt}</p>
       </div>
       <Tabs defaultValue="groups" className="mt-5">
-        <TabsList className="flex w-2/3 bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-">
-          <TabsTrigger value="groups">Groups</TabsTrigger>
+      <TabsList className='flex bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-4 justify-start'>
+      <TabsTrigger value="groups">Groups</TabsTrigger>
           <TabsTrigger value="tokens">Project Tokens</TabsTrigger>
           <TabsTrigger value="collaborators">Project Collaborators</TabsTrigger>
           <TabsTrigger value="query">Query</TabsTrigger>
         </TabsList>
         <TabsContent value="tokens">
           <AccessTable projectId={project._id} />
+        </TabsContent>
+        <TabsContent value='groups' className='bg-[#151418] text-white'>
+          <Groups />
+        </TabsContent>
+        <TabsContent value='collaborators'>
+          <Collaborators />
+        </TabsContent>
+        <TabsContent value='query'>
+          <Query />
         </TabsContent>
       </Tabs>
     </div>
