@@ -29,12 +29,14 @@ import {
   AlertDialogTrigger,
 } from '@repo/design-system/components/ui/alert-dialog';
 import Link from 'next/link';
-import { Trash2Icon } from 'lucide-react';
+import { Search, Trash2Icon } from 'lucide-react';
 import CreateToken from './CreateTokenForm';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
+import { Label } from '@radix-ui/react-dropdown-menu';
+import { Input } from '@repo/design-system/components/onboarding';
 
 export interface ProjectToken {
   _id: string;
@@ -171,6 +173,9 @@ export function AccessTable({ projectId }: AccessTableProps) {
 
   return (
     <div className='w-full mt-7'>
+      <div className='flex items-center relative max-md:mb-3 pb-4'>
+        <CreateToken projectId={projectId} />
+      </div>
       <div className='rounded-md border border-[#242527]'>
         <Table>
           <TableHeader>

@@ -19,7 +19,6 @@ import { DatabaseVersion } from '@/@types';
 
 export default function ListProject() {
   const { token, userEmail } = useSelector((state: RootState) => state.auth);
-  const firstName = userEmail ? userEmail.split('@')[0] : 'User';
 
   const [isCreating, setIsCreating] = useState(false);
   const [projectName, setProjectName] = useState('');
@@ -100,11 +99,12 @@ export default function ListProject() {
         }
       );
 
+      console.log('create project token response::', response);
 
       if (response.status === 201) {
         setSuccess(true);
         setShowPopup(false);
-        setProjectId(null); 
+        setProjectId(null);
       } else {
         setError('Failed to create project token. Please try again.' + response.data.error);
       }
@@ -117,6 +117,7 @@ export default function ListProject() {
   };
   const handleVersionSelection = (version: DatabaseVersion) => {
     setSelectedVersion(version);
+    console.log('Selected version:', version);
     createProjectToken(projectId, version);
   };
 
@@ -159,9 +160,10 @@ export default function ListProject() {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Select Database Version</DialogTitle>
-              <DialogDescription>Choose a database version for your project:</DialogDescription>
+              <DialogTitle>Create Token</DialogTitle>
+              <DialogDescription>Select a database version for your project:</DialogDescription>
             </DialogHeader>
+            <hr className='border-gray-400' />
             <div className='w-full flex flex-col gap-2'>
               <Button onClick={() => handleVersionSelection(DatabaseVersion.FREE)} className='hover:bg-gradient'>
                 Free <CheckCircle />
@@ -173,9 +175,6 @@ export default function ListProject() {
                 Premium <DollarSign />
               </Button>
             </div>
-            {/* <DialogFooter>
-              <Button onClick={() => setShowPopup(false)}>Close</Button>
-            </DialogFooter> */}
           </DialogContent>
         </Dialog>
       )}

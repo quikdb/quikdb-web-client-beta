@@ -8,59 +8,99 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@repo/design-system/components/ui/dialog';
-import { Input } from '@repo/design-system/components/ui/input';
+import { useState } from 'react';
 import { Label } from '@repo/design-system/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@repo/design-system/components/ui/select';
 import { Pencil2Icon } from '@radix-ui/react-icons';
+import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
+import { DatabaseVersion } from '@/@types';
+import axios from 'axios';
+import { CheckCircle, DollarSign, Star } from 'lucide-react';
 
 interface TokenProps {
-  isEditing?: boolean;
+  projectId: string | null;
 }
 
-export default function CreateToken({ isEditing }: TokenProps) {
+export default function CreateToken({ projectId }: TokenProps) {
+  const { token, userEmail } = useSelector((state: RootState) => state.auth);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  const createProjectToken = async (version: DatabaseVersion) => {
+    if (!projectId) {
+      setError('Project ID is required.');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    try {
+      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
+
+      const tokenData = JSON.stringify({
+        email: userEmail,
+        databaseVersion: version,
+        duration: 1000,
+      });
+
+      const encryptedTokenData = CryptoUtils.aesEncrypt(tokenData, 'mysecurekey1234567890', 'uniqueiv12345678');
+
+      const response = await axios.post(
+        `https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`,
+        { data: encryptedTokenData },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      console.log('create project token response::', response);
+
+      if (response.status === 201) {
+        setSuccess(true);
+      } else {
+        setError('Failed to create project token. Please try again.' + response.data.error);
+      }
+    } catch (error) {
+      console.error('Error creating project token:', error);
+      setError('Failed to create project token. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVersionSelection = (version: DatabaseVersion) => {
+    createProjectToken(version);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        {!isEditing ? (
-          <Button size='lg' className='bg-gradient max-md:scale-90 w-fit px-4 text-[#0F1407]'>
-            {!isEditing ? 'Create Token' : 'Edit Permissions'}
-          </Button>
-        ) : (
-          <Pencil2Icon className='w-4 h-5 cursor-pointer' />
-        )}
+        <Button size='lg' className='bg-gradient w-fit px-4 text-[#0F1407] max-md:scale-90 max-md:text-right'>
+          Create Project Token
+        </Button>
       </DialogTrigger>
-      <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className='font-medium'>Create Token</DialogTitle>
-          <DialogDescription>
-            {!isEditing ? 'Set Up a Custom Access Token for Your Project Needs' : 'Edit Token Settings to Refine Access Privileges'}
-          </DialogDescription>
+          <DialogTitle>Create Token</DialogTitle>
+          <DialogDescription>Select a database version for your project:</DialogDescription>
         </DialogHeader>
         <hr className='border-gray-400' />
-        <div className='grid gap-4 py-4'>
-          <div className='grid gap-2'>
-            <Label htmlFor='name'>Token Name</Label>
-            <Input id='name' placeholder='Lisaprop' className='col-span-3' />
-          </div>
-          <div className='grid gap-2'>
-            <Label htmlFor='username'>Set token permissions</Label>
-            <Select>
-              <SelectTrigger className='p-6 py-4 h-14 border-none bg-[#141414] rounded-2xl text-[#A5A5A5] text-[16px]'>
-                <SelectValue placeholder='Set permissions' />
-              </SelectTrigger>
-              <SelectContent className='bg-[#141414] border-[#242527] text-white'>
-                <SelectGroup>
-                  <SelectItem value='full_access'>Full Access</SelectItem>
-                  <SelectItem value='read_only'>Read-only</SelectItem>
-                  <SelectItem value='backup_only'>Backup Only</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+        <div className='w-full flex flex-col gap-2'>
+          <Button onClick={() => handleVersionSelection(DatabaseVersion.FREE)} className='hover:bg-gradient'>
+            Free <CheckCircle />
+          </Button>
+          <Button onClick={() => handleVersionSelection(DatabaseVersion.PROFESSIONAL)} className='hover:bg-gradient'>
+            Professional <Star />
+          </Button>
+          <Button onClick={() => handleVersionSelection(DatabaseVersion.PREMIUM)} className='hover:bg-gradient'>
+            Premium <DollarSign />
+          </Button>
         </div>
-        <DialogFooter className='sm:justify-start'>
-          <Button className='bg-gradient w-fit px-4 text-[#0F1407]'>{!isEditing ? 'Generate Token' : 'Edit'}</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

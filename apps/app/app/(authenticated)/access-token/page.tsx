@@ -9,9 +9,9 @@ const AccessToken = () => {
                     <p className="font-medium text-3xl max-md:text-2xl">Application Tokens</p>
                     <p className="font-light text-base max-md:text-sm text-gray-400">Unlock API Access with Personal Tokens</p>
                 </div>
-                <CreateToken />
+                <CreateToken projectId={null} />
             </div>
-            <AccessTable />
+            <AccessTable projectId={""} />
         </div>
     )
 }
