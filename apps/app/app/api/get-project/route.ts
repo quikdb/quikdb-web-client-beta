@@ -25,7 +25,6 @@ export async function GET(req: Request) {
     });
 
     const result = await response.json();
-    console.log('project response::', result);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });

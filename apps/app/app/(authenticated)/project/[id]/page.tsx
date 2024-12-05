@@ -36,7 +36,7 @@ const Project = () => {
       <div className='flex gap-4 max-md:text-[13px]'>
         <p>Active: {project.isActive ? 'Yes' : 'No'}</p> | <p>Created At: {project.createdAt}</p>
       </div>
-      <Tabs defaultValue='groups' className='mt-5'>
+      <Tabs defaultValue='tokens' className='mt-5'>
         <TabsList className='flex bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-4 justify-start'>
           <TabsTrigger value='tokens'>Project Tokens</TabsTrigger>
           <TabsTrigger value='groups'>Groups</TabsTrigger>
