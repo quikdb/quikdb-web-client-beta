@@ -11,6 +11,7 @@ import { RootState } from '@/app/store';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 import { AccessTable } from '../../components/access-table';
+import { useProject } from '@/hooks/fetchProject';
 
 interface Project {
   _id: string;
@@ -22,45 +23,19 @@ interface Project {
 }
 
 const Project = () => {
-  const [project, setProject] = useState<Project | null>(null);
   const params = useParams();
-  const projectId = params.id;
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const projectId = params.id as string;
 
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { project, isLoading, isError } = useProject(projectId);
 
-  useEffect(() => {
-    if (projectId) {
-      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
+  if (isLoading) return <div>Loading...</div>;
 
-      const fetchProjectDetails = async () => {
-        try {
-          const response = await axios.get(`https://quikdb-core-beta.onrender.com/v/p/${encryptedData}`, {
-            headers: {
-              Authorization: token,
-            },
-          });
+  // Error handling: show error message if there's an issue fetching data
+  if (isError) return <div>Error fetching project details</div>;
 
-          if (response.status === 200) {
-            setProject(response.data.data.project);
-          } else {
-            setError('Failed to fetch project details.');
-          }
-        } catch (error) {
-          setError('Error fetching project details.');
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchProjectDetails();
-    }
-  }, [projectId, token]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  // No project found case: show a message if project is not found
   if (!project) return <div>No project found.</div>;
+
 
   return (
     <div className='mt-10 max-md:mt-5'>
