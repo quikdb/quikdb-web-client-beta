@@ -118,8 +118,6 @@ export function AccessTable({ projectId }: AccessTableProps) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { tokens, isLoading, isError } = useProjectTokens(projectId);
 
   const table = useReactTable({

@@ -26,7 +26,6 @@ interface TokenProps {
 }
 
 export default function CreateToken({ projectId }: TokenProps) {
-  const { token, userEmail } = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -40,33 +39,19 @@ export default function CreateToken({ projectId }: TokenProps) {
     setLoading(true);
     setError('');
     try {
-      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
-
-      const tokenData = JSON.stringify({
-        email: userEmail,
-        databaseVersion: version,
-        duration: 1000,
+      const response = await fetch('/api/create-project-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ projectId, databaseVersion: version }),
       });
 
-      const encryptedTokenData = CryptoUtils.aesEncrypt(tokenData, 'mysecurekey1234567890', 'uniqueiv12345678');
+      const result = await response.json();
 
-      const response = await axios.post(
-        `https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`,
-        { data: encryptedTokenData },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-
-      if (response.status === 201) {
+      if (response.ok) {
         setSuccess(true);
-        // setTimeout(() => {
-        //   window.location.reload(); 
-        // }, 500);
+        setError('');
       } else {
-        setError('Failed to create project token. Please try again.' + response.data.error);
+        setError(result.message || 'Failed to create project token. Please try again later.');
       }
     } catch (error) {
       console.error('Error creating project token:', error);

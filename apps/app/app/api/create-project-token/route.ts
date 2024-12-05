@@ -6,32 +6,45 @@ export async function POST(req: Request) {
   const token = cookieStore.get('accessToken')?.value;
   const email = cookieStore.get('userEmail')?.value;
 
-  const url = new URL(req.url);
-  const projectId = url.searchParams.get('projectId');
-
-  if (!projectId) {
-    return new Response(JSON.stringify({ error: 'Missing projectId parameter' }), { status: 400 });
-  }
-
-  const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
-
-  const tokenData = JSON.stringify({
-    email: email,
-    databaseVersion: "version",
-    duration: 1000,
-  });
-
   try {
+    const body = await req.json();
+    const { projectId, databaseVersion } = body;
+
+    const encryptedProjectId = CryptoUtils.aesEncrypt(
+      JSON.stringify({ id: projectId }),
+      'mysecurekey1234567890',
+      'uniqueiv12345678'
+    );
+
+    const tokenData = JSON.stringify({
+      email,
+      databaseVersion,
+      duration: 1000, 
+    });
+
+    const encryptedTokenData = CryptoUtils.aesEncrypt(
+      tokenData,
+      'mysecurekey1234567890',
+      'uniqueiv12345678'
+    );
+
     const headers = new Headers();
     if (token) {
       headers.append('Authorization', token);
     }
+    headers.append('Content-Type', 'application/json');
 
-    const response = await fetch(`https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`, {
-      headers,
-    });
+    const response = await fetch(
+      `https://quikdb-core-beta.onrender.com/v/p/${encryptedProjectId}/token`,
+      {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ data: encryptedTokenData }),
+      }
+    );
 
     const result = await response.json();
+    console.log('create project token result::', result);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });
