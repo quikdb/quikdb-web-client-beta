@@ -4,11 +4,8 @@ import Link from 'next/link';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding';
 import { useRouter } from 'next/navigation';
-// import axios from 'axios';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
 import { useDispatch } from 'react-redux';
 import { setAuthState } from '@/app/store';
-// import { setCookie } from 'nookies';
 
 const SignInPage = () => {
   const [email, setEmail] = useState('');
