@@ -1,14 +1,8 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'; // Use for client-side routing
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/design-system/components/ui/tabs';
 import Groups from '../../components/Groups';
 import Collaborators from '../../components/Collaborators';
 import Query from '../../components/Query';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
-import axios from 'axios';
 import { useParams } from 'next/navigation';
 import { AccessTable } from '../../components/access-table';
 import { useProject } from '@/hooks/fetchProject';
@@ -30,12 +24,9 @@ const Project = () => {
 
   if (isLoading) return <div>Loading...</div>;
 
-  // Error handling: show error message if there's an issue fetching data
   if (isError) return <div>Error fetching project details</div>;
 
-  // No project found case: show a message if project is not found
   if (!project) return <div>No project found.</div>;
-
 
   return (
     <div className='mt-10 max-md:mt-5'>
@@ -47,8 +38,8 @@ const Project = () => {
       </div>
       <Tabs defaultValue='groups' className='mt-5'>
         <TabsList className='flex bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-4 justify-start'>
-          <TabsTrigger value='groups'>Groups</TabsTrigger>
           <TabsTrigger value='tokens'>Project Tokens</TabsTrigger>
+          <TabsTrigger value='groups'>Groups</TabsTrigger>
           <TabsTrigger value='collaborators'>Project Collaborators</TabsTrigger>
           <TabsTrigger value='query'>Query</TabsTrigger>
         </TabsList>

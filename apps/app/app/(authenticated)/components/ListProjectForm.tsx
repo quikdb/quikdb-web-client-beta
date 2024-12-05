@@ -40,33 +40,28 @@ export default function ListProject() {
     setSuccess(false);
 
     try {
-      const data = JSON.stringify({ id: projectName });
-      const encryptedData = CryptoUtils.aesEncrypt(data, 'mysecurekey1234567890', 'uniqueiv12345678');
+      const response = await fetch('/api/project', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ projectName }),
+      });
 
-      const response = await axios.post(
-        'https://quikdb-core-beta.onrender.com/v/p',
-        { data: encryptedData },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      const result = await response.json();
 
-      if (response.status === 201) {
+      if (response.ok && result.status === 'success') {
         setSuccess(true);
         setProjectName('');
         setIsCreating(false);
 
-        const createdProjectId = response.data.data.projectData.data._id;
+        const createdProjectId = result.data.projectData.data._id;
         setProjectId(createdProjectId);
 
-        setShowPopup(false); // Close the first popup
+        setShowPopup(false);
         setTimeout(() => {
-          setShowPopup(true); // Open the second popup after a slight delay
-        }, 300); // Delay to ensure the first popup fully closes before opening the second
+          setShowPopup(true);
+        }, 300);
       } else {
-        setError('Failed to create project. Please try again.' + response.data.error);
+        setError('Failed to create project. Please try again.' + result.error);
       }
     } catch (error) {
       console.error('Error creating project:', error);
@@ -82,32 +77,20 @@ export default function ListProject() {
     setLoading(true);
     setError('');
     try {
-      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
-
-      const tokenData = JSON.stringify({
-        email: userEmail,
-        databaseVersion: version,
-        duration: 1000,
+      const response = await fetch('/api/create-project-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ projectId, databaseVersion: version }),
       });
 
-      const encryptedTokenData = CryptoUtils.aesEncrypt(tokenData, 'mysecurekey1234567890', 'uniqueiv12345678');
+      const result = await response.json();
 
-      const response = await axios.post(
-        `https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`,
-        { data: encryptedTokenData },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-
-      if (response.status === 201) {
+      if (response.ok) {
         setSuccess(true);
-        setShowPopup(false); 
-        setProjectId(null)
+        setShowPopup(false);
+        setProjectId(null);
       } else {
-        setError('Failed to create project token. Please try again.' + response.data.error);
+        setError('Failed to create project token. Please try again.' + result.error);
       }
     } catch (error) {
       console.error('Error creating project token:', error);
