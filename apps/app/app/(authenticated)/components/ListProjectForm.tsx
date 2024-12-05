@@ -62,7 +62,10 @@ export default function ListProject() {
         console.log('Created project ID:', createdProjectId);
         setProjectId(createdProjectId);
 
-        setShowPopup(true);
+        setShowPopup(false); 
+        setTimeout(() => {
+          setShowPopup(true); 
+        }, 300);
       } else {
         setError('Failed to create project. Please try again.' + response.data.error);
       }
@@ -117,7 +120,7 @@ export default function ListProject() {
   const handleVersionSelection = (version: DatabaseVersion, projectId?: string) => {
     if (!projectId) {
       console.error('Project ID is missing, cannot create token.');
-      return; // Early return if there's no projectId
+      return; 
     }
     setSelectedVersion(version);
     createProjectToken(projectId, version);
