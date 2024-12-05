@@ -60,9 +60,11 @@ export default function CreateToken({ projectId }: TokenProps) {
         }
       );
 
-
       if (response.status === 201) {
         setSuccess(true);
+        // setTimeout(() => {
+        //   window.location.reload(); 
+        // }, 500);
       } else {
         setError('Failed to create project token. Please try again.' + response.data.error);
       }
@@ -75,11 +77,15 @@ export default function CreateToken({ projectId }: TokenProps) {
   };
 
   const handleVersionSelection = (version: DatabaseVersion) => {
+    if (!projectId) {
+      console.error('Project ID is missing, cannot create token.');
+      return;
+    }
     createProjectToken(version);
   };
 
   return (
-    <Dialog>
+    <Dialog open={success} onOpenChange={setSuccess}>
       <DialogTrigger asChild>
         <Button size='lg' className='bg-gradient w-fit px-4 text-[#0F1407] max-md:scale-90 max-md:text-right'>
           Create Project Token

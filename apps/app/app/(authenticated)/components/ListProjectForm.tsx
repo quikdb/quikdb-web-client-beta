@@ -59,7 +59,6 @@ export default function ListProject() {
         setIsCreating(false);
 
         const createdProjectId = response.data.data.projectData.data._id;
-        console.log('Created project ID:', createdProjectId);
         setProjectId(createdProjectId);
 
         setShowPopup(false); // Close the first popup
@@ -102,7 +101,6 @@ export default function ListProject() {
           },
         }
       );
-      console.log('token response', response);
 
       if (response.status === 201) {
         setSuccess(true);
