@@ -99,7 +99,6 @@ export default function ListProject() {
         }
       );
 
-      console.log('create project token response::', response);
 
       if (response.status === 201) {
         setSuccess(true);
@@ -117,7 +116,6 @@ export default function ListProject() {
   };
   const handleVersionSelection = (version: DatabaseVersion) => {
     setSelectedVersion(version);
-    console.log('Selected version:', version);
     createProjectToken(projectId, version);
   };
 

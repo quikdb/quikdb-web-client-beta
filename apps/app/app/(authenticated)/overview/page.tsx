@@ -1,50 +1,12 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { Button } from '@repo/design-system/components/ui/button';
 import { Card } from '@repo/design-system/components/ui/card';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@repo/design-system/components/ui/select';
-import { Calendar, Clock4, TrendingUp } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import Link from 'next/link';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
 import ListProject from '../components/ListProjectForm';
+import { useProjects } from '@/hooks/fetchProjects';
 
 const Overview = () => {
-  const [totalProjects, setTotalProjects] = useState(0); // Store the total number of projects
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const { token } = useSelector((state: RootState) => state.auth);
-
-  // Fetch the projects when the component mounts
-  useEffect(() => {
-    const fetchProjects = async () => {
-      setLoading(true);
-      setError('');
-      try {
-        const response = await axios.get('https://quikdb-core-beta.onrender.com/v/p', {
-          headers: {
-            Authorization: token,
-          },
-        });
-
-        if (response.data?.data?.total) {
-          setTotalProjects(response.data.data.total); // Set total number of projects from API response
-        } else {
-          setError('No projects found.');
-        }
-      } catch (error) {
-        console.error('Error fetching projects:', error);
-        setError('Failed to fetch projects. Please try again.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (token) {
-      fetchProjects();
-    }
-  }, [token]); // Dependency array includes token
+  const { total } = useProjects();
 
   return (
     <div className='mt-10'>
@@ -62,7 +24,7 @@ const Overview = () => {
             <Link href='/projects'>
               <p className='text-lg max-md:text-base'>Total projects</p>
               <div className='mt-7 max-md:mt-4'>
-                <p className='text-3xl max-md:text-2xl font-medium'>{totalProjects} projects</p> {/* Display total number of projects */}
+                <p className='text-3xl max-md:text-2xl font-medium'>{total} projects</p> {/* Display total number of projects */}
                 <div className='flex gap-3 text-xs mt-2'>
                   <p className='flex items-center gap-1 text-green-400'>
                     10% <TrendingUp size={16} />

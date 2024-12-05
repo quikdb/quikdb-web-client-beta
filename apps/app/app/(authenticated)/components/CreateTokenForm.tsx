@@ -60,7 +60,6 @@ export default function CreateToken({ projectId }: TokenProps) {
         }
       );
 
-      console.log('create project token response::', response);
 
       if (response.status === 201) {
         setSuccess(true);

@@ -121,7 +121,6 @@ export function AccessTable({ projectId }: AccessTableProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { token } = useSelector((state: RootState) => state.auth);
-  console.log('data access table::', tokens);
 
   const table = useReactTable({
     data: tokens,
@@ -152,7 +151,6 @@ export function AccessTable({ projectId }: AccessTableProps) {
             Authorization: token,
           },
         });
-        console.log('project tokens response::', response);
 
         if (response.status === 200) {
           setTokens(response.data.data.tokens); // Set tokens to state
