@@ -3,9 +3,7 @@
 import React, { useState } from 'react';
 import { Input, FormHeader } from '@repo/design-system/components/onboarding';
 import { Button } from '@repo/design-system/components/ui/button';
-import axios from 'axios';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const VerifyOTP: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -13,6 +11,7 @@ const VerifyOTP: React.FC = () => {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
