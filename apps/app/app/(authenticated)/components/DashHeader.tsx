@@ -1,11 +1,14 @@
 'use client';
-import { ChevronDown, GlobeIcon } from 'lucide-react';
+import { ChevronDown, GlobeIcon, LogOutIcon } from 'lucide-react';
 import { Button } from '@repo/design-system/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@repo/design-system/components/ui/dropdown-menu';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import NotifModal from './NotifModal';
+import MobileSidebar from './mobile-sidebar';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // type DashHeaderProps = {
 //   userEmail: string;  // Define the type for the email prop
@@ -13,11 +16,47 @@ import NotifModal from './NotifModal';
 
 const DashHeader = () => {
   const { userEmail } = useSelector((state: RootState) => state.auth);
-
   const firstName = userEmail ? userEmail.split('@')[0] : 'User';
+
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  const handleSignout = async () => {
+    setLoading(true);
+    setError('');
+    setSuccess(false);
+
+    try {
+      const response = await fetch('/api/sign-out', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.status === 'success') {
+        setSuccess(true);
+        setError('');
+        router.push('/sign-in');
+      } else {
+        setError(result.error || 'Failed to sign out.');
+      }
+    } catch (err: any) {
+      console.error('Error during sign-out:', err);
+      setError('An error occurred during sign-out. Please try again.');
+    } finally {
+      setLoading(false);
+      router.push('/sign-in');
+    }
+  };
+
 
   return (
     <div className='flex items-center justify-between p-6 max-md:p-4 border-b border-b-[#1B1C1F]'>
+      <MobileSidebar />
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='outline' className='bg-transparent text-gray-400 border border-gray-600 max-md:text-xs max-md:h-8'>
@@ -34,6 +73,7 @@ const DashHeader = () => {
           </Link>
         </DropdownMenuContent>
       </DropdownMenu>
+
       <div className='flex items-center gap-3 text-lg max-md:ml-5'>
         <div className='flex gap-2'>
           <img src='/images/gem.png' alt='gem' className='w-5 object-contain max-md:w-3' />
@@ -42,12 +82,29 @@ const DashHeader = () => {
         <hr className='border-[#1B1C1F] rotate-90 w-5 max-md:hidden' />
         <div className='flex gap-3 items-center'>
           <NotifModal />
-          <div className='flex gap-3 max-md:gap-0'>
-            <img src='/images/user.png' alt='user' className='object-contain' />
-            <p className='flex items-center gap-2 text-gray-400 max-md:text-xs'>
-              {firstName} <ChevronDown size={16} />
-            </p>
-          </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className='flex gap-3 max-md:gap-0'>
+                <img src='/images/user.png' alt='user' className='object-contain' />
+                <p className='flex items-center gap-2 text-gray-400 max-md:text-xs'>
+                  {firstName} <ChevronDown size={16} />
+                </p>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className='flex flex-col gap-1 max-md:text-sm lg:font-medium mt-2 ml-32 bg-[#111015] text-white rounded-md border border-none'>
+              <div className='px-10 max-md:px-6 py-2 hover:bg-gray-500 cursor-pointer rounded-t-md'>Profile</div>
+              <div className='px-10 max-md:px-6 py-2 hover:bg-gray-500 cursor-pointer'>Organization</div>
+              <div
+                className='flex gap-2 items-center px-10 max-md:px-6 py-2 hover:bg-gray-500 cursor-pointer rounded-b-md'
+                onClick={handleSignout}
+              >
+                <LogOutIcon size={16} />
+                Logout
+              </div>
+
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>
