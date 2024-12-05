@@ -1,30 +1,30 @@
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
 import { cookies } from 'next/headers';
 
-export async function GET(req: Request) {
+export async function POST(req: Request) {
   const cookieStore = await cookies();
   const token = cookieStore.get('accessToken')?.value;
 
-  const url = new URL(req.url);
-  const projectId = url.searchParams.get('projectId');
-
-  if (!projectId) {
-    return new Response(JSON.stringify({ error: 'Missing projectId parameter' }), { status: 400 });
-  }
-
-  const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
-
   try {
+    const body = await req.json();
+    const { projectName } = body;
+
+    const encryptedProject = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectName }), 'mysecurekey1234567890', 'uniqueiv12345678');
+
     const headers = new Headers();
     if (token) {
       headers.append('Authorization', token);
     }
+    headers.append('Content-Type', 'application/json');
 
-    const response = await fetch(`https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`, {
+    const response = await fetch(`https://quikdb-core-beta.onrender.com/v/p/`, {
+      method: 'POST',
       headers,
+      body: JSON.stringify({ data: encryptedProject }),
     });
 
     const result = await response.json();
+    console.log('create project::', result);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });
