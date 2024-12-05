@@ -37,6 +37,7 @@ import { RootState } from '@/app/store';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
 import { Label } from '@radix-ui/react-dropdown-menu';
 import { Input } from '@repo/design-system/components/onboarding';
+import { useProjectTokens } from '@/hooks/fetchProjectTokens';
 
 export interface ProjectToken {
   _id: string;
@@ -117,10 +118,9 @@ export function AccessTable({ projectId }: AccessTableProps) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-  const [tokens, setTokens] = useState<ProjectToken[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { tokens, isLoading, isError } = useProjectTokens(projectId);
 
   const table = useReactTable({
     data: tokens,
@@ -140,34 +140,6 @@ export function AccessTable({ projectId }: AccessTableProps) {
       rowSelection,
     },
   });
-
-  useEffect(() => {
-    const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
-
-    const fetchProjectTokens = async () => {
-      try {
-        const response = await axios.get(`https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`, {
-          headers: {
-            Authorization: token,
-          },
-        });
-
-        if (response.status === 200) {
-          setTokens(response.data.data.tokens); // Set tokens to state
-        } else {
-          setError('Failed to fetch project tokens.');
-        }
-      } catch (error) {
-        setError('Error fetching project tokens.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (projectId) {
-      fetchProjectTokens();
-    }
-  }, [projectId]);
 
   return (
     <div className='w-full mt-7'>

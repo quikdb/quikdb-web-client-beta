@@ -99,7 +99,6 @@ export default function ListProject() {
         }
       );
 
-
       if (response.status === 201) {
         setSuccess(true);
         setShowPopup(false);
