@@ -92,7 +92,7 @@ const DashHeader = () => {
                 </p>
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className='flex flex-col gap-1 max-md:text-sm lg:font-medium mt-2 ml-32 bg-[#111015] text-white rounded-md border border-none'>
+            <DropdownMenuContent className='flex flex-col gap-1 text-sm max-md:text-xs lg:font-medium mt-2 ml-32 bg-[#111015] text-white rounded-md border border-none'>
               <div className='px-10 max-md:px-6 py-2 hover:bg-gray-500 cursor-pointer rounded-t-md'>Profile</div>
               <div className='px-10 max-md:px-6 py-2 hover:bg-gray-500 cursor-pointer'>Organization</div>
               <div

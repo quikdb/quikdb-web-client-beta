@@ -24,10 +24,10 @@ const Analytics = () => {
       </div>
       <Card className='mt-7 p-5 bg-blackoff border-none flex flex-col gap-7'>
         <div className='flex max-md:flex-wrap max-md:gap-y-5 justify-between'>
-          <Card className='bg-transparent text-white border-[#242527] p-4 lg:w-[32%]'>
-            <p className='text-lg'>Total projects</p>
-            <div className='mt-7'>
-              <p className='text-3xl font-medium'>5 projects</p>
+          <Card className='bg-transparent text-white border-[#242527] p-4 w-full lg:w-[32%]'>
+            <p className='text-lg max-md:text-base'>Total projects</p>
+            <div className='mt-7 max-md:mt-4'>
+              <p className='text-3xl max-md:text-2xl font-medium'>5 projects</p>
               <div className='flex gap-3 text-xs mt-2'>
                 <p className='flex items-center gap-1 text-green-400'>
                   10% <TrendingUp size={16} />
@@ -36,10 +36,10 @@ const Analytics = () => {
               </div>
             </div>
           </Card>
-          <Card className='bg-transparent text-white border-[#242527] p-4 lg:w-[32%]'>
-            <p className='text-lg'>Total projects</p>
+          <Card className='bg-transparent text-white border-[#242527] p-4 w-full lg:w-[32%]'>
+            <p className='text-lg max-md:text-base'>Total projects</p>
             <div className='mt-7'>
-              <p className='text-3xl font-medium'>5 projects</p>
+              <p className='text-3xl max-md:text-2xl font-medium'>5 projects</p>
               <div className='flex gap-3 text-xs mt-2'>
                 <p className='flex items-center gap-1 text-green-400'>
                   10% <TrendingUp size={16} />
@@ -48,10 +48,10 @@ const Analytics = () => {
               </div>
             </div>
           </Card>
-          <Card className='bg-transparent text-white border-[#242527] p-4 lg:w-[32%]'>
-            <p className='text-lg'>Total projects</p>
+          <Card className='bg-transparent text-white border-[#242527] p-4 w-full lg:w-[32%]'>
+            <p className='text-lg max-md:text-base'>Total projects</p>
             <div className='mt-7'>
-              <p className='text-3xl font-medium'>5 projects</p>
+              <p className='text-3xl max-md:text-2xl font-medium'>5 projects</p>
               <div className='flex gap-3 text-xs mt-2'>
                 <p className='flex items-center gap-1 text-green-400'>
                   10% <TrendingUp size={16} />

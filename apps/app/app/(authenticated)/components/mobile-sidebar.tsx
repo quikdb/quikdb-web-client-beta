@@ -74,7 +74,7 @@ const MobileSidebar = () => {
                         className="rounded-md p-2.5"
                     >
                         <span className="sr-only">Open main menu</span>
-                        <HamburgerMenuIcon className="h-6" aria-hidden="true" />
+                        <HamburgerMenuIcon className="w-4 h-4" aria-hidden="true" />
                     </button>
                 </DialogTrigger>
                 <DialogContent className="fixed h-full left-32 z-50 w-2/ bg-blackoff text-white px-6 py-6">
