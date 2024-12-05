@@ -58,7 +58,8 @@ export default function ListProject() {
         setProjectName('');
         setIsCreating(false);
 
-        const createdProjectId = response.data.data.projectData.id;
+        const createdProjectId = response.data.data.projectData.data._id;
+        console.log('Created project ID:', createdProjectId);
         setProjectId(createdProjectId);
 
         setShowPopup(true);
@@ -113,7 +114,11 @@ export default function ListProject() {
       setLoading(false);
     }
   };
-  const handleVersionSelection = (version: DatabaseVersion) => {
+  const handleVersionSelection = (version: DatabaseVersion, projectId?: string) => {
+    if (!projectId) {
+      console.error('Project ID is missing, cannot create token.');
+      return; // Early return if there's no projectId
+    }
     setSelectedVersion(version);
     createProjectToken(projectId, version);
   };
@@ -162,13 +167,13 @@ export default function ListProject() {
             </DialogHeader>
             <hr className='border-gray-400' />
             <div className='w-full flex flex-col gap-2'>
-              <Button onClick={() => handleVersionSelection(DatabaseVersion.FREE)} className='hover:bg-gradient'>
+              <Button onClick={() => handleVersionSelection(DatabaseVersion.FREE, projectId ?? '')} className='hover:bg-gradient'>
                 Free <CheckCircle />
               </Button>
-              <Button onClick={() => handleVersionSelection(DatabaseVersion.PROFESSIONAL)} className='hover:bg-gradient'>
+              <Button onClick={() => handleVersionSelection(DatabaseVersion.PROFESSIONAL, projectId ?? '')} className='hover:bg-gradient'>
                 Professional <Star />
               </Button>
-              <Button onClick={() => handleVersionSelection(DatabaseVersion.PREMIUM)} className='hover:bg-gradient'>
+              <Button onClick={() => handleVersionSelection(DatabaseVersion.PREMIUM, projectId ?? '')} className='hover:bg-gradient'>
                 Premium <DollarSign />
               </Button>
             </div>
