@@ -85,14 +85,14 @@ const DashHeader = () => {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className='flex gap-3 max-md:gap-0'>
+              <div className='flex gap-3 max-md:gap-0 cursor-pointer'>
                 <img src='/images/user.png' alt='user' className='object-contain' />
                 <p className='flex items-center gap-2 text-gray-400 max-md:text-xs'>
                   {firstName} <ChevronDown size={16} />
                 </p>
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className='flex flex-col gap-1 text-sm max-md:text-xs lg:font-medium mt-2 ml-32 bg-[#111015] text-white rounded-md border border-none'>
+            <DropdownMenuContent className='flex flex-col gap-1 text-sm max-md:text-xs lg:font-medium mt-2 ml-32 bg-[#111015] text-white rounded-md border border-none cursor-pointer'>
               <div className='px-10 max-md:px-6 py-2 hover:bg-gray-500 cursor-pointer rounded-t-md'>Profile</div>
               <div className='px-10 max-md:px-6 py-2 hover:bg-gray-500 cursor-pointer'>Organization</div>
               <div

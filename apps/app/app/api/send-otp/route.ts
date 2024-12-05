@@ -30,7 +30,6 @@ export async function POST(req: Request) {
     });
 
     const result = await response.json();
-    console.log('send-otp response::', result);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });
