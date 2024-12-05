@@ -18,7 +18,6 @@ import axios from 'axios';
 import { DatabaseVersion } from '@/@types';
 
 export default function ListProject() {
-  const { token, userEmail } = useSelector((state: RootState) => state.auth);
 
   const [isCreating, setIsCreating] = useState(false);
   const [projectName, setProjectName] = useState('');
@@ -40,7 +39,7 @@ export default function ListProject() {
     setSuccess(false);
 
     try {
-      const response = await fetch('/api/project', {
+      const response = await fetch('/api/create-project', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ projectName }),
