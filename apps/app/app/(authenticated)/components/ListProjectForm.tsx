@@ -62,10 +62,10 @@ export default function ListProject() {
         console.log('Created project ID:', createdProjectId);
         setProjectId(createdProjectId);
 
-        setShowPopup(false); 
+        setShowPopup(false); // Close the first popup
         setTimeout(() => {
-          setShowPopup(true); 
-        }, 300);
+          setShowPopup(true); // Open the second popup after a slight delay
+        }, 300); // Delay to ensure the first popup fully closes before opening the second
       } else {
         setError('Failed to create project. Please try again.' + response.data.error);
       }
@@ -102,11 +102,12 @@ export default function ListProject() {
           },
         }
       );
+      console.log('token response', response);
 
       if (response.status === 201) {
         setSuccess(true);
-        setShowPopup(false);
-        setProjectId(null);
+        setShowPopup(false); 
+        setProjectId(null)
       } else {
         setError('Failed to create project token. Please try again.' + response.data.error);
       }
@@ -117,47 +118,52 @@ export default function ListProject() {
       setLoading(false);
     }
   };
+
   const handleVersionSelection = (version: DatabaseVersion, projectId?: string) => {
     if (!projectId) {
       console.error('Project ID is missing, cannot create token.');
-      return; 
+      return;
     }
     setSelectedVersion(version);
     createProjectToken(projectId, version);
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button size='lg' className='bg-gradient w-fit px-4 text-[#0F1407] max-md:scale-90 max-md:text-right'>
-          List new project
-        </Button>
-      </DialogTrigger>
-      <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
-        <DialogHeader>
-          <DialogTitle className='font-medium'>List Project</DialogTitle>
-          <DialogDescription>Create a new project</DialogDescription>
-        </DialogHeader>
-        <hr className='border-gray-400' />
-        <div className='grid gap-4 py-4'>
-          <div className='grid gap-2'>
-            <Label htmlFor='name'>Project Name</Label>
-            <input
-              type='text'
-              placeholder='Enter Project Name'
-              className='px-4 py-2 border rounded-md w-full'
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
-            />
-          </div>
-        </div>
-        <DialogFooter className='sm:justify-start'>
-          <Button size='lg' className='font-medium bg-gradient px-4 w-fit text-[#0F1407]' onClick={handleCreateProject} disabled={loading}>
-            {loading ? 'Creating...' : 'Create Project'}
+    <>
+      {/* First Dialog */}
+      <Dialog open={isCreating} onOpenChange={setIsCreating}>
+        <DialogTrigger asChild>
+          <Button size='lg' className='bg-gradient w-fit px-4 text-[#0F1407] max-md:scale-90 max-md:text-right'>
+            List new project
           </Button>
-        </DialogFooter>
-      </DialogContent>
+        </DialogTrigger>
+        <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
+          <DialogHeader>
+            <DialogTitle className='font-medium'>List Project</DialogTitle>
+            <DialogDescription>Create a new project</DialogDescription>
+          </DialogHeader>
+          <hr className='border-gray-400' />
+          <div className='grid gap-4 py-4'>
+            <div className='grid gap-2'>
+              <Label htmlFor='name'>Project Name</Label>
+              <input
+                type='text'
+                placeholder='Enter Project Name'
+                className='px-4 py-2 border rounded-md w-full'
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter className='sm:justify-start'>
+            <Button size='lg' className='font-medium bg-gradient px-4 w-fit text-[#0F1407]' onClick={handleCreateProject} disabled={loading}>
+              {loading ? 'Creating...' : 'Create Project'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
+      {/* Second Dialog */}
       {showPopup && (
         <Dialog open={showPopup} onOpenChange={setShowPopup}>
           <DialogTrigger asChild>
@@ -183,6 +189,6 @@ export default function ListProject() {
           </DialogContent>
         </Dialog>
       )}
-    </Dialog>
+    </>
   );
 }
