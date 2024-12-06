@@ -6,6 +6,7 @@ import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-syst
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { setAuthState } from '@/app/store';
+import { toast } from 'sonner'; 
 
 const SignInPage = () => {
   const [email, setEmail] = useState('');
@@ -36,16 +37,18 @@ const SignInPage = () => {
 
       if (response.ok && result.status === 'success') {
         const { accessToken, user } = result.data;
-
+        toast.success('Signed in successfully');
         dispatch(setAuthState({ token: accessToken, userEmail: user.email }));
 
         router.push(result.redirect);
       } else {
         setError(result.error || 'Failed to sign in.');
+        toast.warning(result.message || 'Failed to sign in.');
       }
     } catch (error) {
       console.error('Sign-in error:', error);
       setError('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -45,6 +45,7 @@ export default function CreateToken({ projectId }: TokenProps) {
     } catch (error) {
       console.error('Error creating project token:', error);
       setError('Failed to create project token. Please try again later.');
+      toast.error('Failed to create project token. Please try again later.');
     } finally {
       setLoading(false);
     }
