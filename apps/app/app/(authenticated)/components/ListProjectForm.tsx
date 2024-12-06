@@ -8,17 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@repo/design-system/components/ui/dialog';
-import { CheckCircle, DollarSign, Star } from 'lucide-react'; // Importing icons
+import { CheckCircle, DollarSign, Star } from 'lucide-react';
 import { Label } from '@repo/design-system/components/ui/label';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
-import axios from 'axios';
 import { DatabaseVersion } from '@/@types';
 
 export default function ListProject() {
-
   const [isCreating, setIsCreating] = useState(false);
   const [projectName, setProjectName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -60,7 +55,8 @@ export default function ListProject() {
           setShowPopup(true);
         }, 300);
       } else {
-        setError('Failed to create project. Please try again.' + result.error);
+        const errorMessage = `Failed to create project. ${result.error}`;
+        setError(errorMessage);
       }
     } catch (error) {
       console.error('Error creating project:', error);
@@ -89,7 +85,7 @@ export default function ListProject() {
         setShowPopup(false);
         setProjectId(null);
       } else {
-        setError('Failed to create project token. Please try again.' + result.error);
+        setError(result.message || 'Failed to create project token. Please try again later.');
       }
     } catch (error) {
       console.error('Error creating project token:', error);
