@@ -62,7 +62,7 @@ const RootLayout = ({ children }: RootLayoutProperties) => (
       <Provider store={store}>
         <DesignSystemProvider>
           <TooltipProvider>{children}</TooltipProvider>
-          <Toaster />
+          {/* <Toaster /> */}
           <Analytics />
         </DesignSystemProvider>
       </Provider>
