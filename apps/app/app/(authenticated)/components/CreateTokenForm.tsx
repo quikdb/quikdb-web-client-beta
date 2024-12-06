@@ -1,17 +1,11 @@
 'use client';
 
 import { Button } from '@repo/design-system/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@repo/design-system/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@repo/design-system/components/ui/dialog';
 import { useState } from 'react';
 import { CheckCircle, DollarSign, Star } from 'lucide-react';
 import { DatabaseVersion } from '@/@types';
+import { toast } from 'sonner'; 
 
 interface TokenProps {
   projectId: string | null;
@@ -40,10 +34,13 @@ export default function CreateToken({ projectId }: TokenProps) {
       const result = await response.json();
 
       if (response.ok) {
-        setDialogOpen(false); // Close the dialog when the token is successfully created
+        setDialogOpen(false); 
         setError('');
+        toast.success('Project token created successfully!');
+     
       } else {
         setError(result.message || 'Failed to create project token. Please try again later.');
+        toast.warning(result.message || 'Failed to create project token. Please try again later.');
       }
     } catch (error) {
       console.error('Error creating project token:', error);
@@ -75,25 +72,13 @@ export default function CreateToken({ projectId }: TokenProps) {
         </DialogHeader>
         <hr className='border-gray-400' />
         <div className='w-full flex flex-col gap-2'>
-          <Button
-            onClick={() => handleVersionSelection(DatabaseVersion.FREE)}
-            className='hover:bg-gradient'
-            disabled={loading}
-          >
+          <Button onClick={() => handleVersionSelection(DatabaseVersion.FREE)} className='hover:bg-gradient' disabled={loading}>
             Free <CheckCircle />
           </Button>
-          <Button
-            onClick={() => handleVersionSelection(DatabaseVersion.PROFESSIONAL)}
-            className='hover:bg-gradient'
-            disabled={loading}
-          >
+          <Button onClick={() => handleVersionSelection(DatabaseVersion.PROFESSIONAL)} className='hover:bg-gradient' disabled={loading}>
             Professional <Star />
           </Button>
-          <Button
-            onClick={() => handleVersionSelection(DatabaseVersion.PREMIUM)}
-            className='hover:bg-gradient'
-            disabled={loading}
-          >
+          <Button onClick={() => handleVersionSelection(DatabaseVersion.PREMIUM)} className='hover:bg-gradient' disabled={loading}>
             Premium <DollarSign />
           </Button>
         </div>

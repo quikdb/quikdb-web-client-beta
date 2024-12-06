@@ -12,6 +12,7 @@ import { CheckCircle, DollarSign, Star } from 'lucide-react';
 import { Label } from '@repo/design-system/components/ui/label';
 import { useState } from 'react';
 import { DatabaseVersion } from '@/@types';
+import { toast } from 'sonner';
 
 export default function ListProject() {
   const [isCreating, setIsCreating] = useState(false);
@@ -46,6 +47,7 @@ export default function ListProject() {
         setSuccess(true);
         setProjectName('');
         setIsCreating(false);
+        toast.success(`Project ${projectName} created successfully!`);
 
         const createdProjectId = result.data.projectData.data._id;
         setProjectId(createdProjectId);
@@ -55,8 +57,8 @@ export default function ListProject() {
           setShowPopup(true);
         }, 300);
       } else {
-        const errorMessage = `Failed to create project. ${result.error}`;
-        setError(errorMessage);
+        toast.warning(result.message || 'Failed to create project token. Please try again later.');
+        setError(result.message || 'Failed to create project token. Please try again later.');
       }
     } catch (error) {
       console.error('Error creating project:', error);
@@ -84,8 +86,10 @@ export default function ListProject() {
         setSuccess(true);
         setShowPopup(false);
         setProjectId(null);
+        toast.success('Project token created successfully!');
       } else {
         setError(result.message || 'Failed to create project token. Please try again later.');
+        toast.warning(result.message || 'Failed to create project token. Please try again later.');
       }
     } catch (error) {
       console.error('Error creating project token:', error);

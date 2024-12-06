@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding';
 import axios from 'axios';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
+import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
 const SignUpPage = () => {
@@ -49,12 +49,17 @@ const SignUpPage = () => {
       });
 
       const result = await response.json();
+      console.log('OTP result:', result)
+      const otp = result.data.otp;
 
       if (response.ok && result.status === 'success') {
         setSuccess(true);
+        toast.success(`OTP ${otp} sent successfully`);
+
         router.push('/verify-otp');
       } else {
         setError(result.error || 'Failed to sign up. Please try again.');
+        toast.warning(result.message || 'Failed to send OTP');
       }
     } catch (err: any) {
       console.error('Error during sign-up:', err);

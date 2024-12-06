@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Input, FormHeader } from '@repo/design-system/components/onboarding';
 import { Button } from '@repo/design-system/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner'; 
 
 const VerifyOTP: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -29,6 +30,8 @@ const VerifyOTP: React.FC = () => {
       const result = await response.json();
 
       if (response.ok && result.status === 'success') {
+        setSuccess(true);
+        toast.success('OTP verified successfully');
         const response = await fetch('/api/sign-up', {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
@@ -37,12 +40,15 @@ const VerifyOTP: React.FC = () => {
         const result = await response.json();
 
         if (response.ok && result.status === 'success') {
+          toast.success('Account created successfully');
           router.push('/sign-in');
         } else {
           setError(result.error || 'Failed to sign up.');
+          toast.error(result.message || 'Failed to sign up.');
         }
       } else {
         setError(result.error || 'Failed to verify OTP.');
+        toast.error(result.message || 'Failed to verify OTP.');
       }
     } catch (err: any) {
       console.error('Error verifying OTP:', err);

@@ -1,6 +1,6 @@
 'use client';
 import { Inter, Roboto_Mono } from 'next/font/google';
-import localFont from 'next/font/local'
+import localFont from 'next/font/local';
 import '@repo/design-system/styles/globals.css';
 import { Toaster } from '@repo/design-system/components/ui/sonner';
 import { TooltipProvider } from '@repo/design-system/components/ui/tooltip';
@@ -62,7 +62,6 @@ const RootLayout = ({ children }: RootLayoutProperties) => (
       <Provider store={store}>
         <DesignSystemProvider>
           <TooltipProvider>{children}</TooltipProvider>
-          <Toaster />
           <Analytics />
         </DesignSystemProvider>
       </Provider>
