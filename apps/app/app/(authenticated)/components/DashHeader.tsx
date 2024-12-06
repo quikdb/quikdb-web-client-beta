@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import NotifModal from './NotifModal';
 import MobileSidebar from './mobile-sidebar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 // type DashHeaderProps = {
@@ -16,7 +16,13 @@ import { useRouter } from 'next/navigation';
 
 const DashHeader = () => {
   const { userEmail } = useSelector((state: RootState) => state.auth);
-  const firstName = userEmail ? userEmail.split('@')[0] : 'User';
+  const [firstName, setFirstName] = useState('');
+  useEffect(() => {
+    // Ensure the user email is available only on the client
+    if (userEmail) {
+      setFirstName(userEmail.split('@')[0]);
+    }
+  }, [userEmail]);
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
