@@ -34,7 +34,6 @@ const SignUpPage = () => {
       setError('An error occurred while initiating Google sign-up. Please try again.');
     }
   };
-  
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -43,33 +42,19 @@ const SignUpPage = () => {
     setSuccess(false);
 
     try {
-      const data = { email, password };
+      const response = await fetch('/api/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-      // Encrypt the data for security
-      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify(data), 'mysecurekey1234567890', 'uniqueiv12345678');
+      const result = await response.json();
 
-      // Post request to sign up and send OTP
-      const response = await axios.post('https://quikdb-core-beta.onrender.com/a/signupWithEP', 
-        { data: encryptedData }, 
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-
-      if (response.status === 200) {
+      if (response.ok && result.status === 'success') {
         setSuccess(true);
-        setError('');
-        // After signup success, trigger OTP send, passing email
-        const otpResponse = await axios.post('https://quikdb-core-beta.onrender.com/a/sendOtp', {
-          data: CryptoUtils.aesEncrypt(JSON.stringify({ email, OTPType: 'signup' }), 'mysecurekey1234567890', 'uniqueiv12345678')
-        });
-
-        if (otpResponse.status === 200) {
-          setSuccess(true);
-          router.push(`/verify-otp?email=${email}`);  // Redirect to Verify OTP page with email
-        } else {
-          setError('Failed to send OTP: ' + otpResponse.data.error);
-        }
+        router.push('/verify-otp');
       } else {
-        setError('Failed to create user: ' + response.data.error);
+        setError(result.error || 'Failed to sign up. Please try again.');
       }
     } catch (err: any) {
       console.error('Error during sign-up:', err);
@@ -106,7 +91,9 @@ const SignUpPage = () => {
               </div>
               {seeOtherOptions ? (
                 <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
-                  <Button className={buttonStyle} onClick={handleGoogleSignUp}>Sign Up with Google</Button>
+                  <Button className={buttonStyle} onClick={handleGoogleSignUp}>
+                    Sign Up with Google
+                  </Button>
                   <Button className={buttonStyle}>{buttonTextPrefix} with Github</Button>
                 </div>
               ) : (

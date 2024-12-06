@@ -1,16 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'; // Use for client-side routing
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/design-system/components/ui/tabs';
 import Groups from '../../components/Groups';
 import Collaborators from '../../components/Collaborators';
 import Query from '../../components/Query';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
-import axios from 'axios';
 import { useParams } from 'next/navigation';
 import { AccessTable } from '../../components/access-table';
+import { useProject } from '@/hooks/fetchProject';
 
 interface Project {
   _id: string;
@@ -22,44 +17,15 @@ interface Project {
 }
 
 const Project = () => {
-  const [project, setProject] = useState<Project | null>(null);
   const params = useParams();
-  const projectId = params.id;
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const projectId = params.id as string;
 
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { project, isLoading, isError } = useProject(projectId);
 
-  useEffect(() => {
-    if (projectId) {
-      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
+  if (isLoading) return <div>Loading...</div>;
 
-      const fetchProjectDetails = async () => {
-        try {
-          const response = await axios.get(`https://quikdb-core-beta.onrender.com/v/p/${encryptedData}`, {
-            headers: {
-              Authorization: token,
-            },
-          });
+  if (isError) return <div>Error fetching project details</div>;
 
-          if (response.status === 200) {
-            setProject(response.data.data.project);
-          } else {
-            setError('Failed to fetch project details.');
-          }
-        } catch (error) {
-          setError('Error fetching project details.');
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchProjectDetails();
-    }
-  }, [projectId, token]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
   if (!project) return <div>No project found.</div>;
 
   return (
@@ -70,10 +36,10 @@ const Project = () => {
       <div className='flex gap-4'>
         <p>Active: {project.isActive ? 'Yes' : 'No'}</p> | <p>Created At: {project.createdAt}</p>
       </div>
-      <Tabs defaultValue='groups' className='mt-5'>
+      <Tabs defaultValue='tokens' className='mt-5'>
         <TabsList className='flex bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-4 justify-start'>
-          <TabsTrigger value='groups'>Groups</TabsTrigger>
           <TabsTrigger value='tokens'>Project Tokens</TabsTrigger>
+          <TabsTrigger value='groups'>Groups</TabsTrigger>
           <TabsTrigger value='collaborators'>Project Collaborators</TabsTrigger>
           <TabsTrigger value='query'>Query</TabsTrigger>
         </TabsList>

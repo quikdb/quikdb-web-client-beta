@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import { Input, FormHeader } from '@repo/design-system/components/onboarding';
 import { Button } from '@repo/design-system/components/ui/button';
-import axios from 'axios';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
+import { useRouter } from 'next/navigation';
 
 const VerifyOTP: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -12,36 +11,38 @@ const VerifyOTP: React.FC = () => {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
     setError('');
     setSuccess(false);
-    
+
     try {
-      const data = {
-        email,
-        OTPType: 'signup',
-        otp,
-      };
-      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify(data), 'mysecurekey1234567890', 'uniqueiv12345678');
-      const response = await axios.post(
-        'https://quikdb-core-beta.onrender.com/a/verifyOtp',
-        {
-          data: encryptedData,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      const response = await fetch('/api/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ otp }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.status === 'success') {
+        const response = await fetch('/api/sign-up', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.status === 'success') {
+          router.push('/sign-in');
+        } else {
+          setError(result.error || 'Failed to sign up.');
         }
-      );
-      if (response.status === 200) {
-        setSuccess(true);
-        setError('');
       } else {
-        setError('Failed to verify OTP: ' + response.data.error);
+        setError(result.error || 'Failed to verify OTP.');
       }
     } catch (err: any) {
       console.error('Error verifying OTP:', err);
@@ -57,7 +58,7 @@ const VerifyOTP: React.FC = () => {
       <main className='flex flex-col items-center justify-center my-16 w-full'>
         <div className='flex flex-col w-full md:w-[680px] items-center'>
           <form onSubmit={handleSubmit} className='flex flex-col gap-y-4 items-center w-full'>
-            <Input type='email' placeholder='Enter Email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+            {/* <Input type='email' placeholder='Enter Email' value={email} onChange={(e) => setEmail(e.target.value)} required /> */}
             <Input type='text' placeholder='Enter Code' value={otp} onChange={(e) => setOtp(e.target.value)} required />
             <Button
               type='submit'

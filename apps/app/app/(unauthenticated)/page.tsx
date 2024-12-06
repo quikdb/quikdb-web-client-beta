@@ -1,5 +1,4 @@
-'use client'; // Client component
-
+'use client';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@repo/design-system/components/ui/button';
@@ -10,16 +9,31 @@ import { useRouter } from 'next/navigation';
 
 const SignUpPage = () => {
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  const router = useRouter(); 
+  const router = useRouter();
 
-  const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white';
+  const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white hover:text-blacko';
   const buttonTextPrefix = 'Sign Up';
+
+  const handleGoogleSignUp = async () => {
+    try {
+      const response = await axios.get('https://quikdb-core-beta.onrender.com/a/get-oauth-url');
+      if (response.status === 200) {
+        window.location.href = response.data.url; // Redirect to Google OAuth
+      } else {
+        setError('Failed to initiate Google signup. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error during Google sign-up:', err);
+      setError('An error occurred while initiating Google sign-up. Please try again.');
+    }
+  };
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -28,21 +42,19 @@ const SignUpPage = () => {
     setSuccess(false);
 
     try {
-      const data = { email, password };
+      const response = await fetch('/api/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify(data), 'mysecurekey1234567890', 'uniqueiv12345678');
+      const result = await response.json();
 
-      const response = await axios.post(
-        'https://quikdb-core-beta.onrender.com/a/signupWithEP',
-        { data: encryptedData },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-      if (response.status === 200) {
+      if (response.ok && result.status === 'success') {
         setSuccess(true);
-        setError('');
-        router.push('/sign-in');
+        router.push('/verify-otp');
       } else {
-        setError('Failed to create user: ' + response.data.error);
+        setError(result.error || 'Failed to sign up. Please try again.');
       }
     } catch (err: any) {
       console.error('Error during sign-up:', err);
@@ -61,7 +73,11 @@ const SignUpPage = () => {
             <form onSubmit={handleSignUp} className='flex flex-col gap-y-4 items-center w-full'>
               <Input type='email' placeholder='Email Address' required value={email} onChange={(e) => setEmail(e.target.value)} />
               <PasswordInput placeholder='Enter Password' required value={password} onChange={(e) => setPassword(e.target.value)} />
-              <Button type='submit' disabled={loading} className='w-full bg-[#141414] h-[50px] text-lg rounded-2xl p-6 text-[#A5A5A5]'>
+              <Button
+                type='submit'
+                className='w-full bg-[#141414] h-[50px] text-lg rounded-2xl p-6 text-[#A5A5A5] hover:text-blacko'
+                disabled={loading}
+              >
                 {loading ? 'Signing up...' : 'Continue'}
               </Button>
             </form>
@@ -75,7 +91,9 @@ const SignUpPage = () => {
               </div>
               {seeOtherOptions ? (
                 <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
-                  <Button className={buttonStyle}>{buttonTextPrefix} with Google</Button>
+                  <Button className={buttonStyle} onClick={handleGoogleSignUp}>
+                    Sign Up with Google
+                  </Button>
                   <Button className={buttonStyle}>{buttonTextPrefix} with Github</Button>
                 </div>
               ) : (
@@ -97,7 +115,7 @@ const SignUpPage = () => {
               </p>
               <p className='text-lg font-light text-[#B3B4B3]'>
                 Already have an account?{' '}
-                <Link href='/sign-in' className='text-gradient'>
+                <Link href='/sign-in' className='text-gradient font-medium hover:text-white'>
                   Log in
                 </Link>
               </p>

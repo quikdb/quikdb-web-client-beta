@@ -29,12 +29,15 @@ import {
   AlertDialogTrigger,
 } from '@repo/design-system/components/ui/alert-dialog';
 import Link from 'next/link';
-import { Trash2Icon } from 'lucide-react';
+import { Search, Trash2Icon } from 'lucide-react';
 import CreateToken from './CreateTokenForm';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
+import { Label } from '@radix-ui/react-dropdown-menu';
+import { Input } from '@repo/design-system/components/onboarding';
+import { useProjectTokens } from '@/hooks/fetchProjectTokens';
 
 export interface ProjectToken {
   _id: string;
@@ -115,11 +118,7 @@ export function AccessTable({ projectId }: AccessTableProps) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-  const [tokens, setTokens] = useState<ProjectToken[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const { token } = useSelector((state: RootState) => state.auth);
-  console.log('data access table::', tokens);
+  const { tokens, isLoading, isError } = useProjectTokens(projectId);
 
   const table = useReactTable({
     data: tokens,
@@ -140,37 +139,11 @@ export function AccessTable({ projectId }: AccessTableProps) {
     },
   });
 
-  useEffect(() => {
-    const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectId }), 'mysecurekey1234567890', 'uniqueiv12345678');
-
-    const fetchProjectTokens = async () => {
-      try {
-        const response = await axios.get(`https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`, {
-          headers: {
-            Authorization: token,
-          },
-        });
-        console.log('project tokens response::', response);
-
-        if (response.status === 200) {
-          setTokens(response.data.data.tokens); // Set tokens to state
-        } else {
-          setError('Failed to fetch project tokens.');
-        }
-      } catch (error) {
-        setError('Error fetching project tokens.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (projectId) {
-      fetchProjectTokens();
-    }
-  }, [projectId]);
-
   return (
     <div className='w-full mt-7'>
+      <div className='flex items-center relative max-md:mb-3 pb-4'>
+        <CreateToken projectId={projectId} />
+      </div>
       <div className='rounded-md border border-[#242527]'>
         <Table>
           <TableHeader>

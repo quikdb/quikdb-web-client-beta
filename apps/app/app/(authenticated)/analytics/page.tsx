@@ -6,12 +6,12 @@ import { Calendar, Clock4, TrendingUp } from 'lucide-react';
 const Analytics = () => {
   return (
     <div className='mt-10 max-md:mt-5'>
-      <div className='flex justify-between'>
+      <div className='flex max-md:flex-col max-md:gap-3 justify-between'>
         <div className='flex flex-col gap-1'>
-          <p className='font-medium text-3xl'>Analytics</p>
-          <p className='font-light text-base text-gray-400'>Real-time overview of your listed projects</p>
+          <p className='font-medium text-3xl max-md:text-2xl'>Analytics</p>
+          <p className='font-light text-base max-md:text-sm text-gray-400'>Real-time overview of your listed projects</p>
         </div>
-        <div>
+        <div className='flex max-md:gap-2'>
           <Button>
             <Clock4 />
             <p>Last week</p>
@@ -23,11 +23,11 @@ const Analytics = () => {
         </div>
       </div>
       <Card className='mt-7 p-5 bg-blackoff border-none flex flex-col gap-7'>
-        <div className='flex justify-between'>
-          <Card className='bg-transparent text-white border-[#242527] p-4 w-[32%]'>
-            <p className='text-lg'>Total projects</p>
-            <div className='mt-7'>
-              <p className='text-3xl font-medium'>5 projects</p>
+        <div className='flex max-md:flex-wrap max-md:gap-y-5 justify-between'>
+          <Card className='bg-transparent text-white border-[#242527] p-4 w-full lg:w-[32%]'>
+            <p className='text-lg max-md:text-base'>Total projects</p>
+            <div className='mt-7 max-md:mt-4'>
+              <p className='text-3xl max-md:text-2xl font-medium'>5 projects</p>
               <div className='flex gap-3 text-xs mt-2'>
                 <p className='flex items-center gap-1 text-green-400'>
                   10% <TrendingUp size={16} />
@@ -36,10 +36,10 @@ const Analytics = () => {
               </div>
             </div>
           </Card>
-          <Card className='bg-transparent text-white border-[#242527] p-4 w-[32%]'>
-            <p className='text-lg'>Total projects</p>
+          <Card className='bg-transparent text-white border-[#242527] p-4 w-full lg:w-[32%]'>
+            <p className='text-lg max-md:text-base'>Total projects</p>
             <div className='mt-7'>
-              <p className='text-3xl font-medium'>5 projects</p>
+              <p className='text-3xl max-md:text-2xl font-medium'>5 projects</p>
               <div className='flex gap-3 text-xs mt-2'>
                 <p className='flex items-center gap-1 text-green-400'>
                   10% <TrendingUp size={16} />
@@ -48,10 +48,10 @@ const Analytics = () => {
               </div>
             </div>
           </Card>
-          <Card className='bg-transparent text-white border-[#242527] p-4 w-[32%]'>
-            <p className='text-lg'>Total projects</p>
+          <Card className='bg-transparent text-white border-[#242527] p-4 w-full lg:w-[32%]'>
+            <p className='text-lg max-md:text-base'>Total projects</p>
             <div className='mt-7'>
-              <p className='text-3xl font-medium'>5 projects</p>
+              <p className='text-3xl max-md:text-2xl font-medium'>5 projects</p>
               <div className='flex gap-3 text-xs mt-2'>
                 <p className='flex items-center gap-1 text-green-400'>
                   10% <TrendingUp size={16} />
