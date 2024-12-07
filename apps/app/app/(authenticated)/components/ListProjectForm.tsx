@@ -187,6 +187,8 @@ export default function ListProject() {
             <DialogHeader>
               <DialogTitle>Setup Instructions</DialogTitle>
               <DialogDescription>
+                You have successfully created your project token on the free plan.
+                <br />
                 Run the following commands to configure your project:
                 <pre className='bg-gray-800 text-white p-4 rounded mt-4'>
                   npm i -g quikdb-cli-beta
@@ -208,12 +210,25 @@ export default function ListProject() {
             <DialogHeader>
               <DialogTitle>Benefits of Paid Plans</DialogTitle>
               <DialogDescription>
-                Unlock premium features like:
-                <ul className='list-disc ml-6 mt-2'>
-                  <li>Enhanced performance</li>
-                  <li>Priority support</li>
-                  <li>Advanced analytics</li>
-                </ul>
+                <p className='text-white'>
+                  Selected Plan:
+                  <span className='text-gradient'> {selectedVersion.toUpperCase()}</span>
+                </p>
+
+                {selectedVersion === DatabaseVersion.PROFESSIONAL && (
+                  <ul className='list-disc ml-6 mt-2'>
+                    <li>Enhanced performance</li>
+                    <li>Priority support</li>
+                    <li>Advanced analytics</li>
+                  </ul>
+                )}
+                {selectedVersion === DatabaseVersion.PREMIUM && (
+                  <ul className='list-disc ml-6 mt-2'>
+                    <li>Access to exclusive features</li>
+                    <li>Priority storage and faster queries</li>
+                    <li>Premium support</li>
+                  </ul>
+                )}
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
