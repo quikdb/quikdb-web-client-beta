@@ -9,6 +9,8 @@ import { toast } from 'sonner';
 const Checkout = () => {
   const router = useRouter();
   const params = useParams();
+
+  const projectId = params.projectId as string;
   const version = params.version as string;
 
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
@@ -38,9 +40,9 @@ const Checkout = () => {
     });
     const result = await response.json();
     console.log('onCreateOrder Result:', result);
-    
+
     if (response.ok) {
-      orderIDRef.current = result.data.id; 
+      orderIDRef.current = result.data.id;
       return result.data.id;
     } else {
       toast.success('Error creating PayPal order');
@@ -50,29 +52,49 @@ const Checkout = () => {
 
   const onApproveOrder = async (data: any) => {
     console.log('Captured OrderID::', orderIDRef.current);
-
+  
     if (!orderIDRef.current) {
-      toast.success('Order ID is missing');
+      toast.error('Order ID is missing'); 
       return;
     }
-
-    const response = await fetch('/api/capture-paypal-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ OrderID: orderIDRef.current }), 
-    });
-
-    const result = await response.json();
-    console.log('onApproveOrder Result:', result);
-
-    if (response.ok) {
-      toast.success('Payment successful!');
-      router.push('/projects');
-    } else {
-      toast.success('Error capturing payment');
-      console.error(result.error || 'Error capturing order');
+  
+    try {
+      const captureResponse = await fetch('/api/capture-paypal-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ OrderID: orderIDRef.current }),
+      });
+  
+      const captureResult = await captureResponse.json();
+  
+      if (!captureResponse.ok) {
+        toast.error('Error capturing payment');
+        console.error(captureResult.error || 'Error capturing order');
+        return; 
+      }
+  
+      const projectTokenResponse = await fetch('/api/create-project-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ projectId, databaseVersion: version }),
+      });
+  
+      const projectTokenResult = await projectTokenResponse.json();
+  
+      if (projectTokenResponse.ok) {
+        toast.success('Project token created successfully!');
+        toast.success('Payment successful!');
+        router.push('/projects');
+      } else {
+        toast.warning(projectTokenResult.message || 'Failed to create project token. Please try again later.');
+      }
+  
+    } catch (error) {
+      console.error('Error during approval process:', error);
+      toast.error('Something went wrong. Please try again later.');
     }
   };
+  
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>

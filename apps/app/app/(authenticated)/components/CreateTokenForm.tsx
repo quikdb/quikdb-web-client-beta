@@ -166,7 +166,7 @@ export default function CreateToken({ projectId }: TokenProps) {
                 size='lg'
                 className='bg-gradient px-4 text-[#0F1407]'
                 onClick={() => {
-                  router.push(`/checkout/${selectedVersion}`);
+                  router.push(`/checkout/${projectId}/${selectedVersion}`);
                 }}
               >
                 Proceed to Checkout
