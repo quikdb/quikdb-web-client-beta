@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { DatabaseVersion } from '@/@types';
@@ -8,12 +8,13 @@ import { useParams } from 'next/navigation';
 const Checkout = () => {
   const router = useRouter();
   const params = useParams();
-
   const version = params.version as string;
+
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
 
   const [plan, setPlan] = useState<DatabaseVersion | null>(null);
   const [amount, setAmount] = useState<number>(0);
+  const orderIDRef = useRef<string>(''); // Using useRef instead of useState
 
   useEffect(() => {
     if (version === DatabaseVersion.PREMIUM) {
@@ -35,8 +36,10 @@ const Checkout = () => {
       body: JSON.stringify({ amount, databaseVersion: plan }),
     });
     const result = await response.json();
-
+    console.log('onCreateOrder Result:', result);
+    
     if (response.ok) {
+      orderIDRef.current = result.data.id; // Storing orderID in useRef
       return result.data.id;
     } else {
       alert('Error creating PayPal order');
@@ -45,12 +48,21 @@ const Checkout = () => {
   };
 
   const onApproveOrder = async (data: any) => {
+    console.log('Captured OrderID::', orderIDRef.current); // Accessing orderID from useRef
+
+    if (!orderIDRef.current) {
+      alert('Order ID is missing');
+      return;
+    }
+
     const response = await fetch('/api/capture-paypal-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ OrderID: data.id }),
+      body: JSON.stringify({ OrderID: orderIDRef.current }), // Sending OrderID from useRef
     });
+
     const result = await response.json();
+    console.log('onApproveOrder Result:', result);
 
     if (response.ok) {
       alert('Payment successful!');
