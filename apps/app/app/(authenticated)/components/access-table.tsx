@@ -1,7 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-
+import { useState } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -17,26 +16,8 @@ import {
 import { Button } from '@repo/design-system/components/ui/button';
 import { Checkbox } from '@repo/design-system/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/design-system/components/ui/table';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@repo/design-system/components/ui/alert-dialog';
 import Link from 'next/link';
-import { Search, Trash2Icon } from 'lucide-react';
 import CreateToken from './CreateTokenForm';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
-import { Label } from '@radix-ui/react-dropdown-menu';
-import { Input } from '@repo/design-system/components/onboarding';
 import { useProjectTokens } from '@/hooks/fetchProjectTokens';
 
 export interface ProjectToken {

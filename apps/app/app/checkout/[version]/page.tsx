@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { DatabaseVersion } from '@/@types';
 import { useParams } from 'next/navigation';
+import { toast } from 'sonner';
 
 const Checkout = () => {
   const router = useRouter();
@@ -39,35 +40,36 @@ const Checkout = () => {
     console.log('onCreateOrder Result:', result);
     
     if (response.ok) {
-      orderIDRef.current = result.data.id; // Storing orderID in useRef
+      orderIDRef.current = result.data.id; 
       return result.data.id;
     } else {
-      alert('Error creating PayPal order');
+      toast.success('Error creating PayPal order');
       throw new Error(result.error || 'Error creating order');
     }
   };
 
   const onApproveOrder = async (data: any) => {
-    console.log('Captured OrderID::', orderIDRef.current); // Accessing orderID from useRef
+    console.log('Captured OrderID::', orderIDRef.current);
 
     if (!orderIDRef.current) {
-      alert('Order ID is missing');
+      toast.success('Order ID is missing');
       return;
     }
 
     const response = await fetch('/api/capture-paypal-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ OrderID: orderIDRef.current }), // Sending OrderID from useRef
+      body: JSON.stringify({ OrderID: orderIDRef.current }), 
     });
 
     const result = await response.json();
     console.log('onApproveOrder Result:', result);
 
     if (response.ok) {
-      alert('Payment successful!');
+      toast.success('Payment successful!');
+      router.push('/projects');
     } else {
-      alert('Error capturing payment');
+      toast.success('Error capturing payment');
       console.error(result.error || 'Error capturing order');
     }
   };

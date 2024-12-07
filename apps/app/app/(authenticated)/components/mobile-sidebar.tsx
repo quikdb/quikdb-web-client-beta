@@ -1,4 +1,3 @@
-// import { Bars3Icon } from '@heroicons/react/24/outline';
 import { Dialog, DialogContent, DialogTrigger } from '@repo/design-system/components/ui/dialog';
 import {
   BarChartIcon,

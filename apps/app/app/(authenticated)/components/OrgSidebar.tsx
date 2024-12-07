@@ -1,5 +1,5 @@
-import Link from 'next/link'; // Import Next.js Link
-import { useRouter } from 'next/router'; // Import useRouter for routing logic
+import Link from 'next/link'; 
+import { useRouter } from 'next/router'; 
 import { BookmarkFilledIcon, ColumnsIcon, DashboardIcon, FileTextIcon, GearIcon } from '@radix-ui/react-icons';
 
 const OrgSidebar = () => {
