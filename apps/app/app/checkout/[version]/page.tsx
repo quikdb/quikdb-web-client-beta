@@ -61,37 +61,39 @@ const Checkout = () => {
   };
 
   return (
-    <div className='bg-white max-w-3xl mx-auto p-8 rounded-xl shadow-lg'>
-      <div className='text-center'>
-        <h1 className='text-3xl font-bold text-gray-900'>Checkout</h1>
-        <p className='text-base text-gray-600 mt-2'>You're about to pay for the selected plan</p>
-      </div>
+    <div className='min-h-screen flex items-center justify-center bg-gray-100'>
+      <div className='bg-white max-w-3xl mx-auto p-8 rounded-xl shadow-lg'>
+        <div className='text-center'>
+          <h1 className='text-3xl font-bold text-gray-900'>Checkout</h1>
+          <p className='text-base text-gray-600 mt-2'>You're about to pay for the selected plan</p>
+        </div>
 
-      <div className='mt-6 text-center'>
-        {plan ? (
-          <>
-            <h2 className='text-2xl font-semibold text-gray-900'>
-              {plan === DatabaseVersion.PREMIUM ? 'Premium' : 'Professional'} Plan - ${amount}
-            </h2>
+        <div className='mt-6 text-center'>
+          {plan ? (
+            <>
+              <h2 className='text-2xl font-semibold text-gray-900'>
+                {plan === DatabaseVersion.PREMIUM ? 'Premium' : 'Professional'} Plan - ${amount}
+              </h2>
 
-            {isPending ? (
-              <p className='mt-4 text-gray-500'>Loading PayPal Buttons...</p>
-            ) : (
-              <PayPalButtons
-                style={{
-                  layout: 'vertical',
-                  color: 'gold',
-                  shape: 'pill',
-                  label: 'paypal',
-                }}
-                createOrder={(data, actions) => onCreateOrder(data)}
-                onApprove={(data, actions) => onApproveOrder(data)}
-              />
-            )}
-          </>
-        ) : (
-          <p className='text-lg text-red-500'>Invalid plan selected.</p>
-        )}
+              {isPending ? (
+                <p className='mt-4 text-gray-500'>Loading PayPal Buttons...</p>
+              ) : (
+                <PayPalButtons
+                  style={{
+                    layout: 'vertical',
+                    color: 'gold',
+                    shape: 'pill',
+                    label: 'paypal',
+                  }}
+                  createOrder={(data, actions) => onCreateOrder(data)}
+                  onApprove={(data, actions) => onApproveOrder(data)}
+                />
+              )}
+            </>
+          ) : (
+            <p className='text-lg text-red-500'>Invalid plan selected.</p>
+          )}
+        </div>
       </div>
     </div>
   );
