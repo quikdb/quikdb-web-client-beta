@@ -10,6 +10,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { Provider } from 'react-redux'; // Import Provider
 import { store } from './store';
 import type { ReactNode } from 'react';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
@@ -60,11 +61,18 @@ const RootLayout = ({ children }: RootLayoutProperties) => (
   <html lang='en' className={cn(satoshi.className, 'touch-manipulation font-sans antialiased')} suppressHydrationWarning>
     <body>
       <Provider store={store}>
-        <DesignSystemProvider>
-          <TooltipProvider>{children}</TooltipProvider>
-          {/* <Toaster /> */}
-          <Analytics />
-        </DesignSystemProvider>
+        <PayPalScriptProvider
+          options={{
+            clientId: 'Ac_Xli6_91PrL0CLwmnHBEJ8DAuPu9WtEt0YWI5BFOAmEpAigadFBSoGoVS9ZFo2jrqOnTdPrvrD72Y0', 
+            currency: 'USD', 
+          }}
+        >
+          <DesignSystemProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+            {/* <Toaster /> */}
+            <Analytics />
+          </DesignSystemProvider>
+        </PayPalScriptProvider>
       </Provider>
     </body>
   </html>
