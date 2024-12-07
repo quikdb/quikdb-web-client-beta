@@ -13,6 +13,7 @@ import { Label } from '@repo/design-system/components/ui/label';
 import { useState } from 'react';
 import { DatabaseVersion } from '@/@types';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export default function ListProject() {
   const [isCreating, setIsCreating] = useState(false);
@@ -21,8 +22,12 @@ export default function ListProject() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [showFreePopup, setShowFreePopup] = useState(false);
+  const [showPaidPopup, setShowPaidPopup] = useState(false);
   const [projectId, setProjectId] = useState<string | null>(null);
   const [selectedVersion, setSelectedVersion] = useState<DatabaseVersion>(DatabaseVersion.FREE);
+
+  const router = useRouter();
 
   const handleCreateProject = async () => {
     if (!projectName) {
@@ -87,6 +92,9 @@ export default function ListProject() {
         setShowPopup(false);
         setProjectId(null);
         toast.success('Project token created successfully!');
+        if (version === DatabaseVersion.FREE) {
+          setShowFreePopup(true);
+        }
       } else {
         setError(result.message || 'Failed to create project token. Please try again later.');
         toast.warning(result.message || 'Failed to create project token. Please try again later.');
@@ -99,13 +107,17 @@ export default function ListProject() {
     }
   };
 
-  const handleVersionSelection = (version: DatabaseVersion, projectId?: string) => {
+  const handleVersionSelection = async (version: DatabaseVersion, projectId?: string) => {
     if (!projectId) {
       console.error('Project ID is missing, cannot create token.');
       return;
     }
     setSelectedVersion(version);
-    createProjectToken(projectId, version);
+    if (version === DatabaseVersion.FREE) {
+      await createProjectToken(projectId ?? '', version);
+    } else {
+      setShowPaidPopup(true);
+    }
   };
 
   return (
@@ -166,6 +178,55 @@ export default function ListProject() {
                 Premium <DollarSign />
               </Button>
             </div>
+          </DialogContent>
+        </Dialog>
+      )}
+      {showFreePopup && (
+        <Dialog open={showFreePopup} onOpenChange={setShowFreePopup}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Setup Instructions</DialogTitle>
+              <DialogDescription>
+                Run the following commands to configure your project:
+                <pre className='bg-gray-800 text-white p-4 rounded mt-4'>
+                  npm i -g quikdb-cli-beta
+                  <br />
+                  quikdb config -u &lt;username&gt; -e &lt;email&gt;
+                  <br />
+                  quikdb install
+                </pre>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Paid Plan Popup */}
+      {showPaidPopup && (
+        <Dialog open={showPaidPopup} onOpenChange={setShowPaidPopup}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Benefits of Paid Plans</DialogTitle>
+              <DialogDescription>
+                Unlock premium features like:
+                <ul className='list-disc ml-6 mt-2'>
+                  <li>Enhanced performance</li>
+                  <li>Priority support</li>
+                  <li>Advanced analytics</li>
+                </ul>
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button
+                size='lg'
+                className='bg-gradient px-4 text-[#0F1407]'
+                onClick={() => {
+                  router.push(`/checkout?version=${selectedVersion}`);
+                }}
+              >
+                Proceed to Checkout
+              </Button>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       )}
