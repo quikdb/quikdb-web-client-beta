@@ -11,22 +11,22 @@ import {
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 
-export default function CreateDatabase() {
+export default function CreateSchema() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-gradient w-fit px-4 text-[#0F1407] max-md:scale-95'>Create Database</Button>
+        <Button className='bg-gradient w-fit px-4 text-[#0F1407] max-md:scale-95'>Create Schema</Button>
       </DialogTrigger>
       <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
         <DialogHeader>
-          <DialogTitle className='font-medium'>Create Database</DialogTitle>
+          <DialogTitle className='font-medium'>Create Schema</DialogTitle>
           <DialogDescription>Lorem Ipsum lorem ipsum lorem ipsum lorem ipsum</DialogDescription>
         </DialogHeader>
         <hr className='border-gray-400' />
         <div className='grid gap-4 py-4'>
           <div className='grid gap-2'>
-            <Label htmlFor='name'>Database Name</Label>
-            <Input id='name' placeholder='Enter database name here' className='col-span-3' />
+            <Label htmlFor='name'>Schema Name</Label>
+            <Input id='name' placeholder='Enter Schema name here' className='col-span-3' />
           </div>
           <div className='grid gap-2'>
             <Label htmlFor='capacity'>Capacity</Label>

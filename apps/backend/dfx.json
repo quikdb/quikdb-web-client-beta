@@ -1,11 +1,11 @@
 {
   "canisters": {
     "database": {
-      "main": "src/database/main.mo",
+      "main": "database/main.mo",
       "type": "motoko"
     },
     "test": {
-      "main": "src/database/TestQuikDB.mo",
+      "main": "database/TestQuikDB.mo",
       "type": "motoko",
       "dependencies": ["database"]
     }
