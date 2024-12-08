@@ -22,7 +22,12 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['var(--font-satoshi)', ...defaultTheme.fontFamily.sans],
+      },
       colors: {
+        blacko: '#030500',
+        blackoff: '#18171C',
         border: 'hsl(var(--border) / <alpha-value>)',
         input: 'hsl(var(--input) / <alpha-value>)',
         ring: 'hsl(var(--ring) / <alpha-value>)',
@@ -79,9 +84,16 @@ const config: Config = {
           ring: 'hsl(var(--sidebar-ring))',
         },
       },
-      fontFamily: {
-        sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans],
-        mono: ['var(--font-geist-mono)', ...defaultTheme.fontFamily.mono],
+      backgroundImage: {
+        gradient: 'linear-gradient(#40E39D 0%, #8A46FF 83%)'
+      },
+      borderColor: {
+        gradient: 'linear-gradient(#40E39D 0%, #8A46FF 83%)'
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)'
       },
       keyframes: {
         'accordion-down': {
@@ -100,7 +112,15 @@ const config: Config = {
       typography: typographyConfig,
     },
   },
-  plugins: [animate, typography],
+  plugins: [function ({ addUtilities }: { addUtilities: (utilities: Record<string, any>, options?: { variants?: string[], respectPrefix?: boolean, respectImportant?: boolean }) => void }) {
+    addUtilities({
+      '.text-gradient': {
+        background: 'linear-gradient(#40E39D 0%, #8A46FF 83%)',
+        '-webkit-background-clip': 'text',
+        '-webkit-text-fill-color': 'transparent',
+      },
+    });
+  }, animate, typography],
 };
 
 export default config;

@@ -18,7 +18,7 @@ export const DesignSystemProvider = ({
     <ThemeProvider {...properties}>
       <TooltipProvider>{children}</TooltipProvider>
     </ThemeProvider>
-    <Toaster />
+    <Toaster richColors position="top-center" />
     <VercelAnalytics />
     {gaMeasurementId && <GoogleAnalytics gaId={gaMeasurementId} />}
     {process.env.NODE_ENV === 'development' && <VercelToolbar />}

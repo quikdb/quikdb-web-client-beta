@@ -1,31 +1,25 @@
-import { SidebarProvider } from '@repo/design-system/components/ui/sidebar';
-import { showBetaFeature } from '@repo/feature-flags';
-import type { ReactElement, ReactNode } from 'react';
-import { GlobalSidebar } from './components/sidebar';
+'use client';
+import { ReactNode } from 'react';
+import GlobalSidebar from './components/sidebar';
+import DashHeader from './components/DashHeader';
+import React from 'react';
 
-type AppLayoutProperties = {
-  readonly children: ReactNode;
+type LayoutProps = {
+  children: ReactNode;
 };
 
-const AppLayout = async ({
-  children,
-}: AppLayoutProperties): Promise<ReactElement> => {
-  const betaFeature = await showBetaFeature();
-
-  // redirect to sign in if user is not available.
-
+export default function AppLayout({ children }: LayoutProps) {
   return (
-    <SidebarProvider>
-      <GlobalSidebar>
-        {betaFeature && (
-          <div className="m-4 rounded-full bg-success p-1.5 text-center text-sm text-success-foreground">
-            Beta feature now available
-          </div>
-        )}
-        {children}
-      </GlobalSidebar>
-    </SidebarProvider>
+    <div className='flex'>
+      <GlobalSidebar />
+      <div className='flex-grow pl-[18%] max-md:pl-0'>
+        <DashHeader />
+        <div className='mt-0 mb-10 px-10 py-0 max-md:px-4 bg-transparent min-h-screen'>
+          {/* Ensure token and userEmail are passed to children */}
+          {/* {React.cloneElement(children as React.ReactElement, { token, userEmail })} */}
+          {children}
+        </div>
+      </div>
+    </div>
   );
-};
-
-export default AppLayout;
+}
