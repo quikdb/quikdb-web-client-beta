@@ -6,7 +6,6 @@ import Query from '../../components/Query';
 import { useParams } from 'next/navigation';
 import { AccessTable } from '../../components/access-table';
 import { useProject } from '@/hooks/fetchProject';
-
 interface Project {
   _id: string;
   name: string;
