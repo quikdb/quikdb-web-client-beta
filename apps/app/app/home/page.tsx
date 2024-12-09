@@ -1,6 +1,12 @@
+import Hero from "./hero"
+import Stats from "./stats"
+
 const Home = () => {
   return (
-    <div>Home</div>
+    <div className="p-7 px-12 first-of-type:px-0">
+      <Hero />  
+      <Stats />
+    </div>
   )
 }
 
