@@ -11,13 +11,13 @@ import {
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 import { useState } from 'react';
-// import { database } from '../../../../backend/.dfx/local/canisters/database/index';
+// import { database } from '../../../../backend/src/declarations/database/index';
+import { toast } from 'sonner';
 
 export default function CreateSchema() {
   const [schemaName, setSchemaName] = useState('');
   const [fields, setFields] = useState([{ name: '', fieldType: 'text' }]);
   const [userDefinedIndexes, setUserDefinedIndexes] = useState<string[]>([]);
-  const [isOwner, setIsOwner] = useState(false);
 
   const handleAddField = () => {
     setFields([...fields, { name: '', fieldType: 'text' }]);
@@ -42,10 +42,7 @@ export default function CreateSchema() {
   };
 
   const handleCreateSchema = async () => {
-    if (!isOwner) {
-      alert('You are not the owner of the canister.');
-      return;
-    }
+
 
     try {
       const customFields = fields.map((field) => ({
@@ -55,16 +52,17 @@ export default function CreateSchema() {
 
       // Call backend to create schema
       // const result = await database.createSchema(schemaName, customFields, userDefinedIndexes);
+      // console.log("createSchema result", result);
       // if (result._tag === 'ok') {
-      //   alert('Schema created successfully!');
+      //   toast.success('Schema created successfully!');
       // } else {
-      //   alert('Error creating schema: ' + result.err);
+      //   toast.warning('Error creating schema: ' + result.err);
       // }
 
       // console.log('Schema:', schemaName, customFields, userDefinedIndexes);
     } catch (error) {
       console.error('Error while creating schema:', error);
-      alert('An error occurred while creating the schema.');
+      toast.warning('An error occurred while creating the schema.');
     }
   };
 
@@ -123,7 +121,7 @@ export default function CreateSchema() {
         </div>
 
         <DialogFooter className='sm:justify-start'>
-          <Button onClick={handleCreateSchema} className='bg-gradient w-fit px-4 text-[#0F1407]' disabled={!isOwner}>
+          <Button onClick={handleCreateSchema} className='bg-gradient w-fit px-4 text-[#0F1407]'>
             Create Schema
           </Button>
         </DialogFooter>

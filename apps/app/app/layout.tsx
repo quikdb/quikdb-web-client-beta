@@ -16,15 +16,15 @@ type RootLayoutProperties = {
   readonly children: ReactNode;
 };
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-});
+// const inter = Inter({
+//   subsets: ['latin'],
+//   variable: '--font-inter',
+// });
 
-export const roboto_mono = Roboto_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-});
+// export const roboto_mono = Roboto_Mono({
+//   subsets: ['latin'],
+//   display: 'swap',
+// });
 
 const satoshi = localFont({
   src: [
