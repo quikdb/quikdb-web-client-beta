@@ -1,4 +1,5 @@
 import Hero from "./hero"
+import Info from "./info"
 import Stats from "./stats"
 import Steps from "./steps"
 import Tools from "./tools"
@@ -10,6 +11,7 @@ const Home = () => {
       <Stats />
       <Steps />
       <Tools />
+      <Info />
     </div>
   )
 }
