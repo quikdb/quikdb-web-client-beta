@@ -1,4 +1,3 @@
-
 const Stats = () => {
   return (
     <div className="bg-[#060808] p-10 flex justify-around">
