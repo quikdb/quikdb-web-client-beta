@@ -49,7 +49,6 @@ const SignUpPage = () => {
       });
 
       const result = await response.json();
-      console.log('OTP result:', result)
       const otp = result.data.otp;
 
       if (response.ok && result.status === 'success') {

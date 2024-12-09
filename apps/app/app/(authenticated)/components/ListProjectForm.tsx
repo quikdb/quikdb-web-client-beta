@@ -236,7 +236,7 @@ export default function ListProject() {
                 size='lg'
                 className='bg-gradient px-4 text-[#0F1407]'
                 onClick={() => {
-                  router.push(`/checkout?version=${selectedVersion}`);
+                  router.push(`/checkout/${projectId}/${selectedVersion}`);
                 }}
               >
                 Proceed to Checkout

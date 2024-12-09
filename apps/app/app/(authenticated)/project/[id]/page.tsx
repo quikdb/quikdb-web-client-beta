@@ -1,12 +1,11 @@
 'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/design-system/components/ui/tabs';
-import Groups from '../../components/Groups';
+import Schema from '../../components/Schema';
 import Collaborators from '../../components/Collaborators';
 import Query from '../../components/Query';
 import { useParams } from 'next/navigation';
 import { AccessTable } from '../../components/access-table';
 import { useProject } from '@/hooks/fetchProject';
-
 interface Project {
   _id: string;
   name: string;
@@ -39,15 +38,15 @@ const Project = () => {
       <Tabs defaultValue='tokens' className='mt-5'>
         <TabsList className='flex bg-transparent text-gray-400 font-medium border-none border-b border-b-[#242527] gap-4 justify-start'>
           <TabsTrigger value='tokens'>Project Tokens</TabsTrigger>
-          <TabsTrigger value='groups'>Groups</TabsTrigger>
+          <TabsTrigger value='schema'>Schema</TabsTrigger>
           <TabsTrigger value='collaborators'>Project Collaborators</TabsTrigger>
           <TabsTrigger value='query'>Query</TabsTrigger>
         </TabsList>
         <TabsContent value='tokens'>
           <AccessTable projectId={project._id} />
         </TabsContent>
-        <TabsContent value='groups' className='bg-[#151418] text-white'>
-          <Groups />
+        <TabsContent value='schema' className='bg-[#151418] text-white'>
+          <Schema />
         </TabsContent>
         <TabsContent value='collaborators'>
           <Collaborators />
