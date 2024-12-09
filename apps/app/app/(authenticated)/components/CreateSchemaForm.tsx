@@ -11,7 +11,6 @@ import {
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 import { useState } from 'react';
-// import { database } from '../../../../backend/src/declarations/database/index';
 import { toast } from 'sonner';
 
 export default function CreateSchema() {
@@ -42,24 +41,32 @@ export default function CreateSchema() {
   };
 
   const handleCreateSchema = async () => {
-
+    if (!schemaName || fields.some((field) => !field.name || !field.fieldType)) {
+      toast.warning('Please provide valid schema name and fields.');
+      return;
+    }
 
     try {
       const customFields = fields.map((field) => ({
         name: field.name,
         fieldType: field.fieldType,
       }));
+      console.log({ schemaName, customFields, userDefinedIndexes });
 
-      // Call backend to create schema
-      // const result = await database.createSchema(schemaName, customFields, userDefinedIndexes);
-      // console.log("createSchema result", result);
-      // if (result._tag === 'ok') {
-      //   toast.success('Schema created successfully!');
-      // } else {
-      //   toast.warning('Error creating schema: ' + result.err);
-      // }
+      const response = await fetch('/api/create-schema', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ schemaName, customFields, userDefinedIndexes }),
+      });
+      console.log('response:::', response);
 
-      // console.log('Schema:', schemaName, customFields, userDefinedIndexes);
+      if (response.ok) {
+        const data = await response.json();
+        toast.success(data.message);
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.error);
+      }
     } catch (error) {
       console.error('Error while creating schema:', error);
       toast.warning('An error occurred while creating the schema.');

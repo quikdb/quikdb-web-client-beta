@@ -1,16 +1,16 @@
 import { cookies } from 'next/headers';
 
-function clearAllCookies() {
-  const cookies = document.cookie.split(';');
+// function clearAllCookies() {
+//   const cookies = document.cookie.split(';');
 
-  for (let cookie of cookies) {
-    let cookieName = cookie.split('=')[0].trim();
+//   for (let cookie of cookies) {
+//     let cookieName = cookie.split('=')[0].trim();
 
-    document.cookie = `${cookieName}=; Max-Age=0; path=/; SameSite=Strict;`;
-  }
-  localStorage.clear();
-  sessionStorage.clear();
-}
+//     document.cookie = `${cookieName}=; Max-Age=0; path=/; SameSite=Strict;`;
+//   }
+//   localStorage.clear();
+//   sessionStorage.clear();
+// }
 
 export async function GET(req: Request) {
   const cookieStore = await cookies();
@@ -32,8 +32,6 @@ export async function GET(req: Request) {
 
     cookieStore.delete('accessToken');
     cookieStore.delete('userEmail');
-
-    clearAllCookies();
 
     const result = await response.json();
 
