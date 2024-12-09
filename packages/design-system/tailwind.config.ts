@@ -85,10 +85,10 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        gradient: 'linear-gradient(#40E39D 0%, #8A46FF 83%)'
+        gradient: 'linear-gradient(130deg,#40E39D 26.11%,#8A46FF 106.52%)'
       },
       borderColor: {
-        gradient: 'linear-gradient(#40E39D 0%, #8A46FF 83%)'
+        gradient: 'linear-gradient(130deg,#40E39D 26.11%,#8A46FF 106.52%)'
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -115,10 +115,15 @@ const config: Config = {
   plugins: [function ({ addUtilities }: { addUtilities: (utilities: Record<string, any>, options?: { variants?: string[], respectPrefix?: boolean, respectImportant?: boolean }) => void }) {
     addUtilities({
       '.text-gradient': {
-        background: 'linear-gradient(#40E39D 0%, #8A46FF 83%)',
+        background: 'linear-gradient(130deg,#40E39D 26.11%,#8A46FF 106.52%)',
         '-webkit-background-clip': 'text',
         '-webkit-text-fill-color': 'transparent',
       },
+      '.text-gradient2': {
+        background: 'linear-gradient(#40E39D 0%, #8A46FF 83%)',
+        '-webkit-background-clip': 'text',
+        '-webkit-text-fill-color': 'transparent',
+      }
     });
   }, animate, typography],
 };

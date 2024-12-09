@@ -1,5 +1,4 @@
 'use client';
-import { Inter, Roboto_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
 import '@repo/design-system/styles/globals.css';
 import { Toaster } from '@repo/design-system/components/ui/sonner';
@@ -15,16 +14,6 @@ import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 type RootLayoutProperties = {
   readonly children: ReactNode;
 };
-
-// const inter = Inter({
-//   subsets: ['latin'],
-//   variable: '--font-inter',
-// });
-
-// export const roboto_mono = Roboto_Mono({
-//   subsets: ['latin'],
-//   display: 'swap',
-// });
 
 const satoshi = localFont({
   src: [
