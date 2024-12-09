@@ -6,26 +6,26 @@ import axios from "axios";
 import { useEffect } from "react";
 
 const GoogleCallback = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
-  useEffect(() => {
-    const handleGoogleCallback = async () => {
-      const code = router.query.code;
-      if (code) {
-        try {
-          // Send the authorization code to the backend
-          const response = await axios.post(
-            "https://quikdb-core-beta.onrender.com/a/google-oauth-callback",
-            { code }
-          );
-        } catch (error) {
-          console.error("Error exchanging code for tokens:", error);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const handleGoogleCallback = async () => {
+  //     const code = router.query.code;
+  //     if (code) {
+  //       try {
+  //         // Send the authorization code to the backend
+  //         const response = await axios.post(
+  //           "https://quikdb-core-beta.onrender.com/a/google-oauth-callback",
+  //           { code }
+  //         );
+  //       } catch (error) {
+  //         console.error("Error exchanging code for tokens:", error);
+  //       }
+  //     }
+  //   };
 
-    handleGoogleCallback();
-  }, [router.query]);
+  //   handleGoogleCallback();
+  // }, [router.query]);
 
   return (
     <main className="min-h-screen px-20 py-7">
