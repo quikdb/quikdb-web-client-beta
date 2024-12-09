@@ -1,4 +1,4 @@
-import { database } from '../../store/backend/src/declarations/database';
+import { database } from '../../backend/src/declarations/database';
 
 export async function POST(req: Request) {
   try {
