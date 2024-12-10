@@ -59,23 +59,27 @@ const Schema = () => {
   };
 
   const renderSchemaAsDocumentFormat = (schemaData: any[]) => {
-    return schemaData.map((schema: any) => {
-      convertBigIntToString(schema);
+    return schemaData
+      .map((schema: any) => {
+        convertBigIntToString(schema);
 
-      return `{
+        return `{
     "schemaName": "${schema.schemaName}",
     "createdAt": "${schema.createdAt}",
     "fields": [
-      ${schema.fields.map((field: any) => {
-        return `{
+      ${schema.fields
+        .map((field: any) => {
+          return `{
         "fieldName": "${field.name}",
         "type": "${field.fieldType}"
       }`.trim();
-      }).join(',\n')}
+        })
+        .join(',\n')}
     ],
     "indexes": ${JSON.stringify(schema.indexes)}
   }`.trim();
-    }).join(',\n\n');
+      })
+      .join(',\n\n');
   };
 
   return (
@@ -93,19 +97,18 @@ const Schema = () => {
           {schemas && schemas.length > 0 ? (
             schemas.map((schemaName: string, index: number) => (
               <AccordionItem key={index} value={`item-${index}`} className='w-full'>
-              <AccordionTrigger>
-                <div className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
-                  <p className='text-base'>{schemaName.charAt(0).toUpperCase() + schemaName.slice(1)}</p>
-                  <EllipsisVertical size={16} className='text-gray- max-md:' />
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className='w-full flex flex-col gap-3 pl-6'>
-                <button className='text-sm text-[#72F5DD] underline' onClick={() => fetchSchemaData(schemaName)}>
-                  View Full Schema
-                </button>
-              </AccordionContent>
-            </AccordionItem>
-            
+                <AccordionTrigger>
+                  <div className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
+                    <p className='text-base'>{schemaName.charAt(0).toUpperCase() + schemaName.slice(1)}</p>
+                    <EllipsisVertical size={16} className='text-gray- max-md:' />
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className='w-full flex flex-col gap-3 pl-6'>
+                  <button className='text-sm text-[#72F5DD] underline' onClick={() => fetchSchemaData(schemaName)}>
+                    View Full Schema
+                  </button>
+                </AccordionContent>
+              </AccordionItem>
             ))
           ) : (
             <p>No schemas found</p>
@@ -129,9 +132,7 @@ const Schema = () => {
               {`${selectedSchema?.charAt(0).toUpperCase() + selectedSchema?.slice(1).toLowerCase()} Schema`}
             </h2>
             {schemaData && schemaData.length > 0 ? (
-              <pre className='bg-gray-800 text-white p-4 rounded mt-4'>
-                {renderSchemaAsDocumentFormat(schemaData)}
-              </pre>
+              <pre className='bg-gray-800 text-white p-4 rounded mt-4'>{renderSchemaAsDocumentFormat(schemaData)}</pre>
             ) : (
               <p>No data available for this schema.</p>
             )}
