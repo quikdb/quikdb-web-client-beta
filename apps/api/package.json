@@ -14,7 +14,7 @@
     "@logtail/next": "^0.1.5",
     "@repo/design-system": "workspace:*",
     "@repo/next-config": "workspace:*",
-    "@sentry/nextjs": "^8.36.0",
+    "@sentry/nextjs": "^8.42.0",
     "next": "15.0.2",
     "nookies": "^2.5.2",
     "react": "18.3.1",
