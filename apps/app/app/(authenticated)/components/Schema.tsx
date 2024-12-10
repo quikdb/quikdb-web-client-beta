@@ -14,6 +14,7 @@ const Schema = () => {
   const [selectedSchema, setSelectedSchema] = useState<string | null>(null);
   const [schemaData, setSchemaData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]); // Store schema attributes here
 
   const fetchSchemaData = async (schemaName: string) => {
     setLoading(true);
@@ -36,6 +37,8 @@ const Schema = () => {
       if (Array.isArray(data) && data.length > 0) {
         setSchemaData(data);
         setSelectedSchema(schemaName);
+        const attributes = data[0]?.fields || []; // Assuming all schemas have the same structure for now
+        setSchemaAttributes(attributes);
       } else {
         console.warn('No schema data found for:', schemaName);
       }
@@ -122,7 +125,7 @@ const Schema = () => {
             <p className='font-medium text-xl'>Schema Data</p>
             <p className='font-light text-xs text-gray-400'>List of data groups with the schema</p>
           </div>
-          <AddDataGroup />
+          <AddDataGroup attributes={schemaAttributes} selectedSchema={selectedSchema} />
         </div>
         {loading ? (
           <p>Loading schema data...</p>
