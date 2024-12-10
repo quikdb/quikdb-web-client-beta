@@ -11,10 +11,8 @@ agent.fetchRootKey();
 
 export async function GET(req: Request) {
   try {
-    console.log('quikdb::', { quikDB });
     
     const response = await quikDB.listSchemas();
-    console.log('get-schemas:::', response);
 
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {

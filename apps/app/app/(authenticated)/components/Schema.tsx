@@ -8,47 +8,9 @@ import CreateDatabase from './CreateSchemaForm';
 import AddDataGroup from './AddDataGroupForm';
 import { useSchemas } from '@/hooks';
 
-const databases = [
-  {
-    id: 1,
-    name: 'UrbanLifeSuite',
-    deadline: '12/12/2021',
-    team: 'Team 1',
-    subdata: ['Houses', 'Banks', 'Transactions', 'Clients'],
-  },
-  {
-    id: 2,
-    name: 'RealEstate',
-    deadline: '12/12/2021',
-    team: 'Team 1',
-    subdata: ['Houses', 'Banks', 'Transactions', 'Clients'],
-  },
-  {
-    id: 3,
-    name: 'ECommerce',
-    deadline: '12/12/2021',
-    team: 'Team 1',
-    subdata: ['Houses', 'Banks', 'Transactions', 'Clients'],
-  },
-  {
-    id: 4,
-    name: 'Education',
-    deadline: '12/12/2021',
-    team: 'Team 1',
-    subdata: ['Houses', 'Banks', 'Transactions', 'Clients'],
-  },
-  {
-    id: 5,
-    name: 'Travel',
-    deadline: '12/12/2021',
-    team: 'Team 1',
-    subdata: ['Houses', 'Banks', 'Transactions', 'Clients'],
-  },
-];
-
 const Schema = () => {
-  const { schemas } = useSchemas();
-  console.log(schemas);
+  const { schemas } = useSchemas(); 
+
   return (
     <Card className='bg-[#151418] text-white border-[#242527] p-10 max-md:py-5 px-5 flex max-md:flex-col gap-10 mt-5'>
       <div className='flex flex-col gap-5 pr-10 border-r border-r-[#242527]'>
@@ -61,23 +23,23 @@ const Schema = () => {
         </div>
 
         <Accordion type='single' collapsible className='w-full max-md:flex flex-wrap'>
-          {databases.map((database) => (
-            <AccordionItem key={database.id} value={`item-${database.id}`} className='w-full'>
-              <AccordionTrigger>
-                <div className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
-                  <p className='text-base'>{database.name}</p>
-                  <EllipsisVertical size={16} className='text-gray- max-md:' />
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className='w-full flex flex-col gap-3 pl-10'>
-                {database.subdata.map((subdata, index) => (
-                  <p key={index} className='text-sm'>
-                    {subdata}
-                  </p>
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
+          {schemas && schemas.length > 0 ? (
+            schemas.map((schemaName: string, index: number) => (
+              <AccordionItem key={index} value={`item-${index}`} className='w-full'>
+                <AccordionTrigger>
+                  <div className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
+                    <p className='text-base'>{schemaName}</p>
+                    <EllipsisVertical size={16} className='text-gray- max-md:' />
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className='w-full flex flex-col gap-3 pl-10'>
+                  <p className='text-sm'>{schemaName}</p>
+                </AccordionContent>
+              </AccordionItem>
+            ))
+          ) : (
+            <p>No schemas found</p>
+          )}
         </Accordion>
       </div>
 
