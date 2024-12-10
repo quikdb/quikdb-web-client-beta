@@ -31,7 +31,7 @@
     "@repo/design-system": "workspace:*",
     "@repo/feature-flags": "workspace:*",
     "@repo/next-config": "workspace:*",
-    "@sentry/nextjs": "^8.36.0",
+    "@sentry/nextjs": "^8.42.0",
     "@tanstack/react-table": "^8.20.5",
     "@vercel/analytics": "^1.3.2",
     "axios": "^1.7.8",
