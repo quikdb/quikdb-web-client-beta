@@ -1,4 +1,4 @@
-import Header from './components/header'
+import Header from './header'
 import { Input } from '@repo/design-system/components/onboarding'
 import { Button } from '@repo/design-system/components/ui/button'
 
