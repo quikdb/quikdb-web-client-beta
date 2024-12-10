@@ -46,8 +46,8 @@ const Schema = () => {
       <div className='w-full'>
         <div className='flex max-md:flex-col max-md:gap-3 justify-between'>
           <div className='flex flex-col gap-1'>
-            <p className='font-medium text-xl'>Organizations</p>
-            <p className='font-light text-xs text-gray-400'>Unlock API Access with Personal Tokens</p>
+            <p className='font-medium text-xl'>Schema Data</p>
+            <p className='font-light text-xs text-gray-400'>List of data groups with the schema</p>
           </div>
           <AddDataGroup />
         </div>
