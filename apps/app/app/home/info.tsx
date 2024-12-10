@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react"
 
 const Info = () => {
     return (
-        <div className="pl-36 mt-5 flex justify-between items-center">
+        <div className="pl-36 my-5 flex justify-between items-center">
             <div>
                 <p className="text-3xl font-medium mb-10 w-[65%] ml-5">Customizable dashboard for tracking data.</p>
                 <img src="/images/preview.png" alt="" className="w-4/5" />

@@ -4,7 +4,6 @@ const Header = () => {
   return (
     <div className='flex items-center justify-between px-12'>
       <div className='text-gradient font-medium text-2xl'>quikDB</div>
-
       <div className='flex gap-7'>
         <p>Home</p>
         <p>About us</p>
