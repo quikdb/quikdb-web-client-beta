@@ -18,7 +18,7 @@ export async function GET(req: Request) {
 
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
-    console.error('Error in /api/create-schema:', error);
+    console.error('Error in /api/get-schemas:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 }

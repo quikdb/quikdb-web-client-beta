@@ -51,8 +51,37 @@ actor QuikDB {
   private let schemas = TrieMap.TrieMap<Text, Schema>(Text.equal, Text.hash);
   private let indexes = TrieMap.TrieMap<Text, TrieMap.TrieMap<Text, [Text]>>(Text.equal, Text.hash);
   private let records = TrieMap.TrieMap<Text, TrieMap.TrieMap<Text, Record>>(Text.equal, Text.hash);
+
+  public shared query func getRecordSizes(schemaName: Text): async Result<[Text], Text> {
+    // Retrieve the records for the schema
+    let schemaRecordsOpt = records.get(schemaName);
+    switch (schemaRecordsOpt) {
+        case null {
+            return #err("Schema not found or no records exist!");
+        };
+        case (?schemaRecords) {
+            var sizes: [Text] = [];
+            for ((recordId, record) in schemaRecords.entries()) {
+                // Calculate the size of the record using foldLeft
+                let size = Array.foldLeft<(Text, Text), Int>(
+                    record.fields,
+                    0,
+                    func(acc: Int, field: (Text, Text)): Int {
+                        let (fieldName, fieldValue) = field;
+                        acc + fieldName.size() + fieldValue.size();
+                    }
+                );
+                // Convert size to Text and append to sizes array
+                sizes := Array.append(sizes, [recordId # ": " # Int.toText(size) # " bytes"]);
+            };
+            return #ok(sizes);
+        };
+    };
+  };
   
-  
+  public shared query func listSchemas(): async [Text] {
+  Iter.toArray(schemas.keys())
+  };
 
   public shared func createSchema(
     schemaName: Text,
@@ -529,9 +558,5 @@ actor QuikDB {
         return schemaRecords.get(recordId);
       };
     };
-  };
-
-  public shared query func listSchemas(): async [Text] {
-  Iter.toArray(schemas.keys())
   };
 };
