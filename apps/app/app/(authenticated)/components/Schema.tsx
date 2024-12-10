@@ -4,13 +4,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@r
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 import { EllipsisVertical, Search } from 'lucide-react';
-import { DatabaseTable } from './database-table';
 import CreateDatabase from './CreateSchemaForm';
 import AddDataGroup from './AddDataGroupForm';
 import { useSchemas } from '@/hooks';
 
 const Schema = () => {
-  const { schemas } = useSchemas(); // Fetch all schemas using the custom hook
+  const { schemas } = useSchemas();
   const [selectedSchema, setSelectedSchema] = useState<string | null>(null);
   const [schemaData, setSchemaData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,10 +32,9 @@ const Schema = () => {
 
       const data = await response.json();
 
-      // Update state with the received schema data
       if (Array.isArray(data) && data.length > 0) {
-        setSchemaData(data); // Use the array as `schemaData`
-        setSelectedSchema(schemaName); // Update the selected schema
+        setSchemaData(data);
+        setSelectedSchema(schemaName);
       } else {
         console.warn('No schema data found for:', schemaName);
       }
@@ -45,6 +43,38 @@ const Schema = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const convertBigIntToString = (data: any) => {
+    if (typeof data === 'object' && data !== null) {
+      for (const key in data) {
+        if (data[key] instanceof BigInt) {
+          data[key] = data[key].toString();
+        } else if (typeof data[key] === 'object') {
+          convertBigIntToString(data[key]);
+        }
+      }
+    }
+  };
+
+  const renderSchemaAsDocumentFormat = (schemaData: any[]) => {
+    return schemaData.map((schema: any) => {
+      convertBigIntToString(schema);
+
+      return `{
+    "schemaName": "${schema.schemaName}",
+    "createdAt": "${schema.createdAt}",
+    "fields": [
+      ${schema.fields.map((field: any) => {
+        return `{
+        "fieldName": "${field.name}",
+        "type": "${field.fieldType}"
+      }`.trim();
+      }).join(',\n')}
+    ],
+    "indexes": ${JSON.stringify(schema.indexes)}
+  }`.trim();
+    }).join(',\n\n');
   };
 
   return (
@@ -97,28 +127,9 @@ const Schema = () => {
               {`${selectedSchema?.charAt(0).toUpperCase() + selectedSchema?.slice(1).toLowerCase()} Schema`}
             </h2>
             {schemaData && schemaData.length > 0 ? (
-              <table className='w-full text-left table-auto border-collapse border border-gray-600'>
-                <thead>
-                  <tr>
-                    {Object.keys(schemaData[0]).map((key, idx) => (
-                      <th key={idx} className='border border-gray-600 px-2 py-1'>
-                        {key}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {schemaData.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      {Object.values(row).map((value, cellIndex) => (
-                        <td key={cellIndex} className='border border-gray-600 px-2 py-1'>
-                          {String(value)}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <pre className='bg-gray-800 text-white p-4 rounded mt-4'>
+                {renderSchemaAsDocumentFormat(schemaData)}
+              </pre>
             ) : (
               <p>No data available for this schema.</p>
             )}

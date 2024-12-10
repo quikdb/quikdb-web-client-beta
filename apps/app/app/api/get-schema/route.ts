@@ -22,12 +22,11 @@ export async function POST(req: Request) {
     const { schemaName } = body;
 
     const response = (await quikDB.getSchema(schemaName)) as GetSchemaResponse[];
-    console.log('get-schema-response::::', response);
 
-    // Convert BigInt to string for serialization
+
     const serializedResponse = response.map((schema) => ({
       ...schema,
-      createdAt: schema.createdAt.toString(), // Convert BigInt to string
+      createdAt: schema.createdAt.toString(),
     }));
 
     return new Response(JSON.stringify(serializedResponse), { status: 200 });
@@ -36,3 +35,4 @@ export async function POST(req: Request) {
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 }
+
