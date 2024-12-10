@@ -97,7 +97,7 @@ const Schema = () => {
           {schemas && schemas.length > 0 ? (
             schemas.map((schemaName: string, index: number) => (
               <AccordionItem key={index} value={`item-${index}`} className='w-full'>
-                <AccordionTrigger>
+                <AccordionTrigger onClick={() => setSelectedSchema(null)}>
                   <div className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
                     <p className='text-base'>{schemaName.charAt(0).toUpperCase() + schemaName.slice(1)}</p>
                     <EllipsisVertical size={16} className='text-gray- max-md:' />
