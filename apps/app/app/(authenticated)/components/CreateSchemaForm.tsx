@@ -51,24 +51,20 @@ export default function CreateSchema() {
         name: field.name,
         fieldType: field.fieldType,
       }));
-      console.log({ schemaName, customFields, userDefinedIndexes });
 
       const response = await fetch('/api/create-schema', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ schemaName, customFields, userDefinedIndexes }),
       });
-      console.log('response:::', response);
 
       if (response.ok) {
-        const data = await response.json();
-        toast.success(data.message);
+        toast.success('Schema created successfully.');
       } else {
         const errorData = await response.json();
-        toast.error(errorData.error);
+        toast.error(errorData.error + 'Schema creation failed.');
       }
     } catch (error) {
-      console.error('Error while creating schema:', error);
       toast.warning('An error occurred while creating the schema.');
     }
   };

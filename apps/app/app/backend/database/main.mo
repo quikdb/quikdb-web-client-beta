@@ -54,11 +54,14 @@ actor QuikDB {
   
   
 
-  public func createSchema(
+  public shared func createSchema(
     schemaName: Text,
     customFields: [Field],
     userDefinedIndexes: [Text]
   ) : async Result<Bool, Text> {
+    Debug.print("Received createSchema request:");
+    Debug.print("Schema Name: " # schemaName);
+
     // Check if the schema already exists
     if (schemas.get(schemaName) != null) {
       return #err("A schema with this name already exists!");
@@ -109,11 +112,11 @@ actor QuikDB {
     };
      // Initialize empty record storage for the schema
     records.put(schemaName, TrieMap.TrieMap<Text, Record>(Text.equal, Text.hash));
-
+ Debug.print("Schema '" # schemaName # "' created successfully ✅ ");
     return #ok(true);
   };
 
-  public query func getSchema(schemaName: Text) : async ?Schema {
+  public shared query func getSchema(schemaName: Text) : async ?Schema {
     schemas.get(schemaName);
   };
   public shared func deleteSchema(schemaName: Text): async Result<Bool, Text> {
