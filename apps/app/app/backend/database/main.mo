@@ -519,7 +519,7 @@ actor QuikDB {
     };
   };
    // Helper function to get record by ID
-  public query func getRecordById(schemaName: Text, recordId: Text) : async ?Record {
+  public shared query func getRecordById(schemaName: Text, recordId: Text) : async ?Record {
     let schemaRecords = records.get(schemaName);
     switch (schemaRecords) {
       case null {
@@ -531,7 +531,7 @@ actor QuikDB {
     };
   };
 
-
-
-
+  public shared query func listSchemas(): async [Text] {
+  Iter.toArray(schemas.keys())
+  };
 };

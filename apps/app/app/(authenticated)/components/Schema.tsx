@@ -6,6 +6,7 @@ import { EllipsisVertical, Search } from 'lucide-react';
 import { DatabaseTable } from './database-table';
 import CreateDatabase from './CreateSchemaForm';
 import AddDataGroup from './AddDataGroupForm';
+import { useSchemas } from '@/hooks';
 
 const databases = [
   {
@@ -46,6 +47,8 @@ const databases = [
 ];
 
 const Schema = () => {
+  const { schemas } = useSchemas();
+  console.log(schemas);
   return (
     <Card className='bg-[#151418] text-white border-[#242527] p-10 max-md:py-5 px-5 flex max-md:flex-col gap-10 mt-5'>
       <div className='flex flex-col gap-5 pr-10 border-r border-r-[#242527]'>
