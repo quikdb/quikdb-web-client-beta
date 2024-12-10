@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { setAuthState } from '@/app/store';
 import { toast } from 'sonner'; 
+import { useDatabase } from '@/hooks';
 
 const SignInPage = () => {
   const [email, setEmail] = useState('');
@@ -14,6 +15,8 @@ const SignInPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
+  const { result: resultIcp, isLoading, isError } = useDatabase();
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -27,6 +30,8 @@ const SignInPage = () => {
     setError('');
 
     try {
+
+      console.log({ resultIcp });
       const response = await fetch('/api/sign-in', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
