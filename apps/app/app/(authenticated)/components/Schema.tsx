@@ -7,6 +7,7 @@ import { EllipsisVertical, Search } from 'lucide-react';
 import CreateDatabase from './CreateSchemaForm';
 import AddDataGroup from './AddDataGroupForm';
 import { useSchemas } from '@/hooks';
+import { DatabaseTable } from './database-table';
 
 const Schema = () => {
   const { schemas } = useSchemas();
@@ -98,8 +99,8 @@ const Schema = () => {
                   <EllipsisVertical size={16} className='text-gray- max-md:' />
                 </div>
               </AccordionTrigger>
-              <AccordionContent className='w-full flex flex-col gap-3 pl-10'>
-                <button className='text-sm text-blue-500 underline' onClick={() => fetchSchemaData(schemaName)}>
+              <AccordionContent className='w-full flex flex-col gap-3 pl-6'>
+                <button className='text-sm text-[#72F5DD] underline' onClick={() => fetchSchemaData(schemaName)}>
                   View Full Schema
                 </button>
               </AccordionContent>
@@ -136,7 +137,7 @@ const Schema = () => {
             )}
           </div>
         ) : (
-          <p>Select a schema to view its details.</p>
+          <DatabaseTable />
         )}
       </div>
     </Card>

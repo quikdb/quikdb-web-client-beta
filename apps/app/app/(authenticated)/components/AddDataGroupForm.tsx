@@ -19,7 +19,7 @@ export default function AddDataGroup() {
       <DialogTrigger asChild>
         <Button variant='outline' className='font-medium border border-[#8A46FF]/60 px-4 w-fit text-gradient max-md:scale-90'>
           <PlusIcon className='text-gradient border border-[#8A46FF] border-dotted rounded-lg' />
-          Add Data Group
+         Insert Data to Schema 
         </Button>
       </DialogTrigger>
       <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
