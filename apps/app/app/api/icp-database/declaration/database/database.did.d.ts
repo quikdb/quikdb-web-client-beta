@@ -8,6 +8,8 @@ export type Result = { 'ok' : boolean } |
   { 'err' : string };
 export type Result_1 = { 'ok' : Array<Record> } |
   { 'err' : string };
+export type Result_2 = { 'ok' : Array<string> } |
+  { 'err' : string };
 export interface Schema {
   'schemaName' : string,
   'createdAt' : bigint,
@@ -20,9 +22,11 @@ export interface _SERVICE {
   'deleteSchema' : ActorMethod<[string], Result>,
   'getOwner' : ActorMethod<[], Principal>,
   'getRecordById' : ActorMethod<[string, string], [] | [Record]>,
+  'getRecordSizes' : ActorMethod<[string], Result_2>,
   'getSchema' : ActorMethod<[string], [] | [Schema]>,
   'initOwner' : ActorMethod<[Principal], boolean>,
   'insertData' : ActorMethod<[string, Record], Result>,
+  'listSchemas' : ActorMethod<[], Array<string>>,
   'queryByIndex' : ActorMethod<[string, string, string], [] | [Array<string>]>,
   'searchByIndex' : ActorMethod<[string, string, string], Result_1>,
   'searchByMultipleFields' : ActorMethod<

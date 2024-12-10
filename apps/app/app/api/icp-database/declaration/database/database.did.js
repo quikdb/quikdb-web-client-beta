@@ -5,6 +5,7 @@ export const idlFactory = ({ IDL }) => {
     'id' : IDL.Text,
     'fields' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
   });
+  const Result_2 = IDL.Variant({ 'ok' : IDL.Vec(IDL.Text), 'err' : IDL.Text });
   const Schema = IDL.Record({
     'schemaName' : IDL.Text,
     'createdAt' : IDL.Int,
@@ -26,9 +27,11 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Opt(Record)],
         ['query'],
       ),
+    'getRecordSizes' : IDL.Func([IDL.Text], [Result_2], ['query']),
     'getSchema' : IDL.Func([IDL.Text], [IDL.Opt(Schema)], ['query']),
     'initOwner' : IDL.Func([IDL.Principal], [IDL.Bool], []),
     'insertData' : IDL.Func([IDL.Text, Record], [Result], []),
+    'listSchemas' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
     'queryByIndex' : IDL.Func(
         [IDL.Text, IDL.Text, IDL.Text],
         [IDL.Opt(IDL.Vec(IDL.Text))],
