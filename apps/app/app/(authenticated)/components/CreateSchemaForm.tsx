@@ -17,6 +17,8 @@ export default function CreateSchema() {
   const [schemaName, setSchemaName] = useState('');
   const [fields, setFields] = useState([{ name: '', fieldType: 'text' }]);
   const [userDefinedIndexes, setUserDefinedIndexes] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleAddField = () => {
     setFields([...fields, { name: '', fieldType: 'text' }]);
@@ -46,6 +48,8 @@ export default function CreateSchema() {
       return;
     }
 
+    setLoading(true);
+
     try {
       const customFields = fields.map((field) => ({
         name: field.name,
@@ -60,19 +64,22 @@ export default function CreateSchema() {
 
       if (response.ok) {
         toast.success('Schema created successfully.');
+        setOpen(false);
       } else {
         const errorData = await response.json();
         toast.error(errorData.error + 'Schema creation failed.');
       }
     } catch (error) {
       toast.warning('An error occurred while creating the schema.');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleChangeSchemaName = (e: React.ChangeEvent<HTMLInputElement>) => setSchemaName(e.target.value);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className='bg-gradient w-fit px-4 text-[#0F1407] max-md:scale-95'>Create Schema</Button>
       </DialogTrigger>
@@ -83,13 +90,11 @@ export default function CreateSchema() {
         </DialogHeader>
         <hr className='border-gray-400' />
         <div className='grid gap-4 py-4'>
-          {/* Schema Name */}
           <div className='grid gap-2'>
             <Label htmlFor='name'>Schema Name</Label>
             <Input id='name' value={schemaName} onChange={handleChangeSchemaName} placeholder='Enter Schema name here' className='col-span-3' />
           </div>
 
-          {/* Fields Inputs */}
           <div className='grid gap-4'>
             <Label>Fields</Label>
             {fields.map((field, index) => (
@@ -111,7 +116,6 @@ export default function CreateSchema() {
             </Button>
           </div>
 
-          {/* Select Indexes */}
           <div className='grid gap-2'>
             <Label>Indexes</Label>
             {fields.map((field, index) => (
@@ -124,8 +128,18 @@ export default function CreateSchema() {
         </div>
 
         <DialogFooter className='sm:justify-start'>
-          <Button onClick={handleCreateSchema} className='bg-gradient w-fit px-4 text-[#0F1407]'>
-            Create Schema
+          <Button onClick={handleCreateSchema} className='bg-gradient w-fit px-4 text-[#0F1407]' disabled={loading}>
+            {loading ? (
+              <span className="flex items-center">
+                <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25"/>
+                  <path d="M4 12a8 8 0 1 0 16 0 8 8 0 1 0-16 0" fill="none" stroke="currentColor" strokeWidth="4" className="opacity-75"/>
+                </svg>
+                Creating...
+              </span>
+            ) : (
+              'Create Schema'
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
