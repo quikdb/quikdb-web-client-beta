@@ -10,19 +10,15 @@ const quikDB = Actor.createActor(quikdb_idl, { agent, canisterId });
 
 agent.fetchRootKey();
 
-type DatabaseResponse = {
-  ok: Database[];
-  error?: string;
-};
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { schemaName } = body;
+    const { schemaName, Index, SearchText } = body;
 
-    const response = (await quikDB.getAllRecords(schemaName)) as DatabaseResponse;
+    const response = await quikDB.searchByIndex(schemaName, Index, SearchText);
+    console.log('get-schema-data', response);
 
-    return new Response(JSON.stringify(response.ok), { status: 200 });
+    return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
     console.error('Error in /api/get-schema-data:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });

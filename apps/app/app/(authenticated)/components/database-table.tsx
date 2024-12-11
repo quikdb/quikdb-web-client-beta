@@ -39,6 +39,7 @@ export type Database = {
 
 interface DatabaseTableProps {
   data: Database[];
+  schemaIndex: string[];
 }
 
 export const columns: ColumnDef<Database>[] = [
@@ -63,34 +64,30 @@ export const columns: ColumnDef<Database>[] = [
     header: 'ID',
     cell: ({ row }) => (
       <pre
-        className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px] cursor-pointer hover:overflow-auto hover:whitespace-normal"
+        className='whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px] cursor-pointer hover:overflow-auto hover:whitespace-normal'
         title={row.getValue('id')} // Show full ID on hover
       >
         {row.getValue('id')}
       </pre>
     ),
   },
-  
+
   {
     accessorKey: 'fields',
     header: 'DATA',
     cell: ({ row }) => {
       const fields = row.getValue('fields') as [string, string][];
-  
+
       if (!fields) {
         return <div>No fields available</div>;
       }
-  
+
       const fieldsObject = Object.fromEntries(fields);
-  
-      return (
-        <pre className="text-gray-200 p-2 rounded-md whitespace-pre-wrap">
-          {JSON.stringify(fieldsObject, null, 2)}
-        </pre>
-      );
+
+      return <pre className='text-gray-200 p-2 rounded-md whitespace-pre-wrap'>{JSON.stringify(fieldsObject, null, 2)}</pre>;
     },
   },
-  
+
   {
     id: 'actions',
     enableHiding: false,

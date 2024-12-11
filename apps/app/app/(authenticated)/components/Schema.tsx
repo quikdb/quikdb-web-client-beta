@@ -17,6 +17,7 @@ const Schema = () => {
   const [schemaData, setSchemaData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]);
+  const [schemaIndexes, setSchemaIndexes] = useState<string[]>([]);
 
   const fetchSchema = async (schemaName: string) => {
     setLoading(true);
@@ -40,8 +41,13 @@ const Schema = () => {
       if (Array.isArray(data) && data.length > 0) {
         setSchema(data);
         setSelectedSchema(schemaName);
+
         const attributes = data[0]?.fields || [];
         setSchemaAttributes(attributes);
+
+        const indexes = data[0]?.indexes || [];
+        console.log('Indexes:', indexes);
+        setSchemaIndexes(indexes);
       } else {
         console.warn('No schema data found for:', schemaName);
       }
@@ -171,7 +177,7 @@ const Schema = () => {
             )}
           </div>
         ) : (
-          <DatabaseTable data={schemaData} />
+          <DatabaseTable data={schemaData} schemaIndex={schemaIndexes} />
         )}
       </div>
     </Card>
