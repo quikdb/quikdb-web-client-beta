@@ -14,7 +14,7 @@ const Schema = () => {
   const [selectedSchema, setSelectedSchema] = useState<string | null>(null);
   const [schemaData, setSchemaData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]); // Store schema attributes here
+  const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]); 
 
   const fetchSchemaData = async (schemaName: string) => {
     setLoading(true);

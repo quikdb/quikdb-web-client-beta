@@ -11,15 +11,11 @@ agent.fetchRootKey();
 
 export async function POST(req: Request) {
   try {
-    const url = new URL(req.url);
-    const schemaName = url.searchParams.get('schemaName');
-  
-    if (!schemaName) {
-      return new Response(JSON.stringify({ error: 'Missing schemaName parameter' }), { status: 400 });
-    }
+    const body = await req.json();
+    const { schemaName } = body;
 
     const response = await quikDB.getAllRecords(schemaName);
-    console.log('get-schema-data::', response)
+    console.log('get-schema-data::', response);
 
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
