@@ -139,9 +139,16 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [selectedIndexes, setSelectedIndexes] = useState<string[]>([]); // Track selected indexes
-  const [searchText, setSearchText] = useState(''); // Track search input
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({}); // Store values for each field
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<Database[] | null>(null); // Store search results
+
+  const handleFieldChange = (field: string, value: string) => {
+    setFieldValues((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
   const searchIndex = async () => {
     if (!schemaName || selectedIndexes.length === 0) {
@@ -151,13 +158,17 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
 
     setLoading(true);
     try {
+      const filters = selectedIndexes.map((index) => [index, fieldValues[index] || '']);
+      console.log('Filters:', filters);
+
       const response = await fetch(`/api/search-schema-data`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ schemaName, indexes: selectedIndexes, searchText }),
+        body: JSON.stringify({ schemaName, filters }),
       });
+      console.log('Search response:', response);
 
       if (response.ok) {
         const searchData = await response.json();
@@ -197,44 +208,51 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
 
   return (
     <div className="w-full">
-      <div className="flex items-center gap-4 pt-7 pb-5">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="bg-gray-900 text-white px-4 py-2">
-              {selectedIndexes.length > 0
-                ? `Indexes (${selectedIndexes.length})`
-                : 'Select Indexes'}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="bg-gray-900 text-white">
-            {schemaIndex.map((index) => (
-              <DropdownMenuCheckboxItem
-                key={index}
-                checked={selectedIndexes.includes(index)}
-                onCheckedChange={() =>
-                  setSelectedIndexes((prev) =>
-                    prev.includes(index)
-                      ? prev.filter((i) => i !== index)
-                      : [...prev, index]
-                  )
-                }
-              >
-                {index}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex flex-col gap-4 pt-7 pb-5">
+        <div className="flex gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="bg-gray-900 text-white px-4 py-2">
+                {selectedIndexes.length > 0
+                  ? `Indexes (${selectedIndexes.length})`
+                  : 'Select Indexes'}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="bg-gray-900 text-white">
+              {schemaIndex.map((index) => (
+                <DropdownMenuCheckboxItem
+                  key={index}
+                  checked={selectedIndexes.includes(index)}
+                  onCheckedChange={() =>
+                    setSelectedIndexes((prev) =>
+                      prev.includes(index)
+                        ? prev.filter((i) => i !== index)
+                        : [...prev, index]
+                    )
+                  }
+                >
+                  {index}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-        <Input
-          placeholder="Search text"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          className="max-w-sm h-11"
-        />
+          <Button onClick={searchIndex} className="bg-[#72F5DD] text-white px-4 py-2">
+            {loading ? 'Searching...' : 'Search'}
+          </Button>
+        </div>
 
-        <Button onClick={searchIndex} className="bg-[#72F5DD] text-white px-4 py-2">
-          {loading ? 'Searching...' : 'Search'}
-        </Button>
+        <div className="flex flex-wrap gap-4">
+          {selectedIndexes.map((index) => (
+            <Input
+              key={index}
+              placeholder={`Enter ${index}`}
+              value={fieldValues[index] || ''}
+              onChange={(e) => handleFieldChange(index, e.target.value)}
+              className="max-w-sm h-11"
+            />
+          ))}
+        </div>
       </div>
 
       <div className="rounded-md border border-[#242527]">

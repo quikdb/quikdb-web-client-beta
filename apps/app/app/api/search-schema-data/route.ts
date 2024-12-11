@@ -14,18 +14,9 @@ agent.fetchRootKey();
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { schemaName, indexes, searchText } = body;
+    const { schemaName, filters } = body;
 
-    if (!schemaName || !Array.isArray(indexes)) {
-      return new Response(
-        JSON.stringify({ error: 'Invalid input: schemaName should be a string and indexes should be an array' }),
-        { status: 400 }
-      );
-    }
-
-    const filters: [string, string][] = indexes.map(index => [index, searchText]);
-
-    const response = await quikDB. searchByMultipleFields(schemaName, filters);
+    const response = await quikDB.searchByMultipleFields(schemaName, filters);
     console.log('searchByMultipleFields response:', response);
 
     return new Response(JSON.stringify(response), { status: 200 });
