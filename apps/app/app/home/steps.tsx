@@ -4,14 +4,14 @@ import { Card } from "@repo/design-system/components/ui/card"
 import { Label } from "@repo/design-system/components/ui/label";
 import { ArrowRight } from "lucide-react";
 
-const buttonStyle = 'w-[48%] border-[1px] bg-transparent border-[#1F1F1F] text-xs max-md:text-[9px] rounded-2xl px-4 text-white hover:text-blacko';
+const buttonStyle = 'lg:w-[48%] max-md:w-[48%] w-full border-[1px] bg-transparent border-[#1F1F1F] text-xs max-md:text-[9px] rounded-2xl px-4 text-white hover:text-blacko';
 
 const Steps = () => {
     return (
         <div className="px-12 max-md:px-5">
             <p className="text-2xl max-md:text-xl font-medium text-center my-16 max-md:my-10">How it works</p>
             <div className="flex max-md:flex-col gap-10 max-md:gap-7">
-                <Card className="px-10 max-md:px-5 py-5 last:p-0 flex flex-col gap-7 lg:w-[30%]">
+                <Card className="px-10 max-md:px-5 py-5 last:p-0 flex flex-col gap-7 md:w-[30%]">
                     <div className="max-md:text-center">
                         <p className="text-lg max-md:text-base font-medium mb-3">1. Authentication</p>
                         <div>
@@ -38,7 +38,7 @@ const Steps = () => {
                         </Button>
                     </div>
                 </Card>
-                <Card className="px-10 max-md:px-5 py-5 flex flex-col gap-7 lg:w-[30%]">
+                <Card className="px-10 max-md:px-5 py-5 flex flex-col gap-7 md:w-[30%]">
                     <div className="max-md:text-center">
                         <p className="text-lg max-md:text-base font-medium mb-3">2. Create your first database</p>
                         <div>
@@ -67,7 +67,7 @@ const Steps = () => {
                         </div>
                     </div>
                 </Card>
-                <Card className="px-10 max-md:px-5 py-5 flex flex-col gap-7 lg:w-[30%]">
+                <Card className="px-10 max-md:px-5 py-5 flex flex-col gap-7 md:w-[30%]">
                     <div className="max-md:text-center">
                         <p className="text-lg max-md:text-base font-medium mb-3">3. Collaborate with your team</p>
                         <div>
@@ -75,15 +75,15 @@ const Steps = () => {
                             <p className="text-[#858585] text-sm max-md:text-xs max-md:mx-auto w-[80%]">Collaborate with your team in real-time by inviting members to access, edit, and share data.</p>
                         </div>
                     </div>
-                    <div className="flex flex-wrap gap-5 px-5 max-md:w-[80%] max-md:mx-auto">
-                        <img src="/images/avatar.png" alt="" className="w-14 max-md:w-8" />
-                        <img src="/images/avatar.png" alt="" className="w-14 max-md:w-8" />
-                        <img src="/images/avatar.png" alt="" className="w-14 max-md:w-8" />
-                        <img src="/images/avatar.png" alt="" className="w-14 max-md:w-8" />
-                        <img src="/images/avatar.png" alt="" className="w-14 max-md:w-8" />
-                        <img src="/images/avatar.png" alt="" className="w-14 max-md:w-8" />
-                        <img src="/images/avatar.png" alt="" className="w-14 max-md:w-8" />
-                        <img src="/images/avatar.png" alt="" className="w-14 max-md:w-8" />
+                    <div className="flex flex-wrap gap-5 px-5 max-md:w-[80%] max-md:mx-auto max-md:justify-center">
+                        <img src="/images/avatar.png" alt="" className="w-14 max-lg:w-8" />
+                        <img src="/images/avatar.png" alt="" className="w-14 max-lg:w-8" />
+                        <img src="/images/avatar.png" alt="" className="w-14 max-lg:w-8" />
+                        <img src="/images/avatar.png" alt="" className="w-14 max-lg:w-8" />
+                        <img src="/images/avatar.png" alt="" className="w-14 max-lg:w-8" />
+                        <img src="/images/avatar.png" alt="" className="w-14 max-lg:w-8" />
+                        <img src="/images/avatar.png" alt="" className="w-14 max-lg:w-8" />
+                        <img src="/images/avatar.png" alt="" className="w-14 max-lg:w-8" />
                     </div>
                 </Card>
             </div >
