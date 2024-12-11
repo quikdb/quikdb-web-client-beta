@@ -46,14 +46,14 @@ export const columns: ColumnDef<Database>[] = [
     id: 'select',
     header: ({ table }) => (
       <Checkbox
-        className='ml-5'
+        className=''
         checked={table.getIsAllPageRowsSelected() ? true : table.getIsSomePageRowsSelected() ? 'indeterminate' : false}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label='Select all'
       />
     ),
     cell: ({ row }) => (
-      <Checkbox className='ml-5' checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />
+      <Checkbox className='' checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />
     ),
     enableSorting: false,
     enableHiding: false,
@@ -61,30 +61,36 @@ export const columns: ColumnDef<Database>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
-    cell: ({ row }) => <div>{row.getValue('id')}</div>,
+    cell: ({ row }) => (
+      <pre
+        className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px] cursor-pointer hover:overflow-auto hover:whitespace-normal"
+        title={row.getValue('id')} // Show full ID on hover
+      >
+        {row.getValue('id')}
+      </pre>
+    ),
   },
+  
   {
     accessorKey: 'fields',
     header: 'DATA',
     cell: ({ row }) => {
-      const fields = row.getValue('fields');
-      
-      // Check if fields is defined before calling Object.entries
+      const fields = row.getValue('fields') as [string, string][];
+  
       if (!fields) {
         return <div>No fields available</div>;
       }
-
+  
+      const fieldsObject = Object.fromEntries(fields);
+  
       return (
-        <div>
-          {Object.entries(fields).map(([key, value]) => (
-            <div key={key}>
-              <strong>{key}: </strong>{value}
-            </div>
-          ))}
-        </div>
+        <pre className="text-gray-200 p-2 rounded-md whitespace-pre-wrap">
+          {JSON.stringify(fieldsObject, null, 2)}
+        </pre>
       );
     },
   },
+  
   {
     id: 'actions',
     enableHiding: false,
