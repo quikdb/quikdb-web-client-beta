@@ -1,5 +1,6 @@
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 import { Button } from '@repo/design-system/components/ui/button'
+import HamburgerMenu from './hamburger'
 
 const Header = () => {
   return (
@@ -15,7 +16,7 @@ const Header = () => {
         <Button className='rounded-full'>Learn more</Button>
         <Button className='bg-gradient rounded-full'>Sign up for free</Button>
       </div>
-      <HamburgerMenuIcon className='md:hidden w-5 h-5' />
+      <HamburgerMenu />
     </div>
   )
 }
