@@ -65,7 +65,7 @@ export const columns: ColumnDef<Database>[] = [
   },
   {
     accessorKey: 'fields',
-    header: 'Fields',
+    header: 'DATA',
     cell: ({ row }) => {
       const fields = row.getValue('fields');
       
