@@ -237,7 +237,7 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button onClick={searchIndex} className="bg-[#72F5DD] text-white px-4 py-2">
+          <Button onClick={searchIndex} className="bg-[#72F5DD] text-gray-900 px-4 py-2">
             {loading ? 'Searching...' : 'Search'}
           </Button>
         </div>
