@@ -31,6 +31,7 @@ import {
   AlertDialogTrigger,
 } from '@repo/design-system/components/ui/alert-dialog';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 export type Database = {
   id: string;
@@ -40,6 +41,7 @@ export type Database = {
 interface DatabaseTableProps {
   data: Database[];
   schemaIndex: string[];
+  schemaName: string | null
 }
 
 export const columns: ColumnDef<Database>[] = [
@@ -120,6 +122,33 @@ export function DatabaseTable({ data }: DatabaseTableProps) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
+
+  const searchIndex = async (schemaName: string, Index: string, SearchText: string) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/search-schema-data`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ schemaName, Index, SearchText }),
+      });
+
+      if (response.ok) {
+        setLoading(false);
+        toast.success('Data fetched successfully');
+        const data = await response.json();
+        return data;
+      } else {
+        toast.warning('Error fetching data:' + response.status);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const table = useReactTable({
     data,

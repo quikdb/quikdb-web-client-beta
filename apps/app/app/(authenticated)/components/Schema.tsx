@@ -177,7 +177,7 @@ const Schema = () => {
             )}
           </div>
         ) : (
-          <DatabaseTable data={schemaData} schemaIndex={schemaIndexes} />
+          <DatabaseTable data={schemaData} schemaIndex={schemaIndexes} schemaName={selectedSchema} />
         )}
       </div>
     </Card>
