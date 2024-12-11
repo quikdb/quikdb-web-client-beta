@@ -25,7 +25,8 @@ export async function POST(req: Request) {
 
     const filters: [string, string][] = indexes.map(index => [index, searchText]);
 
-    const response = await quikDB.searchByMultipleFields(schemaName, filters);
+    const response = await quikDB. searchByMultipleFields(schemaName, filters);
+    console.log('searchByMultipleFields response:', response);
 
     return new Response(JSON.stringify(response), { status: 200 });
   } catch {

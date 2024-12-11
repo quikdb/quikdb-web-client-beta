@@ -35,7 +35,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@repo/design-system/components/ui/alert-dialog';
-import Link from 'next/link';
 import { toast } from 'sonner';
 
 export type Database = {
@@ -142,6 +141,7 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
   const [selectedIndexes, setSelectedIndexes] = useState<string[]>([]); // Track selected indexes
   const [searchText, setSearchText] = useState(''); // Track search input
   const [loading, setLoading] = useState(false);
+  const [searchResults, setSearchResults] = useState<Database[] | null>(null); // Store search results
 
   const searchIndex = async () => {
     if (!schemaName || selectedIndexes.length === 0) {
@@ -160,10 +160,15 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
       });
 
       if (response.ok) {
-        toast.success('Data fetched successfully');
         const searchData = await response.json();
         console.log('Search results:', searchData);
-        // Update data with search results if needed
+
+        if (Array.isArray(searchData?.ok)) {
+          setSearchResults(searchData.ok); // Update search results
+          toast.success('Data fetched successfully');
+        } else {
+          toast.warning('No results found');
+        }
       } else {
         toast.warning('Error fetching data: ' + response.status);
       }
@@ -175,7 +180,7 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
   };
 
   const table = useReactTable({
-    data,
+    data: searchResults || data, // Use search results if available, otherwise use initial data
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
