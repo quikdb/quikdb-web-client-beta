@@ -12,16 +12,18 @@ import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface AddDataGroupProps {
-  attributes: any[]; // Array of schema attributes
-  selectedSchema: string | null; // Selected schema name
+  attributes: any[];
+  selectedSchema: string | null;
 }
 
 export default function AddDataGroup({ attributes, selectedSchema }: AddDataGroupProps) {
   const [formData, setFormData] = useState<any>({});
   const [loading, setLoading] = useState(false);
 
+  // Handle input change for form fields
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     setFormData((prevData: any) => ({
       ...prevData,
@@ -29,31 +31,44 @@ export default function AddDataGroup({ attributes, selectedSchema }: AddDataGrou
     }));
   };
 
+  // Handle form submission
   const handleSubmit = async () => {
-    if (!selectedSchema || !Object.keys(formData).length) return;
-
-    // Add the creation timestamp in the background
-    const timestamp = new Date().toISOString(); // Use ISO format for timestamp
+    console.log('Selected Schema:', selectedSchema); 
+    console.log('Form Data:', formData); 
+  
+    if (!selectedSchema || !Object.keys(formData).length) {
+      console.log('No schema or form data to submit.');
+      return;
+    }
+  
+    // Generate ID and timestamps for the record
+    const generatedId = uuidv4();
+    const timestamp = new Date().toISOString();
+  
     const recordWithTimestamps = {
+      id: generatedId,
       ...formData,
       creation_timestamp: timestamp,
-      update_timestamp: timestamp, // Assuming update_timestamp is the same initially
+      update_timestamp: timestamp,
     };
-
-    setLoading(true);
+  
+    const transformedData = Object.entries(recordWithTimestamps).map(([key, value]) => [key, value]);
+  
     try {
-      const response = await fetch('/api/insert-data', {
+      const response = await fetch('/api/create-schema-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           schemaName: selectedSchema,
-          record: recordWithTimestamps,
+          record: { id: generatedId, fields: transformedData },
         }),
       });
-
+  
       const result = await response.json();
+      console.log('Backend Response:', result);
+  
       if (result.success) {
         console.log('✅ Data inserted successfully.');
       } else {
@@ -61,15 +76,17 @@ export default function AddDataGroup({ attributes, selectedSchema }: AddDataGrou
       }
     } catch (error) {
       console.error('❌ Error inserting data:', error);
-    } finally {
-      setLoading(false);
     }
   };
+  
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant='outline' className='font-medium border border-[#8A46FF]/60 px-4 w-fit text-gradient max-md:scale-90'>
+        <Button
+          variant='outline'
+          className='font-medium border border-[#8A46FF]/60 px-4 w-fit text-gradient max-md:scale-90'
+        >
           <PlusIcon className='text-gradient border border-[#8A46FF] border-dotted rounded-lg' />
           Insert Data to Schema
         </Button>
@@ -80,7 +97,6 @@ export default function AddDataGroup({ attributes, selectedSchema }: AddDataGrou
           <DialogTitle className='font-medium'>
             {`Add Data to ${selectedSchema && selectedSchema.charAt(0).toUpperCase() + selectedSchema.slice(1)} Schema`}
           </DialogTitle>
-
           <DialogDescription>Fill out the form to add a new data group</DialogDescription>
         </DialogHeader>
         <hr className='border-gray-400' />
@@ -101,7 +117,11 @@ export default function AddDataGroup({ attributes, selectedSchema }: AddDataGrou
         </div>
 
         <DialogFooter className='sm:justify-start'>
-          <Button className='bg-gradient w-fit px-4 text-[#0F1407]' onClick={handleSubmit} disabled={loading}>
+          <Button
+            className='bg-gradient w-fit px-4 text-[#0F1407]'
+            onClick={handleSubmit}
+            disabled={loading}
+          >
             {loading ? 'Submitting...' : 'Add'}
           </Button>
         </DialogFooter>
