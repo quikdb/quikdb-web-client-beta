@@ -12,6 +12,7 @@ import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 
 interface AddDataGroupProps {
@@ -22,8 +23,8 @@ interface AddDataGroupProps {
 export default function AddDataGroup({ attributes, selectedSchema }: AddDataGroupProps) {
   const [formData, setFormData] = useState<any>({});
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  // Handle input change for form fields
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     setFormData((prevData: any) => ({
       ...prevData,
@@ -31,62 +32,60 @@ export default function AddDataGroup({ attributes, selectedSchema }: AddDataGrou
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async () => {
-    console.log('Selected Schema:', selectedSchema); 
-    console.log('Form Data:', formData); 
-  
     if (!selectedSchema || !Object.keys(formData).length) {
-      console.log('No schema or form data to submit.');
       return;
     }
-  
-    // Generate ID and timestamps for the record
+
+    setLoading(true);
+
     const generatedId = uuidv4();
     const timestamp = new Date().toISOString();
-  
+
     const recordWithTimestamps = {
-      id: generatedId,
       ...formData,
       creation_timestamp: timestamp,
       update_timestamp: timestamp,
     };
-  
-    const transformedData = Object.entries(recordWithTimestamps).map(([key, value]) => [key, value]);
-  
+
+    const transformedFields = Object.entries(recordWithTimestamps).map(([key, value]) => [key, value]);
+
+    const requestData = {
+      schemaName: selectedSchema,
+      record: {
+        id: generatedId,
+        fields: transformedFields,
+      },
+    };
+
     try {
       const response = await fetch('/api/create-schema-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          schemaName: selectedSchema,
-          record: { id: generatedId, fields: transformedData },
-        }),
+        body: JSON.stringify(requestData),
       });
-  
+
       const result = await response.json();
-      console.log('Backend Response:', result);
-  
+
       if (result.success) {
-        console.log('✅ Data inserted successfully.');
+        toast.success('✅ Data inserted successfully.');
+        setOpen(false);
       } else {
-        console.log('❌ Failed to insert data.');
+        toast.warning('❌ Failed to insert data:', result.error || 'Unknown error.');
       }
     } catch (error) {
-      console.error('❌ Error inserting data:', error);
+      toast.error('❌ Error inserting data:');
+    } finally {
+      setLoading(false);
     }
   };
-  
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant='outline'
-          className='font-medium border border-[#8A46FF]/60 px-4 w-fit text-gradient max-md:scale-90'
-        >
+        <Button variant='outline' className='font-medium border border-[#8A46FF]/60 px-4 w-fit text-gradient max-md:scale-90'>
           <PlusIcon className='text-gradient border border-[#8A46FF] border-dotted rounded-lg' />
           Insert Data to Schema
         </Button>

@@ -13,11 +13,9 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { schemaName, record } = body;
-    console.log('qikDB:', quikDB);
-
-    const response = await quikDB.insertData({ schemaName, record });
-
-    console.log('Response from insertData:', response);
+    console.log('Request body:', body);
+    
+    const response = await quikDB.insertData(schemaName, record);
 
     return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
   } catch (error) {
