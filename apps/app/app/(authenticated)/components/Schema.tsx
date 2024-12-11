@@ -12,12 +12,25 @@ import { toast } from 'sonner';
 
 const Schema = () => {
   const { schemas } = useSchemas();
+
+  // State for schema management
   const [selectedSchema, setSelectedSchema] = useState<string | null>(null);
   const [schema, setSchema] = useState<any[]>([]);
   const [schemaData, setSchemaData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]);
   const [schemaIndexes, setSchemaIndexes] = useState<string[]>([]);
+
+  // New state for managing DatabaseTable props
+  const [databaseTableProps, setDatabaseTableProps] = useState<{
+    schemaName: string | null;
+    schemaData: any[];
+    schemaIndexes: string[];
+  }>({
+    schemaName: null,
+    schemaData: [],
+    schemaIndexes: [],
+  });
 
   const fetchSchema = async (schemaName: string) => {
     setLoading(true);
@@ -31,12 +44,12 @@ const Schema = () => {
       });
 
       if (!response.ok) {
-        toast.warning('Failed to fetch schema:' + schemaName);
+        toast.warning('Failed to fetch schema: ' + schemaName);
         return;
       }
 
       const data = await response.json();
-      console.log('fetch-schema', data);
+      console.log('fetch-schema:::', data);
 
       if (Array.isArray(data) && data.length > 0) {
         setSchema(data);
@@ -46,8 +59,14 @@ const Schema = () => {
         setSchemaAttributes(attributes);
 
         const indexes = data[0]?.indexes || [];
-        console.log('Indexes:', indexes);
         setSchemaIndexes(indexes);
+
+        // Update DatabaseTable props
+        setDatabaseTableProps((prev) => ({
+          ...prev,
+          schemaName,
+          schemaIndexes: indexes,
+        }));
       } else {
         console.warn('No schema data found for:', schemaName);
       }
@@ -69,39 +88,32 @@ const Schema = () => {
       });
 
       if (!response.ok) {
-        toast.warning('Failed to fetch schema data:' + schemaName);
+        toast.warning('Failed to fetch schema data: ' + schemaName);
         return;
       }
 
       const data = await response.json();
+      console.log('fetch-schema-data:::', data);
 
       if (Array.isArray(data) && data.length > 0) {
         setSchemaData(data);
+
+        // Update DatabaseTable props
+        setDatabaseTableProps((prev) => ({
+          ...prev,
+          schemaData: data,
+        }));
       } else {
-        toast.warning('No schema data found for:' + schemaName);
+        toast.warning('No schema data found for: ' + schemaName);
       }
     } catch (error) {
       console.error('Error fetching schema data:', error);
     }
   };
 
-  const convertBigIntToString = (data: any) => {
-    if (typeof data === 'object' && data !== null) {
-      for (const key in data) {
-        if (data[key] instanceof BigInt) {
-          data[key] = data[key].toString();
-        } else if (typeof data[key] === 'object') {
-          convertBigIntToString(data[key]);
-        }
-      }
-    }
-  };
-
   const renderSchemaAsDocumentFormat = (schema: any[]) => {
     return schema
       .map((schema: any) => {
-        convertBigIntToString(schema);
-
         return `{
     "schemaName": "${schema.schemaName}",
     "createdAt": "${schema.createdAt}",
@@ -136,14 +148,25 @@ const Schema = () => {
           {schemas && schemas.length > 0 ? (
             schemas.map((schemaName: string, index: number) => (
               <AccordionItem key={index} value={`item-${index}`} className='w-full'>
-                <AccordionTrigger onClick={() => setSelectedSchema(null)}>
-                  <button className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit' onClick={() => fetchSchemaData(schemaName)}>
+                <AccordionTrigger
+                  onClick={() => {
+                    setSelectedSchema(null); // Clear selection
+                    fetchSchemaData(schemaName); // Fetch data
+                  }}
+                >
+                  <button className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
                     <p className='text-base'>{schemaName.charAt(0).toUpperCase() + schemaName.slice(1)}</p>
                     <EllipsisVertical size={16} className='text-gray- max-md:' />
                   </button>
                 </AccordionTrigger>
                 <AccordionContent className='w-full flex flex-col gap-3 pl-6'>
-                  <button className='text-sm text-[#72F5DD] underline' onClick={() => fetchSchema(schemaName)}>
+                  <button
+                    className='text-sm text-[#72F5DD] underline'
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent accordion toggle
+                      fetchSchema(schemaName);
+                    }}
+                  >
                     View Full Schema
                   </button>
                 </AccordionContent>
@@ -177,7 +200,11 @@ const Schema = () => {
             )}
           </div>
         ) : (
-          <DatabaseTable data={schemaData} schemaIndex={schemaIndexes} schemaName={selectedSchema} />
+          <DatabaseTable
+            data={databaseTableProps.schemaData}
+            schemaIndex={databaseTableProps.schemaIndexes}
+            schemaName={databaseTableProps.schemaName}
+          />
         )}
       </div>
     </Card>
