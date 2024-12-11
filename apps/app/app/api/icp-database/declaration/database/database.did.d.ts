@@ -20,6 +20,7 @@ export interface _SERVICE {
   'createSchema' : ActorMethod<[string, Array<Field>, Array<string>], Result>,
   'deleteData' : ActorMethod<[string, string], Result>,
   'deleteSchema' : ActorMethod<[string], Result>,
+  'getAllRecords' : ActorMethod<[string], Result_1>,
   'getOwner' : ActorMethod<[], Principal>,
   'getRecordById' : ActorMethod<[string, string], [] | [Record]>,
   'getRecordSizes' : ActorMethod<[string], Result_2>,

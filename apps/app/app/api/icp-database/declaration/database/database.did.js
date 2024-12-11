@@ -5,6 +5,7 @@ export const idlFactory = ({ IDL }) => {
     'id' : IDL.Text,
     'fields' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
   });
+  const Result_1 = IDL.Variant({ 'ok' : IDL.Vec(Record), 'err' : IDL.Text });
   const Result_2 = IDL.Variant({ 'ok' : IDL.Vec(IDL.Text), 'err' : IDL.Text });
   const Schema = IDL.Record({
     'schemaName' : IDL.Text,
@@ -12,7 +13,6 @@ export const idlFactory = ({ IDL }) => {
     'fields' : IDL.Vec(Field),
     'indexes' : IDL.Vec(IDL.Text),
   });
-  const Result_1 = IDL.Variant({ 'ok' : IDL.Vec(Record), 'err' : IDL.Text });
   return IDL.Service({
     'createSchema' : IDL.Func(
         [IDL.Text, IDL.Vec(Field), IDL.Vec(IDL.Text)],
@@ -21,6 +21,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     'deleteData' : IDL.Func([IDL.Text, IDL.Text], [Result], []),
     'deleteSchema' : IDL.Func([IDL.Text], [Result], []),
+    'getAllRecords' : IDL.Func([IDL.Text], [Result_1], ['query']),
     'getOwner' : IDL.Func([], [IDL.Principal], ['query']),
     'getRecordById' : IDL.Func(
         [IDL.Text, IDL.Text],

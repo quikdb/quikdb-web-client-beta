@@ -37,6 +37,7 @@ service : {
   createSchema: (text, vec Field, vec text) -> (Result);
   deleteData: (text, text) -> (Result);
   deleteSchema: (text) -> (Result);
+  getAllRecords: (text) -> (Result_1) query;
   getOwner: () -> (principal) query;
   getRecordById: (text, text) -> (opt Record) query;
   getRecordSizes: (text) -> (Result_2) query;

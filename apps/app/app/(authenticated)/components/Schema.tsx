@@ -33,7 +33,7 @@ const Schema = () => {
       }
 
       const data = await response.json();
-      console.log('fetch-schema', data)
+      console.log('fetch-schema', data);
 
       if (Array.isArray(data) && data.length > 0) {
         setSchemaData(data);
