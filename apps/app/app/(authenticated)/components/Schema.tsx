@@ -8,15 +8,17 @@ import CreateDatabase from './CreateSchemaForm';
 import AddDataGroup from './AddDataGroupForm';
 import { useSchemas } from '@/hooks';
 import { DatabaseTable } from './database-table';
+import { toast } from 'sonner';
 
 const Schema = () => {
   const { schemas } = useSchemas();
   const [selectedSchema, setSelectedSchema] = useState<string | null>(null);
+  const [schema, setSchema] = useState<any[]>([]);
   const [schemaData, setSchemaData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]); 
+  const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]);
 
-  const fetchSchemaData = async (schemaName: string) => {
+  const fetchSchema = async (schemaName: string) => {
     setLoading(true);
     try {
       const response = await fetch('/api/get-schema', {
@@ -28,7 +30,7 @@ const Schema = () => {
       });
 
       if (!response.ok) {
-        console.error('Failed to fetch schema data:', await response.text());
+        toast.warning('Failed to fetch schema:' + schemaName);
         return;
       }
 
@@ -36,9 +38,9 @@ const Schema = () => {
       console.log('fetch-schema', data);
 
       if (Array.isArray(data) && data.length > 0) {
-        setSchemaData(data);
+        setSchema(data);
         setSelectedSchema(schemaName);
-        const attributes = data[0]?.fields || []; // Assuming all schemas have the same structure for now
+        const attributes = data[0]?.fields || [];
         setSchemaAttributes(attributes);
       } else {
         console.warn('No schema data found for:', schemaName);
@@ -47,6 +49,33 @@ const Schema = () => {
       console.error('Error fetching schema data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchSchemaData = async (schemaName: string) => {
+    try {
+      const response = await fetch('/api/get-schema-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ schemaName }),
+      });
+
+      if (!response.ok) {
+        toast.warning('Failed to fetch schema data:' + schemaName);
+        return;
+      }
+
+      const data = await response.json();
+
+      if (Array.isArray(data) && data.length > 0) {
+        setSchemaData(data);
+      } else {
+        toast.warning('No schema data found for:' + schemaName);
+      }
+    } catch (error) {
+      console.error('Error fetching schema data:', error);
     }
   };
 
@@ -62,8 +91,8 @@ const Schema = () => {
     }
   };
 
-  const renderSchemaAsDocumentFormat = (schemaData: any[]) => {
-    return schemaData
+  const renderSchemaAsDocumentFormat = (schema: any[]) => {
+    return schema
       .map((schema: any) => {
         convertBigIntToString(schema);
 
@@ -102,13 +131,13 @@ const Schema = () => {
             schemas.map((schemaName: string, index: number) => (
               <AccordionItem key={index} value={`item-${index}`} className='w-full'>
                 <AccordionTrigger onClick={() => setSelectedSchema(null)}>
-                  <div className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
+                  <button className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit' onClick={() => fetchSchemaData(schemaName)}>
                     <p className='text-base'>{schemaName.charAt(0).toUpperCase() + schemaName.slice(1)}</p>
                     <EllipsisVertical size={16} className='text-gray- max-md:' />
-                  </div>
+                  </button>
                 </AccordionTrigger>
                 <AccordionContent className='w-full flex flex-col gap-3 pl-6'>
-                  <button className='text-sm text-[#72F5DD] underline' onClick={() => fetchSchemaData(schemaName)}>
+                  <button className='text-sm text-[#72F5DD] underline' onClick={() => fetchSchema(schemaName)}>
                     View Full Schema
                   </button>
                 </AccordionContent>
@@ -135,14 +164,14 @@ const Schema = () => {
             <h2 className='text-lg font-medium mb-4'>
               {`${selectedSchema?.charAt(0).toUpperCase() + selectedSchema?.slice(1).toLowerCase()} Schema`}
             </h2>
-            {schemaData && schemaData.length > 0 ? (
-              <pre className='bg-gray-800 text-white p-4 rounded mt-4'>{renderSchemaAsDocumentFormat(schemaData)}</pre>
+            {schema && schema.length > 0 ? (
+              <pre className='bg-gray-800 text-white p-4 rounded mt-4'>{renderSchemaAsDocumentFormat(schema)}</pre>
             ) : (
               <p>No data available for this schema.</p>
             )}
           </div>
         ) : (
-          <DatabaseTable />
+          <DatabaseTable data={schemaData} />
         )}
       </div>
     </Card>

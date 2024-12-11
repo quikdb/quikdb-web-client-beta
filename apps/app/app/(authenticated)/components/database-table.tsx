@@ -19,7 +19,6 @@ import { Button } from '@repo/design-system/components/ui/button';
 import { Checkbox } from '@repo/design-system/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@repo/design-system/components/ui/dropdown-menu';
 import { Input } from '@repo/design-system/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/design-system/components/ui/table';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,41 +32,14 @@ import {
 } from '@repo/design-system/components/ui/alert-dialog';
 import Link from 'next/link';
 
-const data: Database[] = [
-  {
-    id: '5hgkg57',
-    document: '{ id”:763937292837, “Location”;”New York, NY”, “Price”:”850,000” “Year built”:”1993”, “...” }',
-  },
-  {
-    id: '5hgkg57',
-    document: '{ id”:763937292837, “Location”;”New York, NY”, “Price”:”850,000” “Year built”:”1993”, “...” }',
-  },
-  {
-    id: '5hgkg57',
-    document: '{ id”:763937292837, “Location”;”New York, NY”, “Price”:”850,000” “Year built”:”1993”, “...” }',
-  },
-  {
-    id: '5hgkg57',
-    document: '{ id”:763937292837, “Location”;”New York, NY”, “Price”:”850,000” “Year built”:”1993”, “...” }',
-  },
-  {
-    id: '5hgkg57',
-    document: '{ id”:763937292837, “Location”;”New York, NY”, “Price”:”850,000” “Year built”:”1993”, “...” }',
-  },
-  {
-    id: '5hgkg57',
-    document: '{ id”:763937292837, “Location”;”New York, NY”, “Price”:”850,000” “Year built”:”1993”, “...” }',
-  },
-  {
-    id: '5hgkg57',
-    document: '{ id”:763937292837, “Location”;”New York, NY”, “Price”:”850,000” “Year built”:”1993”, “...” }',
-  },
-];
-
 export type Database = {
   id: string;
-  document: string;
+  fields: string;
 };
+
+interface DatabaseTableProps {
+  data: Database[];
+}
 
 export const columns: ColumnDef<Database>[] = [
   {
@@ -88,13 +60,13 @@ export const columns: ColumnDef<Database>[] = [
   },
   {
     accessorKey: 'id',
-    header: 'id',
+    header: 'ID',
     cell: ({ row }) => <div>{row.getValue('id')}</div>,
   },
   {
-    accessorKey: 'document',
-    header: 'document',
-    cell: ({ row }) => <div>{row.getValue('document')}</div>,
+    accessorKey: 'fields',
+    header: 'Fields',
+    cell: ({ row }) => <div>{row.getValue('fields')}</div>,
   },
   {
     id: 'actions',
@@ -110,7 +82,7 @@ export const columns: ColumnDef<Database>[] = [
           <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-              <AlertDialogDescription>You are about to remove this dataset from your group list</AlertDialogDescription>
+              <AlertDialogDescription>You are about to remove this dataset from your group list.</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogAction className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2'>Yes, Delete</AlertDialogAction>
@@ -123,7 +95,7 @@ export const columns: ColumnDef<Database>[] = [
   },
 ];
 
-export function DatabaseTable() {
+export function DatabaseTable({ data }: DatabaseTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -152,7 +124,7 @@ export function DatabaseTable() {
     <div className='w-full'>
       <div className='flex items-center pt-7 pb-5'>
         <Input
-          placeholder='Filter emails...'
+          placeholder='Filter IDs...'
           value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
           className='max-w-sm h-11'
@@ -167,56 +139,52 @@ export function DatabaseTable() {
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className='capitalize'
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
+              .map((column) => (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className='capitalize'
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                >
+                  {column.id}
+                </DropdownMenuCheckboxItem>
+              ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
       <div className='rounded-md border border-[#242527]'>
-        <Table className='max-md:text-xs'>
-          <TableHeader>
+        <table className='min-w-full divide-y divide-gray-700'>
+          <thead className='bg-gray-800'>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id} className='py-4 max-md:first:pl-0'>
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th key={header.id} className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'>
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  </th>
+                ))}
+              </tr>
             ))}
-          </TableHeader>
-          <TableBody className='font-light'>
-            {table.getRowModel().rows?.length ? (
+          </thead>
+          <tbody className='bg-gray-900 divide-y divide-gray-700'>
+            {table.getRowModel().rows.length > 0 ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <tr key={row.id} className='hover:bg-gray-800'>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className='py-6 max-md:first:pl-0 last:px-3'>
+                    <td key={cell.id} className='px-6 py-4 whitespace-nowrap text-sm text-gray-200'>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
+                    </td>
                   ))}
-                </TableRow>
+                </tr>
               ))
             ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+              <tr>
+                <td colSpan={columns.length} className='px-6 py-4 text-center text-sm text-gray-400'>
                   No results.
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             )}
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
       </div>
       <div className='flex items-center justify-end space-x-2 py-4'>
         <div className='flex-1 text-sm text-muted-foreground'>
@@ -226,11 +194,9 @@ export function DatabaseTable() {
           <Button size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
             Previous
           </Button>
-          <Link href='/dashboard/project-1'>
-            <Button size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-              Next
-            </Button>
-          </Link>
+          <Button size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            Next
+          </Button>
         </div>
       </div>
     </div>
