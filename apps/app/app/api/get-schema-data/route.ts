@@ -21,7 +21,13 @@ export async function POST(req: Request) {
     const { schemaName } = body;
 
     const response = (await quikDB.getAllRecords(schemaName)) as DatabaseResponse;
-
+    console.log('get-schema-data', response);
+    
+    if (response.ok) {
+      response.ok.forEach((record) => {
+        console.log('Fields:', record.fields);
+      });
+    }
     return new Response(JSON.stringify(response.ok), { status: 200 });
   } catch (error) {
     console.error('Error in /api/get-schema-data:', error);

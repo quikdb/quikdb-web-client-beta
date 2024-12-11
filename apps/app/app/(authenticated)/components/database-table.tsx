@@ -34,7 +34,7 @@ import Link from 'next/link';
 
 export type Database = {
   id: string;
-  fields: string;
+  fields: Record<string, string> | undefined;
 };
 
 interface DatabaseTableProps {
@@ -66,7 +66,24 @@ export const columns: ColumnDef<Database>[] = [
   {
     accessorKey: 'fields',
     header: 'Fields',
-    cell: ({ row }) => <div>{row.getValue('fields')}</div>,
+    cell: ({ row }) => {
+      const fields = row.getValue('fields');
+      
+      // Check if fields is defined before calling Object.entries
+      if (!fields) {
+        return <div>No fields available</div>;
+      }
+
+      return (
+        <div>
+          {Object.entries(fields).map(([key, value]) => (
+            <div key={key}>
+              <strong>{key}: </strong>{value}
+            </div>
+          ))}
+        </div>
+      );
+    },
   },
   {
     id: 'actions',
@@ -153,8 +170,8 @@ export function DatabaseTable({ data }: DatabaseTableProps) {
         </DropdownMenu>
       </div>
       <div className='rounded-md border border-[#242527]'>
-        <table className='min-w-full divide-y divide-gray-700'>
-          <thead className='bg-gray-800'>
+        <table className='min-w-full divide-y '>
+          <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -165,12 +182,12 @@ export function DatabaseTable({ data }: DatabaseTableProps) {
               </tr>
             ))}
           </thead>
-          <tbody className='bg-gray-900 divide-y divide-gray-700'>
+          <tbody className='divide-y'>
             {table.getRowModel().rows.length > 0 ? (
               table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className='hover:bg-gray-800'>
+                <tr key={row.id} className='hover:bg-blackoff'>
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className='px-6 py-4 whitespace-nowrap text-sm text-gray-200'>
+                    <td key={cell.id} className='px-6 py-4 text-sm text-gray-200'>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
