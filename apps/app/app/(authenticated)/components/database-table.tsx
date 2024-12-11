@@ -144,7 +144,7 @@ export function DatabaseTable({ data }: DatabaseTableProps) {
     <div className='w-full'>
       <div className='flex items-center pt-7 pb-5'>
         <Input
-          placeholder='Filter IDs...'
+          placeholder='Search by Indexes'
           value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
           className='max-w-sm h-11'
