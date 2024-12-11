@@ -1,6 +1,7 @@
+// /api/search-schema-data.ts
+
 import { HttpAgent, Actor } from '@dfinity/agent';
 import { idlFactory as quikdb_idl } from '../icp-database/declaration/database';
-import { Database } from '@/app/(authenticated)/components/database-table';
 
 const canisterId = 'bkyz2-fmaaa-aaaaa-qaaaq-cai';
 
@@ -13,14 +14,21 @@ agent.fetchRootKey();
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { schemaName, Index, SearchText } = body;
+    const { schemaName, indexes, searchText } = body;
 
-    const response = await quikDB.searchByIndex(schemaName, Index, SearchText);
-    console.log('get-schema-data', response);
+    if (!schemaName || !Array.isArray(indexes)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid input: schemaName should be a string and indexes should be an array' }),
+        { status: 400 }
+      );
+    }
+
+    const filters: [string, string][] = indexes.map(index => [index, searchText]);
+
+    const response = await quikDB.searchByMultipleFields(schemaName, filters);
 
     return new Response(JSON.stringify(response), { status: 200 });
-  } catch (error) {
-    console.error('Error in /api/get-schema-data:', error);
+  } catch {
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 }

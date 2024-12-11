@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React, { useState } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -17,7 +17,12 @@ import { ChevronDown, Trash2Icon } from 'lucide-react';
 
 import { Button } from '@repo/design-system/components/ui/button';
 import { Checkbox } from '@repo/design-system/components/ui/checkbox';
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@repo/design-system/components/ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@repo/design-system/components/ui/dropdown-menu';
 import { Input } from '@repo/design-system/components/ui/input';
 import {
   AlertDialog,
@@ -40,8 +45,8 @@ export type Database = {
 
 interface DatabaseTableProps {
   data: Database[];
-  schemaIndex: string[];
-  schemaName: string | null
+  schemaIndex: string[]; // Available indexes for search
+  schemaName: string | null; // Name of the schema
 }
 
 export const columns: ColumnDef<Database>[] = [
@@ -49,14 +54,21 @@ export const columns: ColumnDef<Database>[] = [
     id: 'select',
     header: ({ table }) => (
       <Checkbox
-        className=''
-        checked={table.getIsAllPageRowsSelected() ? true : table.getIsSomePageRowsSelected() ? 'indeterminate' : false}
+        className=""
+        checked={
+          table.getIsAllPageRowsSelected() ? true : table.getIsSomePageRowsSelected() ? 'indeterminate' : false
+        }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
+        aria-label="Select all"
       />
     ),
     cell: ({ row }) => (
-      <Checkbox className='' checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />
+      <Checkbox
+        className=""
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
     ),
     enableSorting: false,
     enableHiding: false,
@@ -66,14 +78,13 @@ export const columns: ColumnDef<Database>[] = [
     header: 'ID',
     cell: ({ row }) => (
       <pre
-        className='whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px] cursor-pointer hover:overflow-auto hover:whitespace-normal'
-        title={row.getValue('id')} // Show full ID on hover
+        className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px] cursor-pointer hover:overflow-auto hover:whitespace-normal"
+        title={row.getValue('id')}
       >
         {row.getValue('id')}
       </pre>
     ),
   },
-
   {
     accessorKey: 'fields',
     header: 'DATA',
@@ -86,10 +97,13 @@ export const columns: ColumnDef<Database>[] = [
 
       const fieldsObject = Object.fromEntries(fields);
 
-      return <pre className='text-gray-200 p-2 rounded-md whitespace-pre-wrap'>{JSON.stringify(fieldsObject, null, 2)}</pre>;
+      return (
+        <pre className="text-gray-200 p-2 rounded-md whitespace-pre-wrap">
+          {JSON.stringify(fieldsObject, null, 2)}
+        </pre>
+      );
     },
   },
-
   {
     id: 'actions',
     enableHiding: false,
@@ -98,17 +112,21 @@ export const columns: ColumnDef<Database>[] = [
 
       return (
         <AlertDialog>
-          <AlertDialogTrigger asChild className='cursor-pointer'>
+          <AlertDialogTrigger asChild className="cursor-pointer">
             <Trash2Icon size={18} />
           </AlertDialogTrigger>
-          <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
+          <AlertDialogContent className="bg-[#111015] text-white border-[#242527] font-regular">
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
               <AlertDialogDescription>You are about to remove this dataset from your group list.</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogAction className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2'>Yes, Delete</AlertDialogAction>
-              <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>No, Cancel</AlertDialogCancel>
+              <AlertDialogAction className="bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2">
+                Yes, Delete
+              </AlertDialogAction>
+              <AlertDialogCancel className="bg-transparent border-[#242527] py-2 rounded-3xl">
+                No, Cancel
+              </AlertDialogCancel>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
@@ -117,14 +135,20 @@ export const columns: ColumnDef<Database>[] = [
   },
 ];
 
-export function DatabaseTable({ data }: DatabaseTableProps) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [loading, setLoading] = React.useState(false);
+export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTableProps) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [selectedIndexes, setSelectedIndexes] = useState<string[]>([]); // Track selected indexes
+  const [searchText, setSearchText] = useState(''); // Track search input
+  const [loading, setLoading] = useState(false);
 
-  const searchIndex = async (schemaName: string, Index: string, SearchText: string) => {
+  const searchIndex = async () => {
+    if (!schemaName || selectedIndexes.length === 0) {
+      toast.warning('Please select schema and indexes to search');
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await fetch(`/api/search-schema-data`, {
@@ -132,16 +156,16 @@ export function DatabaseTable({ data }: DatabaseTableProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ schemaName, Index, SearchText }),
+        body: JSON.stringify({ schemaName, indexes: selectedIndexes, searchText }),
       });
 
       if (response.ok) {
-        setLoading(false);
         toast.success('Data fetched successfully');
-        const data = await response.json();
-        return data;
+        const searchData = await response.json();
+        console.log('Search results:', searchData);
+        // Update data with search results if needed
       } else {
-        toast.warning('Error fetching data:' + response.status);
+        toast.warning('Error fetching data: ' + response.status);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -159,67 +183,79 @@ export function DatabaseTable({ data }: DatabaseTableProps) {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
     },
   });
 
   return (
-    <div className='w-full'>
-      <div className='flex items-center pt-7 pb-5'>
-        <Input
-          placeholder='Search by Indexes'
-          value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
-          className='max-w-sm h-11'
-        />
+    <div className="w-full">
+      <div className="flex items-center gap-4 pt-7 pb-5">
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className='h-11'>
-            <Button className='ml-auto bg-transparent text-white border border-[#242527] max-md:text-xs'>
-              Columns <ChevronDown className='max-md:scale-75' />
+          <DropdownMenuTrigger asChild>
+            <Button className="bg-gray-900 text-white px-4 py-2">
+              {selectedIndexes.length > 0
+                ? `Indexes (${selectedIndexes.length})`
+                : 'Select Indexes'}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' className='bg-[#111015] text-white border-gray-600'>
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className='capitalize'
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              ))}
+          <DropdownMenuContent align="start" className="bg-gray-900 text-white">
+            {schemaIndex.map((index) => (
+              <DropdownMenuCheckboxItem
+                key={index}
+                checked={selectedIndexes.includes(index)}
+                onCheckedChange={() =>
+                  setSelectedIndexes((prev) =>
+                    prev.includes(index)
+                      ? prev.filter((i) => i !== index)
+                      : [...prev, index]
+                  )
+                }
+              >
+                {index}
+              </DropdownMenuCheckboxItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
+
+        <Input
+          placeholder="Search text"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          className="max-w-sm h-11"
+        />
+
+        <Button onClick={searchIndex} className="bg-[#72F5DD] text-white px-4 py-2">
+          {loading ? 'Searching...' : 'Search'}
+        </Button>
       </div>
-      <div className='rounded-md border border-[#242527]'>
-        <table className='min-w-full divide-y '>
+
+      <div className="rounded-md border border-[#242527]">
+        <table className="min-w-full divide-y">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id} className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'>
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  <th
+                    key={header.id}
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
                   </th>
                 ))}
               </tr>
             ))}
           </thead>
-          <tbody className='divide-y'>
+          <tbody className="divide-y">
             {table.getRowModel().rows.length > 0 ? (
               table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className='hover:bg-blackoff'>
+                <tr key={row.id} className="hover:bg-gray-700">
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className='px-6 py-4 text-sm text-gray-200'>
+                    <td key={cell.id} className="px-6 py-4 text-sm text-gray-200">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -227,26 +263,16 @@ export function DatabaseTable({ data }: DatabaseTableProps) {
               ))
             ) : (
               <tr>
-                <td colSpan={columns.length} className='px-6 py-4 text-center text-sm text-gray-400'>
+                <td
+                  colSpan={columns.length}
+                  className="px-6 py-4 text-center text-sm text-gray-400"
+                >
                   No results.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
-      </div>
-      <div className='flex items-center justify-end space-x-2 py-4'>
-        <div className='flex-1 text-sm text-muted-foreground'>
-          {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className='space-x-2'>
-          <Button size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-            Previous
-          </Button>
-          <Button size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-            Next
-          </Button>
-        </div>
       </div>
     </div>
   );
