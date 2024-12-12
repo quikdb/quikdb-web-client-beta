@@ -18,7 +18,7 @@ const Schema = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]);
   const [schemaIndexes, setSchemaIndexes] = useState<string[]>([]);
-  const [showSchemaDetails, setShowSchemaDetails] = useState(false); // Toggle between schema details and DatabaseTable
+  const [showSchemaDetails, setShowSchemaDetails] = useState(false); 
 
   const [databaseTableProps, setDatabaseTableProps] = useState<{
     schemaName: string | null;
@@ -53,7 +53,7 @@ const Schema = () => {
         setSchemaAttributes(data[0]?.fields || []);
         setSchemaIndexes(data[0]?.indexes || []);
         setSelectedSchema(schemaName);
-        setShowSchemaDetails(true); // Show schema details when fetched
+        setShowSchemaDetails(true); 
       } else {
         toast.warning('No schema data found for: ' + schemaName);
       }
@@ -84,14 +84,13 @@ const Schema = () => {
 
       if (Array.isArray(data) && data.length > 0) {
 
-        // Update DatabaseTable props
         setDatabaseTableProps({
           schemaName,
           schemaData: data,
-          schemaIndexes: schemaIndexes, // Ensure indexes are available
+          schemaIndexes: schemaIndexes, 
         });
 
-        setShowSchemaDetails(false); // Show DatabaseTable instead
+        setShowSchemaDetails(false); 
       } else {
         toast.warning('No schema data found for: ' + schemaName);
       }
@@ -164,8 +163,8 @@ const Schema = () => {
               <AccordionItem key={index} value={`item-${index}`} className='w-full'>
                 <AccordionTrigger
                   onClick={() => {
-                    setSelectedSchema(schemaName); // Set schema as selected
-                    fetchSchemaData(schemaName); // Fetch schema data for table
+                    setSelectedSchema(schemaName);
+                    fetchSchemaData(schemaName); 
                   }}
                 >
                   <button className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
@@ -177,8 +176,8 @@ const Schema = () => {
                   <button
                     className='text-sm text-[#72F5DD] underline'
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevent accordion toggle
-                      fetchSchema(schemaName); // Fetch schema details
+                      e.stopPropagation(); 
+                      fetchSchema(schemaName); 
                     }}
                   >
                     View Full Schema
