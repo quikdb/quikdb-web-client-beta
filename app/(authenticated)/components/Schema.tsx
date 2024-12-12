@@ -15,10 +15,10 @@ const Schema = () => {
 
   const [selectedSchema, setSelectedSchema] = useState<string | null>(null);
   const [schema, setSchema] = useState<any[]>([]);
-  const [schemaData, setSchemaData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]);
   const [schemaIndexes, setSchemaIndexes] = useState<string[]>([]);
+  const [showSchemaDetails, setShowSchemaDetails] = useState(false); 
 
   const [databaseTableProps, setDatabaseTableProps] = useState<{
     schemaName: string | null;
@@ -47,25 +47,15 @@ const Schema = () => {
       }
 
       const data = await response.json();
-      console.log('fetch-schema:::', data);
 
       if (Array.isArray(data) && data.length > 0) {
         setSchema(data);
+        setSchemaAttributes(data[0]?.fields || []);
+        setSchemaIndexes(data[0]?.indexes || []);
         setSelectedSchema(schemaName);
-
-        const attributes = data[0]?.fields || [];
-        setSchemaAttributes(attributes);
-
-        const indexes = data[0]?.indexes || [];
-        setSchemaIndexes(indexes);
-
-        setDatabaseTableProps((prev) => ({
-          ...prev,
-          schemaName,
-          schemaIndexes: indexes,
-        }));
+        setShowSchemaDetails(true); 
       } else {
-        console.warn('No schema data found for:', schemaName);
+        toast.warning('No schema data found for: ' + schemaName);
       }
     } catch (error) {
       console.error('Error fetching schema data:', error);
@@ -75,6 +65,7 @@ const Schema = () => {
   };
 
   const fetchSchemaData = async (schemaName: string) => {
+    setLoading(true);
     try {
       const response = await fetch('/api/get-schema-data', {
         method: 'POST',
@@ -90,23 +81,26 @@ const Schema = () => {
       }
 
       const data = await response.json();
-      console.log('fetch-schema-data:::', data);
 
       if (Array.isArray(data) && data.length > 0) {
-        setSchemaData(data);
 
-        // Update DatabaseTable props
-        setDatabaseTableProps((prev) => ({
-          ...prev,
+        setDatabaseTableProps({
+          schemaName,
           schemaData: data,
-        }));
+          schemaIndexes: schemaIndexes, 
+        });
+
+        setShowSchemaDetails(false); 
       } else {
         toast.warning('No schema data found for: ' + schemaName);
       }
     } catch (error) {
       console.error('Error fetching schema data:', error);
+    } finally {
+      setLoading(false);
     }
   };
+
 
   const deleteSchema = async (schemaName: string) => {
     try {
@@ -134,7 +128,7 @@ const Schema = () => {
     return schema
       .map((schema: any) => {
         return `{
-    "schemaName": "${schema.schedemaName}",
+    "schemaName": "${schema.schemaName}",
     "createdAt": "${schema.createdAt}",
     "fields": [
       ${schema.fields
@@ -169,8 +163,8 @@ const Schema = () => {
               <AccordionItem key={index} value={`item-${index}`} className='w-full'>
                 <AccordionTrigger
                   onClick={() => {
-                    setSelectedSchema(null); // Clear selection
-                    fetchSchemaData(schemaName); // Fetch data
+                    setSelectedSchema(schemaName);
+                    fetchSchemaData(schemaName); 
                   }}
                 >
                   <button className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
@@ -182,8 +176,8 @@ const Schema = () => {
                   <button
                     className='text-sm text-[#72F5DD] underline'
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevent accordion toggle
-                      fetchSchema(schemaName);
+                      e.stopPropagation(); 
+                      fetchSchema(schemaName); 
                     }}
                   >
                     View Full Schema
@@ -207,11 +201,9 @@ const Schema = () => {
         </div>
         {loading ? (
           <p>Loading schema data...</p>
-        ) : selectedSchema ? (
+        ) : showSchemaDetails ? (
           <div className='pt-4'>
-            <h2 className='text-lg font-medium mb-4'>
-              {`${selectedSchema?.charAt(0).toUpperCase() + selectedSchema?.slice(1).toLowerCase()} Schema`}
-            </h2>
+            <h2 className='text-lg font-medium mb-4'>{`${(selectedSchema ?? '').charAt(0).toUpperCase() + (selectedSchema ?? '').slice(1).toLowerCase()} Schema`}</h2>{' '}
             {schema && schema.length > 0 ? (
               <pre className='bg-gray-900 text-white p-4 rounded mt-4'>{renderSchemaAsDocumentFormat(schema)}</pre>
             ) : (
