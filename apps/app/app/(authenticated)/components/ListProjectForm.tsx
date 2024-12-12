@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { DatabaseVersion } from '@/@types';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useProjects } from '@/hooks';
 
 export default function ListProject() {
   const [isCreating, setIsCreating] = useState(false);
@@ -28,6 +29,7 @@ export default function ListProject() {
   const [selectedVersion, setSelectedVersion] = useState<DatabaseVersion>(DatabaseVersion.FREE);
 
   const router = useRouter();
+  const { refreshProjects } = useProjects();
 
   const handleCreateProject = async () => {
     if (!projectName) {
@@ -61,6 +63,7 @@ export default function ListProject() {
         setTimeout(() => {
           setShowPopup(true);
         }, 300);
+        refreshProjects();
       } else {
         toast.warning(result.message || 'Failed to create project token. Please try again later.');
         setError(result.message || 'Failed to create project token. Please try again later.');
