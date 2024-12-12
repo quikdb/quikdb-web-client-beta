@@ -13,6 +13,13 @@ import { Input } from '@quikdb/design-system/components/ui/input';
 import { Label } from '@quikdb/design-system/components/ui/label';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@quikdb/design-system/components/ui/dropdown-menu';
 
 export default function CreateSchema() {
   const [schemaName, setSchemaName] = useState('');
@@ -111,13 +118,28 @@ export default function CreateSchema() {
                   <Input placeholder='Field Name' value={field.name} onChange={(e) => handleFieldNameChange(index, e.target.value)} />
                 </div>
                 <div className='flex-1'>
-                  <select value={field.fieldType} onChange={(e) => handleFieldTypeChange(index, e.target.value)} className='w-full'>
-                    <option value='text'>Text</option>
-                    <option value='number'>Number</option>
-                    <option value='timestamp'>Timestamp</option>
-                  </select>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button className='bg-gray-900 hover:bg-gray-800 hover:text-gray-900 hover:text-white text-white px-4 py-2 w-full'>
+                        {field.fieldType ? field.fieldType : 'Select Field Type'}
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align='start' className='bg-gray-900 text-white w-full'>
+                      <DropdownMenuItem onClick={() => handleFieldTypeChange(index, 'Text')} className='hover:bg-gray-800 px-4 py-2'>
+                        Text
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleFieldTypeChange(index, 'Number')} className='hover:bg-gray-800 px-4 py-2'>
+                        Number
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleFieldTypeChange(index, 'Timestamp')} className='hover:bg-gray-800 px-4 py-2'>
+                        Timestamp
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
-                <Button onClick={() => handleRemoveField(index)} className='border-none rounded-3xl bg-gray-900 hover:bg-red-600 text-white'>Remove</Button>
+                <Button onClick={() => handleRemoveField(index)} className='border-none rounded-3xl bg-gray-900 hover:bg-red-600 text-white'>
+                  Remove
+                </Button>
               </div>
             ))}
             <Button onClick={handleAddField} className='mt-2'>
