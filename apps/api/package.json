@@ -11,7 +11,7 @@
     "stripe": "stripe listen --forward-to localhost:3002/webhooks/stripe"
   },
   "dependencies": {
-    "@logtail/next": "^0.1.5",
+    "@logtail/next": "^0.1.7",
     "@quikdb/design-system": "1.0.0",
     "@quikdb/next-config": "1.0.0",
     "@sentry/nextjs": "^8.36.0",
