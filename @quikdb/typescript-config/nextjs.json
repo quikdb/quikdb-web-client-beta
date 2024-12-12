@@ -10,8 +10,6 @@
     "jsx": "preserve",
     "noEmit": true,
     "paths": {
-      "@/*": ["./*"],
-      "@quikdb/*": ["../../packages/*"],
       "content-collections": ["./.content-collections/generated"]
     }
   },

@@ -1,1 +1,6 @@
-module.exports = require('@quikdb/design-system/postcss.config');
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};

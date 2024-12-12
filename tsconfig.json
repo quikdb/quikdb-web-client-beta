@@ -1,17 +1,35 @@
 {
-  "extends": "@quikdb/typescript-config/nextjs.json",
+  "extends": "./@quikdb/typescript-config/nextjs.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
-      "@quikdb/design-system": ["./@quikdb/design-system"],
-      "@quikdb/email-templates": ["./@quikdb/email-templates"],
-      "@quikdb/next-config": ["./@quikdb/next-config"],
-      "@quikdb/typescript-config": ["./@quikdb/typescript-config"],
-      "@quikdb/feature-flags": ["./@quikdb/feature-flags"]
+      "@quikdb/design-system/*": [
+        "./@quikdb/design-system/*"
+      ],
+      "@quikdb/email-templates/*": [
+        "./@quikdb/email-templates/*"
+      ],
+      "@quikdb/next-config/*": [
+        "./@quikdb/next-config/*"
+      ],
+      "@quikdb/typescript-config/*": [
+        "./@quikdb/typescript-config/*"
+      ],
+      "@quikdb/feature-flags/*": [
+        "./@quikdb/feature-flags/*"
+      ],
+      "@/*": [
+        "./*"
+      ]
     }
   },
   "include": [
@@ -19,6 +37,7 @@
     "next.config.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "webpack.config.js"  ]
+    ".next/types/**/*.ts",
+    "webpack.config.js"
+  ]
 }

@@ -88,7 +88,10 @@ export default function AddDataGroup({ attributes, selectedSchema }: AddDataGrou
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='outline' className='font-medium border border-[#8A46FF]/60 px-4 w-fit text-gradient max-md:scale-90'>
+        <Button
+          variant='outline'
+          className='font-medium border border-[#8A46FF]/60 px-4 w-fit text-gradient max-md:scale-90'
+        >
           <PlusIcon className='text-gradient border border-[#8A46FF] border-dotted rounded-lg' />
           Insert Data to Schema
         </Button>
