@@ -4,6 +4,8 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "baseUrl": ".",
+    "typeRoots": ["node_modules/@types"],
+    "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
     "plugins": [
