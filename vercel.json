@@ -1,5 +1,5 @@
 {
-  "buildCommand": "yarn install && yarn run build",
+  "buildCommand": "yarn install --production=false && yarn run build",
   "installCommand": "yarn install",
   "outputDirectory": ".next"
 }
