@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@repo/design-system/components/ui/table"
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@quikdb/design-system/components/ui/table"
 
 const plans = [
     {

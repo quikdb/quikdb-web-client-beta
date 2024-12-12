@@ -1,5 +1,5 @@
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Dialog, DialogContent, DialogTrigger } from "@repo/design-system/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@quikdb/design-system/components/ui/dialog";
 import Link from "next/link";
 
 const navigation = [

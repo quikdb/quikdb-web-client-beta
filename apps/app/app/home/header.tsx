@@ -1,5 +1,5 @@
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
-import { Button } from '@repo/design-system/components/ui/button'
+import { Button } from '@quikdb/design-system/components/ui/button'
 import HamburgerMenu from './hamburger'
 
 const Header = () => {
