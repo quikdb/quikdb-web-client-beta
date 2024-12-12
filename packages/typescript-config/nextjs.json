@@ -11,7 +11,7 @@
     "noEmit": true,
     "paths": {
       "@/*": ["./*"],
-      "@repo/*": ["../../packages/*"],
+      "@quikdb/*": ["../../packages/*"],
       "content-collections": ["./.content-collections/generated"]
     }
   },

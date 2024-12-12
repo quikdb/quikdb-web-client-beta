@@ -1,4 +1,4 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@repo/design-system/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@quikdb/design-system/components/ui/tabs"
 
 const AllNotifications = () => {
     return (

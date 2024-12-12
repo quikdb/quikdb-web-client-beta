@@ -1,5 +1,5 @@
 'use client';
-import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding';
+import { Input, FormDivider, PasswordInput, FormHeader } from '@quikdb/design-system/components/onboarding';
 import React from 'react';
 
 // interface EmailNotificationProps {

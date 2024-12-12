@@ -1,5 +1,5 @@
-import { createMetadata } from '@repo/design-system/lib/metadata';
-import { cn } from '@repo/design-system/lib/utils';
+import { createMetadata } from '@quikdb/design-system/lib/metadata';
+import { cn } from '@quikdb/design-system/lib/utils';
 import { allPosts } from 'content-collections';
 import type { Metadata } from 'next';
 import Image from 'next/image';

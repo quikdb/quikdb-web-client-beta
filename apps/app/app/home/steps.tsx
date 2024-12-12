@@ -1,7 +1,7 @@
-import { Input } from "@repo/design-system/components/onboarding";
-import { Button } from "@repo/design-system/components/ui/button"
-import { Card } from "@repo/design-system/components/ui/card"
-import { Label } from "@repo/design-system/components/ui/label";
+import { Input } from "@quikdb/design-system/components/onboarding";
+import { Button } from "@quikdb/design-system/components/ui/button"
+import { Card } from "@quikdb/design-system/components/ui/card"
+import { Label } from "@quikdb/design-system/components/ui/label";
 import { ArrowRight } from "lucide-react";
 
 const buttonStyle = 'w-[47%] border-[1px] bg-transparent border-[#1F1F1F] text-xs rounded-2xl px-4 text-white hover:text-blacko';

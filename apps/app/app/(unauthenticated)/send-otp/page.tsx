@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import { Input, FormHeader } from '@repo/design-system/components/onboarding';
-import { Button } from '@repo/design-system/components/ui/button';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
+import { Input, FormHeader } from '@quikdb/design-system/components/onboarding';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { CryptoUtils } from '@quikdb/design-system/lib/cryptoUtils';
 import axios from 'axios';
 
 

@@ -1,5 +1,5 @@
-import { Button } from '@repo/design-system/components/ui/button';
-import { appUrl } from '@repo/design-system/lib/consts';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { appUrl } from '@quikdb/design-system/lib/consts';
 import { Check, Minus, MoveRight, PhoneCall } from 'lucide-react';
 import Link from 'next/link';
 

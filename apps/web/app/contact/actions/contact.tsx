@@ -1,8 +1,8 @@
 'use server';
 
-import { parseError } from '@repo/design-system/lib/error';
-import { resend } from '@repo/design-system/lib/resend';
-import { ContactTemplate } from '@repo/email-templates/contact';
+import { parseError } from '@quikdb/design-system/lib/error';
+import { resend } from '@quikdb/design-system/lib/resend';
+import { ContactTemplate } from '@quikdb/email-templates/contact';
 
 const from = process.env.RESEND_FROM;
 

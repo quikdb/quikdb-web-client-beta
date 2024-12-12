@@ -1,4 +1,4 @@
-import { baseUrl } from '@repo/design-system/lib/consts';
+import { baseUrl } from '@quikdb/design-system/lib/consts';
 import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {

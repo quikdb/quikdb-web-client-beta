@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Button } from '@repo/design-system/components/ui/button';
+import { Button } from '@quikdb/design-system/components/ui/button';
 import {
   BarChartIcon,
   BookmarkFilledIcon,

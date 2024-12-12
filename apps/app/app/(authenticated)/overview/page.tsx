@@ -1,5 +1,5 @@
 'use client';
-import { Card } from '@repo/design-system/components/ui/card';
+import { Card } from '@quikdb/design-system/components/ui/card';
 import { TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import ListProject from '../components/ListProjectForm';

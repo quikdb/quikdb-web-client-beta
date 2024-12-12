@@ -1,14 +1,15 @@
 {
-  "extends": "@repo/typescript-config/react-library.json",
+  "extends": "@quikdb/typescript-config/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "outDir": "./dist",
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@repo/design-system/*": ["./*"]
+      "@quikdb/design-system/*": ["./*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],

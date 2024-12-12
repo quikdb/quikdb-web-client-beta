@@ -1,4 +1,4 @@
-import { Button } from '@repo/design-system/components/ui/button';
+import { Button } from '@quikdb/design-system/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,9 +7,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/design-system/components/ui/dialog';
+} from '@quikdb/design-system/components/ui/dialog';
 import { CheckCircle, DollarSign, Star } from 'lucide-react';
-import { Label } from '@repo/design-system/components/ui/label';
+import { Label } from '@quikdb/design-system/components/ui/label';
 import { useState } from 'react';
 import { DatabaseVersion } from '@/@types';
 import { toast } from 'sonner';

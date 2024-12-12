@@ -1,6 +1,6 @@
-import { Button } from '@repo/design-system/components/ui/button';
-import { Card } from '@repo/design-system/components/ui/card';
-import { Progress } from '@repo/design-system/components/ui/progress';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { Card } from '@quikdb/design-system/components/ui/card';
+import { Progress } from '@quikdb/design-system/components/ui/progress';
 
 const rewards = [
   {

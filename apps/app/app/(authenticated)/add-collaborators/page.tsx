@@ -1,8 +1,8 @@
 'use client';
-import { Button } from '@repo/design-system/components/ui/button';
-import { Card } from '@repo/design-system/components/ui/card';
-import { Checkbox } from '@repo/design-system/components/ui/checkbox';
-import { Input } from '@repo/design-system/components/ui/input';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { Card } from '@quikdb/design-system/components/ui/card';
+import { Checkbox } from '@quikdb/design-system/components/ui/checkbox';
+import { Input } from '@quikdb/design-system/components/ui/input';
 import { ArrowLeftCircle } from 'lucide-react';
 
 const roles = [

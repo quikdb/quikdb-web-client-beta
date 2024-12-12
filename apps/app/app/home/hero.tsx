@@ -1,6 +1,6 @@
 import Header from './components/header'
-import { Input } from '@repo/design-system/components/onboarding'
-import { Button } from '@repo/design-system/components/ui/button'
+import { Input } from '@quikdb/design-system/components/onboarding'
+import { Button } from '@quikdb/design-system/components/ui/button'
 
 const Hero = () => {
     return (

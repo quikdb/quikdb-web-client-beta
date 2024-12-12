@@ -1,8 +1,8 @@
-import '@repo/design-system/styles/globals.css';
-import { Toaster } from '@repo/design-system/components/ui/sonner';
-import { TooltipProvider } from '@repo/design-system/components/ui/tooltip';
-import { cn } from '@repo/design-system/lib/utils';
-import { DesignSystemProvider } from '@repo/design-system/providers';
+import '@quikdb/design-system/styles/globals.css';
+import { Toaster } from '@quikdb/design-system/components/ui/sonner';
+import { TooltipProvider } from '@quikdb/design-system/components/ui/tooltip';
+import { cn } from '@quikdb/design-system/lib/utils';
+import { DesignSystemProvider } from '@quikdb/design-system/providers';
 import { Analytics } from '@vercel/analytics/react';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';

@@ -1,5 +1,5 @@
 'use client';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/design-system/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@quikdb/design-system/components/ui/tabs';
 import Schema from '../../components/Schema';
 import Collaborators from '../../components/Collaborators';
 import Query from '../../components/Query';

@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
+import { CryptoUtils } from '@quikdb/design-system/lib/cryptoUtils';
 
 export async function GET(req: Request) {
   const cookieStore = await cookies();

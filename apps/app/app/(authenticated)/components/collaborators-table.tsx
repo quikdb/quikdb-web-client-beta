@@ -13,9 +13,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Button } from '@repo/design-system/components/ui/button';
-import { Checkbox } from '@repo/design-system/components/ui/checkbox';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/design-system/components/ui/table';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { Checkbox } from '@quikdb/design-system/components/ui/checkbox';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@quikdb/design-system/components/ui/table';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,7 +26,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@repo/design-system/components/ui/alert-dialog';
+} from '@quikdb/design-system/components/ui/alert-dialog';
 import Link from 'next/link';
 import { Trash2Icon } from 'lucide-react';
 

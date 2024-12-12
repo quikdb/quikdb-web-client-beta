@@ -1,7 +1,7 @@
 'use client';
 
-import { Input, FormDivider, PasswordInput, FormHeader } from '@repo/design-system/components/onboarding'
-import { Button } from '@repo/design-system/components/ui/button';
+import { Input, FormDivider, PasswordInput, FormHeader } from '@quikdb/design-system/components/onboarding'
+import { Button } from '@quikdb/design-system/components/ui/button';
 import React, { useState } from 'react';
 
 const ForgotPassword = () => {

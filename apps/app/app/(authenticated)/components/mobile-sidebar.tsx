@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTrigger } from '@repo/design-system/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger } from '@quikdb/design-system/components/ui/dialog';
 import {
   BarChartIcon,
   BookmarkFilledIcon,
@@ -11,7 +11,7 @@ import {
   PersonIcon,
 } from '@radix-ui/react-icons';
 import { CloudUpload, HeadphonesIcon, LogOutIcon } from 'lucide-react';
-import { Button } from '@repo/design-system/components/ui/button';
+import { Button } from '@quikdb/design-system/components/ui/button';
 import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';

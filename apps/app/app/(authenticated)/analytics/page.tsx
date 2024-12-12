@@ -1,6 +1,6 @@
-import { Button } from '@repo/design-system/components/ui/button';
-import { Card } from '@repo/design-system/components/ui/card';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@repo/design-system/components/ui/select';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { Card } from '@quikdb/design-system/components/ui/card';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@quikdb/design-system/components/ui/select';
 import { Calendar, Clock4, TrendingUp } from 'lucide-react';
 
 const Analytics = () => {

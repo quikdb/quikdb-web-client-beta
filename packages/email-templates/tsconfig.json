@@ -1,7 +1,8 @@
 {
-  "extends": "@repo/typescript-config/react-library.json",
+  "extends": "@quikdb/typescript-config/react-library.json",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "outDir": "./dist"
   },
   "include": ["./src/*.tsx"],
   "exclude": ["node_modules"]

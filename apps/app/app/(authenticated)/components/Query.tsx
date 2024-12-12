@@ -1,8 +1,8 @@
-import { Input } from '@repo/design-system/components/ui/input';
-import { Label } from '@repo/design-system/components/ui/label';
-import { Button } from '@repo/design-system/components/ui/button';
-import { Card } from '@repo/design-system/components/ui/card';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@repo/design-system/components/ui/select';
+import { Input } from '@quikdb/design-system/components/ui/input';
+import { Label } from '@quikdb/design-system/components/ui/label';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { Card } from '@quikdb/design-system/components/ui/card';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@quikdb/design-system/components/ui/select';
 
 const Query = () => {
   return (

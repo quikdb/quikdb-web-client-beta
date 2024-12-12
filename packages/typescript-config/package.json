@@ -1,7 +1,10 @@
 {
-  "name": "@repo/typescript-config",
-  "version": "0.0.0",
-  "private": true,
+  "name": "@quikdb/typescript-config",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "outDir": "./dist"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

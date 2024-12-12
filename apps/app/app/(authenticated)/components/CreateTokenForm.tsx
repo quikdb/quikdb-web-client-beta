@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@repo/design-system/components/ui/button';
+import { Button } from '@quikdb/design-system/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/design-system/components/ui/dialog';
+} from '@quikdb/design-system/components/ui/dialog';
 import { useState } from 'react';
 import { CheckCircle, DollarSign, Star } from 'lucide-react';
 import { DatabaseVersion } from '@/@types';

@@ -1,4 +1,4 @@
-import { Button } from "@repo/design-system/components/ui/button"
+import { Button } from "@quikdb/design-system/components/ui/button"
 import { ArrowRight } from "lucide-react"
 
 const Tools = () => {

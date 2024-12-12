@@ -14,11 +14,11 @@ import {
 } from '@tanstack/react-table';
 import { ChevronDown } from 'lucide-react';
 
-import { Button } from '@repo/design-system/components/ui/button';
-import { Checkbox } from '@repo/design-system/components/ui/checkbox';
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@repo/design-system/components/ui/dropdown-menu';
-import { Input } from '@repo/design-system/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/design-system/components/ui/table';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { Checkbox } from '@quikdb/design-system/components/ui/checkbox';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@quikdb/design-system/components/ui/dropdown-menu';
+import { Input } from '@quikdb/design-system/components/ui/input';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@quikdb/design-system/components/ui/table';
 import Link from 'next/link';
 const data: Backup[] = [
   {

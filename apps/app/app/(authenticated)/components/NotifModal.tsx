@@ -4,7 +4,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@repo/design-system/components/ui/dialog"
+} from "@quikdb/design-system/components/ui/dialog"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { Bell } from "lucide-react"
 import Link from "next/link"

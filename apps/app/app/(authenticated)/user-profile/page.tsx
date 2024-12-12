@@ -1,7 +1,7 @@
 'use client';
-import { Button } from '@repo/design-system/components/ui/button';
-import { Card } from '@repo/design-system/components/ui/card';
-import { Checkbox } from '@repo/design-system/components/ui/checkbox';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { Card } from '@quikdb/design-system/components/ui/card';
+import { Checkbox } from '@quikdb/design-system/components/ui/checkbox';
 import { ArrowLeftCircle } from 'lucide-react';
 import { useState } from 'react';
 

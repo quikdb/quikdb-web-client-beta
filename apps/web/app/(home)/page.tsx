@@ -1,5 +1,5 @@
-import { createMetadata } from '@repo/design-system/lib/metadata';
-import { showBetaFeature } from '@repo/feature-flags';
+import { createMetadata } from '@quikdb/design-system/lib/metadata';
+import { showBetaFeature } from '@quikdb/feature-flags';
 import type { Metadata } from 'next';
 import { Cases } from './components/cases';
 import { CTA } from './components/cta';

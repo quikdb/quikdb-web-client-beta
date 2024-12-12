@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react';
-import { cn } from "@repo/design-system/lib/utils"
+import { cn } from "@quikdb/design-system/lib/utils"
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(({ className, ...props }, ref) => (
   <div className='relative w-full overflow-auto bg-[#151418]'>

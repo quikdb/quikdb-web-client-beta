@@ -1,7 +1,7 @@
-import { Card } from '@repo/design-system/components/ui/card';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@repo/design-system/components/ui/accordion';
-import { Input } from '@repo/design-system/components/ui/input';
-import { Label } from '@repo/design-system/components/ui/label';
+import { Card } from '@quikdb/design-system/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@quikdb/design-system/components/ui/accordion';
+import { Input } from '@quikdb/design-system/components/ui/input';
+import { Label } from '@quikdb/design-system/components/ui/label';
 import { EllipsisVertical, Search } from 'lucide-react';
 import { DatabaseTable } from './database-table';
 import CreateDatabase from './CreateSchemaForm';

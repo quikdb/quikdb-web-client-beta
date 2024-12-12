@@ -13,9 +13,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Button } from '@repo/design-system/components/ui/button';
-import { Checkbox } from '@repo/design-system/components/ui/checkbox';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/design-system/components/ui/table';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { Checkbox } from '@quikdb/design-system/components/ui/checkbox';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@quikdb/design-system/components/ui/table';
 import Link from 'next/link';
 import CreateToken from './CreateTokenForm';
 import { useProjectTokens } from '@/hooks/fetchProjectTokens';

@@ -20,7 +20,6 @@
   "globalEnv": [
     "STRIPE_SECRET_KEY",
     "RESEND_TOKEN",
-    "RESEND_FROM",
-    "STRIPE_WEBHOOK_SECRET"
+    "RESEND_FROM"
   ]
 }

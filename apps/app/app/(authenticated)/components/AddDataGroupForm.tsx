@@ -1,4 +1,4 @@
-import { Button } from '@repo/design-system/components/ui/button';
+import { Button } from '@quikdb/design-system/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,9 +7,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/design-system/components/ui/dialog';
-import { Input } from '@repo/design-system/components/ui/input';
-import { Label } from '@repo/design-system/components/ui/label';
+} from '@quikdb/design-system/components/ui/dialog';
+import { Input } from '@quikdb/design-system/components/ui/input';
+import { Label } from '@quikdb/design-system/components/ui/label';
 import { PlusIcon } from 'lucide-react';
 
 export default function AddDataGroup() {

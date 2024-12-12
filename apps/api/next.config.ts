@@ -1,4 +1,4 @@
-import { config, withAnalyzer, withSentry } from '@repo/next-config';
+import { config, withAnalyzer, withSentry } from '@quikdb/next-config';
 import type { NextConfig } from 'next';
 
 let nextConfig: NextConfig = { ...config };

@@ -1,4 +1,4 @@
-import { docsUrl } from '@repo/design-system/lib/consts';
+import { docsUrl } from '@quikdb/design-system/lib/consts';
 import Link from 'next/link';
 
 export const Footer = () => {

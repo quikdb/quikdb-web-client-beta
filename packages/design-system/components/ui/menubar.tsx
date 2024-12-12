@@ -8,9 +8,9 @@ import {
 } from "@radix-ui/react-icons"
 import * as MenubarPrimitive from "@radix-ui/react-menubar"
 
-import { cn } from "@repo/design-system/lib/utils"
+import { cn } from "@quikdb/design-system/lib/utils"
 
-const MenubarMenu = MenubarPrimitive.Menu
+const MenubarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu;
 
 const MenubarGroup = MenubarPrimitive.Group
 

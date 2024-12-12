@@ -1,4 +1,4 @@
-import { CryptoUtils } from '@repo/design-system/lib/cryptoUtils';
+import { CryptoUtils } from '@quikdb/design-system/lib/cryptoUtils';
 import { cookies } from 'next/headers';
 
 export async function GET(req: Request) {

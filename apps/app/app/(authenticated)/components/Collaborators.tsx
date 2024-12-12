@@ -1,8 +1,8 @@
-import { Card } from '@repo/design-system/components/ui/card';
-import Input from '@repo/design-system/components/onboarding/Input';
+import { Card } from '@quikdb/design-system/components/ui/card';
+import Input from '@quikdb/design-system/components/onboarding/Input';
 import { PlusIcon, Search } from 'lucide-react';
-import { Button } from '@repo/design-system/components/ui/button';
-import { Label } from '@repo/design-system/components/ui/label';
+import { Button } from '@quikdb/design-system/components/ui/button';
+import { Label } from '@quikdb/design-system/components/ui/label';
 import { CollaboratorsTable } from './collaborators-table';
 import Link from 'next/link';
 
