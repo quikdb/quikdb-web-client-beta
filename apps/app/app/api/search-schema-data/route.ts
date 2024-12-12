@@ -1,3 +1,5 @@
+// /api/search-schema-data.ts
+
 import { HttpAgent, Actor } from '@dfinity/agent';
 import { idlFactory as quikdb_idl } from '../icp-database/declaration/database';
 
@@ -12,14 +14,13 @@ agent.fetchRootKey();
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    const { schemaName, filters } = body;
 
-    const { schemaName, customFields, userDefinedIndexes } = body;
-
-    const response = await quikDB.createSchema(schemaName, customFields, userDefinedIndexes);
+    const response = await quikDB.searchByMultipleFields(schemaName, filters);
+    console.log('searchByMultipleFields response:', response);
 
     return new Response(JSON.stringify(response), { status: 200 });
-  } catch (error) {
-    console.error('Error in /api/create-schema:', error);
+  } catch {
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 }

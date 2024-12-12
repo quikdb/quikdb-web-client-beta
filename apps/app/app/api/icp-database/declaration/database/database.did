@@ -1,0 +1,58 @@
+type Schema = 
+ record {
+   createdAt: int;
+   fields: vec Field;
+   indexes: vec text;
+   schemaName: text;
+ };
+type Result_2 = 
+ variant {
+   err: text;
+   ok: vec text;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: vec Record;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok: bool;
+ };
+type Record = 
+ record {
+   fields: vec record {
+                 text;
+                 text;
+               };
+   id: text;
+ };
+type Field = 
+ record {
+   fieldType: text;
+   name: text;
+ };
+service : {
+  createSchema: (text, vec Field, vec text) -> (Result);
+  deleteData: (text, text) -> (Result);
+  deleteSchema: (text) -> (Result);
+  getAllRecords: (text) -> (Result_1) query;
+  getOwner: () -> (principal) query;
+  getRecordById: (text, text) -> (opt Record) query;
+  getRecordSizes: (text) -> (Result_2) query;
+  getSchema: (text) -> (opt Schema) query;
+  initOwner: (principal) -> (bool);
+  insertData: (text, Record) -> (Result);
+  listSchemas: () -> (vec text) query;
+  queryByIndex: (text, text, text) -> (opt vec text) query;
+  searchByIndex: (text, text, text) -> (Result_1);
+  searchByMultipleFields: (text, vec record {
+                                       text;
+                                       text;
+                                     }) -> (Result_1);
+  updateData: (text, text, vec record {
+                                 text;
+                                 text;
+                               }) -> (Result);
+}

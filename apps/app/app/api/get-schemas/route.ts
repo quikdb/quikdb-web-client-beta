@@ -9,17 +9,14 @@ const quikDB = Actor.createActor(quikdb_idl, { agent, canisterId });
 
 agent.fetchRootKey();
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   try {
-    const body = await req.json();
-
-    const { schemaName, customFields, userDefinedIndexes } = body;
-
-    const response = await quikDB.createSchema(schemaName, customFields, userDefinedIndexes);
+    
+    const response = await quikDB.listSchemas();
 
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
-    console.error('Error in /api/create-schema:', error);
+    console.error('Error in /api/get-schemas:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 }

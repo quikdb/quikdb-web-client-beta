@@ -2,19 +2,19 @@ import useSWR, { mutate } from 'swr';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export const useProjectTokens = (projectId: string) => {
-  const url = `/api/project-tokens?projectId=${projectId}`;
+export const useGetSchemaData = (schemaName: string) => {
+  const url = `/api/get-schema-data?schemaName=${schemaName}`;
 
   const { data, error, isLoading } = useSWR(url, fetcher);
 
-  const refreshTokens = () => {
+  const refreshSchemaData = () => {
     mutate(url);
   };
 
   return {
-    tokens: data?.data?.tokens || [],
+    data,
     isLoading,
     isError: error,
-    refreshTokens,
+    refreshSchemaData,
   };
 };

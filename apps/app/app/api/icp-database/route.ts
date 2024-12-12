@@ -18,13 +18,11 @@ agent.fetchRootKey(); // Fetch root key in non-production environments for local
 export async function GET(req: Request) {
 
   try {
-    console.log({ quikDB });
     const createdByPrincipal = Principal.fromText('w7x7r-cok77-xa');
     const result = await quikDB.createProject(name, 'test', createdByPrincipal.toText());
-    console.log('Project created:', result);
     return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
-    console.error('Error in /api/sign-in:', error);
+    console.error('Error in /api/icp-database:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 }

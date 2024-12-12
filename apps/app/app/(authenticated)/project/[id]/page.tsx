@@ -5,7 +5,7 @@ import Collaborators from '../../components/Collaborators';
 import Query from '../../components/Query';
 import { useParams } from 'next/navigation';
 import { AccessTable } from '../../components/access-table';
-import { useProjects } from '@/hooks';
+import { useProject, useProjects } from '@/hooks';
 interface Project {
   _id: string;
   name: string;
@@ -19,7 +19,7 @@ const Project = () => {
   const params = useParams();
   const projectId = params.id as string;
 
-  const { project, isLoading, isError } = useProjects(projectId);
+  const { project, isLoading, isError } = useProject(projectId);
 
   if (isLoading) return <div>Loading...</div>;
 

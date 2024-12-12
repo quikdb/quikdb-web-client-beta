@@ -1,17 +1,17 @@
-// store/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
-import { AuthState } from './authSlice';  // Import AuthState here
+import schemaReducer, { SchemaState } from './schemaSlice'; // Explicitly import SchemaState
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    schema: schemaReducer,
   },
 });
 
-// Now you can use `AuthState` as part of the root state type
 export type RootState = {
-  auth: AuthState;
+  auth: ReturnType<typeof authReducer>;
+  schema: SchemaState; // Explicitly declare SchemaState in RootState
 };
 
 export type AppDispatch = typeof store.dispatch;

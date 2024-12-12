@@ -51,14 +51,46 @@ actor QuikDB {
   private let schemas = TrieMap.TrieMap<Text, Schema>(Text.equal, Text.hash);
   private let indexes = TrieMap.TrieMap<Text, TrieMap.TrieMap<Text, [Text]>>(Text.equal, Text.hash);
   private let records = TrieMap.TrieMap<Text, TrieMap.TrieMap<Text, Record>>(Text.equal, Text.hash);
-  
-  
 
-  public func createSchema(
+  public shared query func getRecordSizes(schemaName: Text): async Result<[Text], Text> {
+    // Retrieve the records for the schema
+    let schemaRecordsOpt = records.get(schemaName);
+    switch (schemaRecordsOpt) {
+        case null {
+            return #err("Schema not found or no records exist!");
+        };
+        case (?schemaRecords) {
+            var sizes: [Text] = [];
+            for ((recordId, record) in schemaRecords.entries()) {
+                // Calculate the size of the record using foldLeft
+                let size = Array.foldLeft<(Text, Text), Int>(
+                    record.fields,
+                    0,
+                    func(acc: Int, field: (Text, Text)): Int {
+                        let (fieldName, fieldValue) = field;
+                        acc + fieldName.size() + fieldValue.size();
+                    }
+                );
+                // Convert size to Text and append to sizes array
+                sizes := Array.append(sizes, [recordId # ": " # Int.toText(size) # " bytes"]);
+            };
+            return #ok(sizes);
+        };
+    };
+  };
+  
+  public shared query func listSchemas(): async [Text] {
+  Iter.toArray(schemas.keys())
+  };
+
+  public shared func createSchema(
     schemaName: Text,
     customFields: [Field],
     userDefinedIndexes: [Text]
   ) : async Result<Bool, Text> {
+    Debug.print("Received createSchema request:");
+    Debug.print("Schema Name: " # schemaName);
+
     // Check if the schema already exists
     if (schemas.get(schemaName) != null) {
       return #err("A schema with this name already exists!");
@@ -109,11 +141,11 @@ actor QuikDB {
     };
      // Initialize empty record storage for the schema
     records.put(schemaName, TrieMap.TrieMap<Text, Record>(Text.equal, Text.hash));
-
+ Debug.print("Schema '" # schemaName # "' created successfully ✅ ");
     return #ok(true);
   };
 
-  public query func getSchema(schemaName: Text) : async ?Schema {
+  public shared query func getSchema(schemaName: Text) : async ?Schema {
     schemas.get(schemaName);
   };
   public shared func deleteSchema(schemaName: Text): async Result<Bool, Text> {
@@ -516,7 +548,7 @@ actor QuikDB {
     };
   };
    // Helper function to get record by ID
-  public query func getRecordById(schemaName: Text, recordId: Text) : async ?Record {
+  public shared query func getRecordById(schemaName: Text, recordId: Text) : async ?Record {
     let schemaRecords = records.get(schemaName);
     switch (schemaRecords) {
       case null {
@@ -528,7 +560,27 @@ actor QuikDB {
     };
   };
 
-
-
-
+   public query func getAllRecords(schemaName: Text): async Result<[Record], Text> {
+    // Retrieve the records for the specified schema
+    let schemaRecordsOpt = records.get(schemaName);
+    switch (schemaRecordsOpt) {
+        case null {
+            return #err("Schema not found or no records exist!");
+        };
+        case (?schemaRecords) {
+            // Convert the schema records to an array of `Record`
+            let recordsArray = Array.map<(Text, { fields: [(Text, Text)] }), Record>(
+                Iter.toArray(schemaRecords.entries()),
+                func(entry: (Text, { fields: [(Text, Text)] })): Record {
+                    let (recordId, recordData) = entry;
+                    {
+                        id = recordId;
+                        fields = recordData.fields;
+                    };
+                }
+            );
+            return #ok(recordsArray);
+        };
+    };
+  };
 };

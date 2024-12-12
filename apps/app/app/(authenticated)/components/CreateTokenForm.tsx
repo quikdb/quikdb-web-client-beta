@@ -15,6 +15,7 @@ import { CheckCircle, DollarSign, Star } from 'lucide-react';
 import { DatabaseVersion } from '@/@types';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useProjectTokens } from '@/hooks';
 
 interface TokenProps {
   projectId: string | null;
@@ -28,6 +29,7 @@ export default function CreateToken({ projectId }: TokenProps) {
   const [showPaidPopup, setShowPaidPopup] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState<DatabaseVersion>(DatabaseVersion.FREE);
   const router = useRouter();
+  const { refreshTokens } = useProjectTokens(projectId ?? '');
 
   const createProjectToken = async (projectId: string, version: DatabaseVersion) => {
     if (!projectId) {
@@ -52,6 +54,7 @@ export default function CreateToken({ projectId }: TokenProps) {
         if (version === DatabaseVersion.FREE) {
           setShowFreePopup(true);
         }
+        refreshTokens();
       } else {
         setError(result.message || 'Failed to create project token. Please try again later.');
         toast.warning(result.message || 'Failed to create project token. Please try again later.');

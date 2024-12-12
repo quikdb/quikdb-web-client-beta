@@ -39,7 +39,6 @@ const Checkout = () => {
       body: JSON.stringify({ amount, databaseVersion: plan }),
     });
     const result = await response.json();
-    console.log('onCreateOrder Result:', result);
 
     if (response.ok) {
       orderIDRef.current = result.data.id;
@@ -51,7 +50,6 @@ const Checkout = () => {
   };
 
   const onApproveOrder = async (data: any) => {
-    console.log('Captured OrderID::', orderIDRef.current);
   
     if (!orderIDRef.current) {
       toast.error('Order ID is missing'); 

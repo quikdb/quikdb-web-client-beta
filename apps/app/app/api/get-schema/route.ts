@@ -9,17 +9,30 @@ const quikDB = Actor.createActor(quikdb_idl, { agent, canisterId });
 
 agent.fetchRootKey();
 
+interface GetSchemaResponse {
+  schemaName: string;
+  createdAt: bigint;
+  fields: { name: string; type: string }[];
+  indexes: string[];
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    const { schemaName } = body;
 
-    const { schemaName, customFields, userDefinedIndexes } = body;
+    const response = (await quikDB.getSchema(schemaName)) as GetSchemaResponse[];
 
-    const response = await quikDB.createSchema(schemaName, customFields, userDefinedIndexes);
 
-    return new Response(JSON.stringify(response), { status: 200 });
+    const serializedResponse = response.map((schema) => ({
+      ...schema,
+      createdAt: schema.createdAt.toString(),
+    }));
+
+    return new Response(JSON.stringify(serializedResponse), { status: 200 });
   } catch (error) {
-    console.error('Error in /api/create-schema:', error);
+    console.error('Error in /api/get-schema:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 }
+
