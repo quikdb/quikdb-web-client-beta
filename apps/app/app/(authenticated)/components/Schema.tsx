@@ -108,11 +108,32 @@ const Schema = () => {
     }
   };
 
+  const deleteSchema = async (schemaName: string) => {
+    try {
+      const response = await fetch('/api/delete-schema', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ schemaName }),
+      });
+
+      if (!response.ok) {
+        toast.warning('Failed to delete schema: ' + schemaName);
+        return;
+      }
+
+      toast.success('Schema deleted successfully: ' + schemaName);
+    } catch (error) {
+      console.error('Error deleting schema:', error);
+    }
+  };
+
   const renderSchemaAsDocumentFormat = (schema: any[]) => {
     return schema
       .map((schema: any) => {
         return `{
-    "schemaName": "${schema.schemaName}",
+    "schemaName": "${schema.schedemaName}",
     "createdAt": "${schema.createdAt}",
     "fields": [
       ${schema.fields
