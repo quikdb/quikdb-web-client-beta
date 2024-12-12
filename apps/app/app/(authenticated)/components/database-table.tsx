@@ -44,8 +44,8 @@ export type Database = {
 
 interface DatabaseTableProps {
   data: Database[];
-  schemaIndex: string[]; // Available indexes for search
-  schemaName: string | null; // Name of the schema
+  schemaIndex: string[]; 
+  schemaName: string | null; 
 }
 
 export const columns: ColumnDef<Database>[] = [
@@ -176,22 +176,22 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
 
         if (Array.isArray(searchData?.ok)) {
           setSearchResults(searchData.ok); // Update search results
-          toast.success('Data fetched successfully');
+          toast.success('Data searched successfully');
         } else {
           toast.warning('No results found');
         }
       } else {
-        toast.warning('Error fetching data: ' + response.status);
+        toast.warning('Error searching data: ' + response.status);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error searching data:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const table = useReactTable({
-    data: searchResults || data, // Use search results if available, otherwise use initial data
+    data: searchResults || data, 
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

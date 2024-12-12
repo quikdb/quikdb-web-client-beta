@@ -13,7 +13,6 @@ import { toast } from 'sonner';
 const Schema = () => {
   const { schemas } = useSchemas();
 
-  // State for schema management
   const [selectedSchema, setSelectedSchema] = useState<string | null>(null);
   const [schema, setSchema] = useState<any[]>([]);
   const [schemaData, setSchemaData] = useState<any[]>([]);
@@ -21,7 +20,6 @@ const Schema = () => {
   const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]);
   const [schemaIndexes, setSchemaIndexes] = useState<string[]>([]);
 
-  // New state for managing DatabaseTable props
   const [databaseTableProps, setDatabaseTableProps] = useState<{
     schemaName: string | null;
     schemaData: any[];
@@ -61,7 +59,6 @@ const Schema = () => {
         const indexes = data[0]?.indexes || [];
         setSchemaIndexes(indexes);
 
-        // Update DatabaseTable props
         setDatabaseTableProps((prev) => ({
           ...prev,
           schemaName,
