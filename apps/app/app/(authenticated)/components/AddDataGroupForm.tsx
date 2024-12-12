@@ -1,3 +1,4 @@
+import { useGetSchemaData } from '@/hooks/fetchSchemaData';
 import { Button } from '@repo/design-system/components/ui/button';
 import {
   Dialog,
@@ -24,6 +25,7 @@ export default function AddDataGroup({ attributes, selectedSchema }: AddDataGrou
   const [formData, setFormData] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const { refreshSchemaData } = useGetSchemaData(selectedSchema ?? '');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     setFormData((prevData: any) => ({
@@ -72,6 +74,7 @@ export default function AddDataGroup({ attributes, selectedSchema }: AddDataGrou
       if (result.success) {
         toast.success('✅ Data inserted successfully.');
         setOpen(false);
+        refreshSchemaData();
       } else {
         toast.warning('❌ Failed to insert data:', result.error || 'Unknown error.');
       }
@@ -116,11 +119,7 @@ export default function AddDataGroup({ attributes, selectedSchema }: AddDataGrou
         </div>
 
         <DialogFooter className='sm:justify-start'>
-          <Button
-            className='bg-gradient w-fit px-4 text-[#0F1407]'
-            onClick={handleSubmit}
-            disabled={loading}
-          >
+          <Button className='bg-gradient w-fit px-4 text-[#0F1407]' onClick={handleSubmit} disabled={loading}>
             {loading ? 'Submitting...' : 'Add'}
           </Button>
         </DialogFooter>

@@ -4,14 +4,14 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@r
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 import { EllipsisVertical, Search } from 'lucide-react';
-import CreateDatabase from './CreateSchemaForm';
+import CreateSchema from './CreateSchemaForm';
 import AddDataGroup from './AddDataGroupForm';
 import { useSchemas } from '@/hooks';
 import { DatabaseTable } from './database-table';
 import { toast } from 'sonner';
 
 const Schema = () => {
-  const { schemas } = useSchemas();
+  const { schemas, refreshSchemas } = useSchemas();
 
   const [selectedSchema, setSelectedSchema] = useState<string | null>(null);
   const [schema, setSchema] = useState<any[]>([]);
@@ -124,6 +124,7 @@ const Schema = () => {
       }
 
       toast.success('Schema deleted successfully: ' + schemaName);
+      refreshSchemas();
     } catch (error) {
       console.error('Error deleting schema:', error);
     }
@@ -154,7 +155,7 @@ const Schema = () => {
   return (
     <Card className='bg-[#151418] text-white border-[#242527] p-10 max-md:py-5 px-5 flex max-md:flex-col gap-10 mt-5'>
       <div className='flex flex-col gap-5 pr-10 border-r border-r-[#242527]'>
-        <CreateDatabase />
+        <CreateSchema />
         <div className='flex relative'>
           <Label className='absolute top-2.5 left-4 text-gray-400'>
             <Search size={14} />

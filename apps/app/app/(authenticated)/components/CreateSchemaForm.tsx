@@ -1,3 +1,4 @@
+import { useSchemas } from '@/hooks';
 import { Button } from '@repo/design-system/components/ui/button';
 import {
   Dialog,
@@ -19,6 +20,7 @@ export default function CreateSchema() {
   const [userDefinedIndexes, setUserDefinedIndexes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const { refreshSchemas } = useSchemas();
 
   const handleAddField = () => {
     setFields([...fields, { name: '', fieldType: 'text' }]);
@@ -65,6 +67,7 @@ export default function CreateSchema() {
       if (response.ok) {
         toast.success('Schema created successfully.');
         setOpen(false);
+        refreshSchemas();
       } else {
         const errorData = await response.json();
         toast.error(errorData.error + 'Schema creation failed.');
@@ -130,10 +133,16 @@ export default function CreateSchema() {
         <DialogFooter className='sm:justify-start'>
           <Button onClick={handleCreateSchema} className='bg-gradient w-fit px-4 text-[#0F1407]' disabled={loading}>
             {loading ? (
-              <span className="flex items-center">
-                <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25"/>
-                  <path d="M4 12a8 8 0 1 0 16 0 8 8 0 1 0-16 0" fill="none" stroke="currentColor" strokeWidth="4" className="opacity-75"/>
+              <span className='flex items-center'>
+                <svg
+                  className='animate-spin h-5 w-5 mr-2 text-white'
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                >
+                  <circle cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4' className='opacity-25' />
+                  <path d='M4 12a8 8 0 1 0 16 0 8 8 0 1 0-16 0' fill='none' stroke='currentColor' strokeWidth='4' className='opacity-75' />
                 </svg>
                 Creating...
               </span>
