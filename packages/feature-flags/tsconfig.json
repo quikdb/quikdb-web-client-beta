@@ -1,9 +1,0 @@
-{
-  "extends": "@quikdb/typescript-config/react-library.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "./dist"
-  },
-  "include": ["**.ts"],
-  "exclude": ["node_modules"]
-}
