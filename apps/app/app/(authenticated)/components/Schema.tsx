@@ -191,7 +191,7 @@ const Schema = () => {
               {`${selectedSchema?.charAt(0).toUpperCase() + selectedSchema?.slice(1).toLowerCase()} Schema`}
             </h2>
             {schema && schema.length > 0 ? (
-              <pre className='bg-gray-800 text-white p-4 rounded mt-4'>{renderSchemaAsDocumentFormat(schema)}</pre>
+              <pre className='bg-gray-900 text-white p-4 rounded mt-4'>{renderSchemaAsDocumentFormat(schema)}</pre>
             ) : (
               <p>No data available for this schema.</p>
             )}
