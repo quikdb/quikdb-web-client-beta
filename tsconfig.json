@@ -2,8 +2,10 @@
   "extends": "./@quikdb/typescript-config/nextjs.json",
   "compilerOptions": {
     "module": "ESNext",
-    "moduleResolution": "Node",
     "baseUrl": ".",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "typeRoots": ["node_modules/@types"],
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
