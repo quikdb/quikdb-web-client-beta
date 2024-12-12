@@ -3,12 +3,23 @@ import { Card } from '@quikdb/design-system/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@quikdb/design-system/components/ui/accordion';
 import { Input } from '@quikdb/design-system/components/ui/input';
 import { Label } from '@quikdb/design-system/components/ui/label';
-import { EllipsisVertical, Search } from 'lucide-react';
+import { Search, Trash2Icon } from 'lucide-react';
 import CreateSchema from './CreateSchemaForm';
 import AddDataGroup from './AddDataGroupForm';
 import { useSchemas } from '@/hooks';
 import { DatabaseTable } from './database-table';
 import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@quikdb/design-system/components/ui/alert-dialog';
 
 const Schema = () => {
   const { schemas, refreshSchemas } = useSchemas();
@@ -18,7 +29,7 @@ const Schema = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [schemaAttributes, setSchemaAttributes] = useState<any[]>([]);
   const [schemaIndexes, setSchemaIndexes] = useState<string[]>([]);
-  const [showSchemaDetails, setShowSchemaDetails] = useState(false); 
+  const [showSchemaDetails, setShowSchemaDetails] = useState(false);
 
   const [databaseTableProps, setDatabaseTableProps] = useState<{
     schemaName: string | null;
@@ -53,9 +64,9 @@ const Schema = () => {
         setSchemaAttributes(data[0]?.fields || []);
         setSchemaIndexes(data[0]?.indexes || []);
         setSelectedSchema(schemaName);
-        setShowSchemaDetails(true); 
+        setShowSchemaDetails(true);
       } else {
-        toast.warning('No schema data found for: ' + schemaName);
+        toast.warning('No schema found for: ' + schemaName);
       }
     } catch (error) {
       console.error('Error fetching schema data:', error);
@@ -83,16 +94,15 @@ const Schema = () => {
       const data = await response.json();
 
       if (Array.isArray(data) && data.length > 0) {
-
         setDatabaseTableProps({
           schemaName,
           schemaData: data,
-          schemaIndexes: schemaIndexes, 
+          schemaIndexes: schemaIndexes,
         });
 
-        setShowSchemaDetails(false); 
+        setShowSchemaDetails(false);
       } else {
-        toast.warning('No schema data found for: ' + schemaName);
+        toast.warning('No data found in: ' + schemaName);
       }
     } catch (error) {
       console.error('Error fetching schema data:', error);
@@ -100,7 +110,6 @@ const Schema = () => {
       setLoading(false);
     }
   };
-
 
   const deleteSchema = async (schemaName: string) => {
     try {
@@ -164,20 +173,41 @@ const Schema = () => {
                 <AccordionTrigger
                   onClick={() => {
                     setSelectedSchema(schemaName);
-                    fetchSchemaData(schemaName); 
+                    fetchSchemaData(schemaName);
                   }}
                 >
                   <button className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
                     <p className='text-base'>{schemaName.charAt(0).toUpperCase() + schemaName.slice(1)}</p>
-                    <EllipsisVertical size={16} className='text-gray- max-md:' />
+                    <div>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild className='cursor-pointer'>
+                          <Trash2Icon size={18} />
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>You are about to remove this dataset from your group list.</AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogAction
+                              className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2'
+                              onClick={() => deleteSchema(schemaName)}
+                            >
+                              Yes, Delete
+                            </AlertDialogAction>
+                            <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>No, Cancel</AlertDialogCancel>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
                   </button>
                 </AccordionTrigger>
                 <AccordionContent className='w-full flex flex-col gap-3 pl-6'>
                   <button
                     className='text-sm text-[#72F5DD] underline'
                     onClick={(e) => {
-                      e.stopPropagation(); 
-                      fetchSchema(schemaName); 
+                      e.stopPropagation();
+                      fetchSchema(schemaName);
                     }}
                   >
                     View Full Schema

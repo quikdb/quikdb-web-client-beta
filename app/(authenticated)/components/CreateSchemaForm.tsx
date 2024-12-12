@@ -26,6 +26,11 @@ export default function CreateSchema() {
     setFields([...fields, { name: '', fieldType: 'text' }]);
   };
 
+  const handleRemoveField = (index: number) => {
+    const updatedFields = fields.filter((_, i) => i !== index);
+    setFields(updatedFields);
+  };
+
   const handleFieldNameChange = (index: number, name: string) => {
     const updatedFields = [...fields];
     updatedFields[index].name = name;
@@ -112,6 +117,7 @@ export default function CreateSchema() {
                     <option value='timestamp'>Timestamp</option>
                   </select>
                 </div>
+                <Button onClick={() => handleRemoveField(index)} className='border-none rounded-3xl bg-gray-900 hover:bg-red-600 text-white'>Remove</Button>
               </div>
             ))}
             <Button onClick={handleAddField} className='mt-2'>
