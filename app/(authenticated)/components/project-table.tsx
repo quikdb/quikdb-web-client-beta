@@ -1,13 +1,24 @@
 'use client';
 import React from 'react';
 import { ColumnDef, SortingState, useReactTable, flexRender, getCoreRowModel, getPaginationRowModel } from '@tanstack/react-table';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Trash2Icon } from 'lucide-react';
 import { Button } from '@quikdb/design-system/components/ui/button';
 import { Input } from '@quikdb/design-system/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@quikdb/design-system/components/ui/table';
-import Link from 'next/link';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@quikdb/design-system/components/ui/dropdown-menu';
 import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@quikdb/design-system/components/ui/alert-dialog';
+import Link from 'next/link';
 import { useProjects } from '@/hooks';
 
 type Project = {
@@ -22,52 +33,67 @@ interface ProjectTableProps {
   projects: Project[];
 }
 
-export const columns: ColumnDef<Project>[] = [
-  {
-    accessorKey: 'name',
-    header: 'Project Name',
-    cell: ({ row }) => <div>{row.getValue('name')}</div>,
-  },
-  {
-    accessorKey: 'createdAt',
-    header: 'Date Created',
-    cell: ({ row }) => <div>{new Date(row.getValue('createdAt')).toLocaleString()}</div>,
-  },
-  {
-    accessorKey: 'owner',
-    header: 'Owner',
-    cell: ({ row }) => <div>{row.getValue('owner')}</div>,
-  },
-  {
-    accessorKey: 'isActive',
-    header: 'Active Status',
-    cell: ({ row }) => <div>{row.getValue('isActive') ? 'Active' : 'Inactive'}</div>,
-  },
-  {
-    accessorKey: '_id',
-    header: 'Project ID',
-    cell: ({ row }) => <div>{row.getValue('_id')}</div>,
-  },
-];
-
 export function ProjectTable({ projects }: ProjectTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const table = useReactTable({
-    data: projects,
-    columns,
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    state: {
-      sorting,
+
+  const columns: ColumnDef<Project>[] = [
+    {
+      accessorKey: 'name',
+      header: 'Project Name',
+      cell: ({ row }) => <div>{row.getValue('name')}</div>,
     },
-  });
+    {
+      accessorKey: 'createdAt',
+      header: 'Date Created',
+      cell: ({ row }) => <div>{new Date(row.getValue('createdAt')).toLocaleString()}</div>,
+    },
+    {
+      accessorKey: 'owner',
+      header: 'Owner',
+      cell: ({ row }) => <div>{row.getValue('owner')}</div>,
+    },
+    {
+      accessorKey: 'isActive',
+      header: 'Active Status',
+      cell: ({ row }) => <div>{row.getValue('isActive') ? 'Active' : 'Inactive'}</div>,
+    },
+    {
+      accessorKey: '_id',
+      header: 'Actions',
+      cell: ({ row }) => {
+        const projectId = row.getValue('_id') as string;
+        const Name = row.getValue('name') as string;
+        return (
+          <div>
+            <AlertDialog>
+              <AlertDialogTrigger asChild className='cursor-pointer'>
+                <Trash2Icon size={18} />
+              </AlertDialogTrigger>
+              <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogDescription>{`You are about to remove this ${Name} project from your list.`}</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogAction className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2' onClick={() => deleteProject(projectId)}>
+                    Yes, Delete
+                  </AlertDialogAction>
+                  <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>No, Cancel</AlertDialogCancel>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        );
+      },
+    },
+  ];
+
   const { refreshProjects } = useProjects();
 
   const deleteProject = async (projectId: string) => {
     try {
       const response = await fetch('/api/delete-project', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -85,7 +111,16 @@ export function ProjectTable({ projects }: ProjectTableProps) {
       console.error('Error deleting Project:', error);
     }
   };
-
+  const table = useReactTable({
+    data: projects,
+    columns,
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    state: {
+      sorting,
+    },
+  });
   return (
     <div className='w-full'>
       <div className='flex items-center pt-7 pb-5'>
@@ -138,19 +173,11 @@ export function ProjectTable({ projects }: ProjectTableProps) {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className='hover:bg-blacko'>
-                  <Link href={`/project/${row.getValue('_id')}`} passHref>
-                    <TableCell className='py-6 cursor-pointer px-10'>
-                      {flexRender(row.getVisibleCells()[0]?.column.columnDef.cell, row.getVisibleCells()[0]?.getContext())}
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className='py-6 px-10'>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
-                  </Link>
-                  {row
-                    .getVisibleCells()
-                    .slice(1)
-                    .map((cell) => (
-                      <TableCell key={cell.id} className='py-6'>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
-                    ))}
+                  ))}
                 </TableRow>
               ))
             ) : (

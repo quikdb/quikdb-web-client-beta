@@ -21,10 +21,12 @@ export async function DELETE(req: Request) {
     }
 
     const response = await fetch(`https://quikdb-core-beta.onrender.com/v/p/${encryptedData}`, {
+      method: 'DELETE',
       headers,
     });
 
     const result = await response.json();
+    console.log('delete project result', result);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });

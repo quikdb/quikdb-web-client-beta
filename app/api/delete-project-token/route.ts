@@ -21,6 +21,7 @@ export async function DELETE(req: Request) {
     }
 
     const response = await fetch(`https://quikdb-core-beta.onrender.com/v/p/${encryptedData}/token`, {
+      method: 'DELETE',
       headers,
     });
 
