@@ -20,7 +20,18 @@ import Link from 'next/link';
 import CreateToken from './CreateTokenForm';
 import { useProjectTokens } from '@/hooks/fetchProjectTokens';
 import { toast } from 'sonner';
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@quikdb/design-system/components/ui/alert-dialog';
+import { Trash2Icon } from 'lucide-react';
 export interface ProjectToken {
   _id: string;
   userId: string;
@@ -36,72 +47,13 @@ interface AccessTableProps {
   projectId: string;
 }
 
-export const columns: ColumnDef<ProjectToken>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        className='ml-5'
-        checked={table.getIsAllPageRowsSelected() ? true : table.getIsSomePageRowsSelected() ? 'indeterminate' : false}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox className='ml-5' checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: '_id',
-    header: 'Token ID',
-    cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('_id')}</div>,
-  },
-  {
-    accessorKey: 'userId',
-    header: 'User ID',
-    cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('userId')}</div>,
-  },
-  {
-    accessorKey: 'projectId',
-    header: 'Project ID',
-    cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('projectId')}</div>,
-  },
-  {
-    accessorKey: 'token',
-    header: 'Token',
-    cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('token')}</div>,
-  },
-  {
-    accessorKey: 'createdAt',
-    header: 'Created At',
-    cell: ({ row }) => <div>{row.getValue('createdAt')}</div>,
-  },
-  {
-    accessorKey: 'updatedAt',
-    header: 'Updated At',
-    cell: ({ row }) => <div>{row.getValue('updatedAt')}</div>,
-  },
-  {
-    accessorKey: 'duration',
-    header: 'Duration',
-    cell: ({ row }) => <div>{row.getValue('duration')}</div>,
-  },
-  {
-    accessorKey: 'type',
-    header: 'Type',
-    cell: ({ row }) => <div>{row.getValue('type')}</div>,
-  },
-];
-
 export function AccessTable({ projectId }: AccessTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const { tokens, isLoading, isError } = useProjectTokens(projectId);
-  const {refreshTokens} = useProjectTokens(projectId);
+  const { refreshTokens } = useProjectTokens(projectId);
 
   const deleteProjectToken = async (projectId: string) => {
     try {
@@ -125,6 +77,105 @@ export function AccessTable({ projectId }: AccessTableProps) {
     }
   };
 
+  const columns: ColumnDef<ProjectToken>[] = [
+    {
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          className='ml-5'
+          checked={table.getIsAllPageRowsSelected() ? true : table.getIsSomePageRowsSelected() ? 'indeterminate' : false}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label='Select all'
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          className='ml-5'
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label='Select row'
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: '_id',
+      header: 'Token ID',
+      cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('_id')}</div>,
+    },
+    {
+      accessorKey: 'userId',
+      header: 'User ID',
+      cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('userId')}</div>,
+    },
+    {
+      accessorKey: 'projectId',
+      header: 'Project ID',
+      cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('projectId')}</div>,
+    },
+    {
+      accessorKey: 'token',
+      header: 'Token',
+      cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('token')}</div>,
+    },
+    {
+      accessorKey: 'createdAt',
+      header: 'Created At',
+      cell: ({ row }) => <div>{row.getValue('createdAt')}</div>,
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => {
+        const tokenId = row.getValue('_id') as string;
+  
+        return (
+          <AlertDialog>
+            <AlertDialogTrigger asChild className='cursor-pointer'>
+              <Trash2Icon size={18} className='text-red-500 hover:text-red-700' />
+            </AlertDialogTrigger>
+            <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  {`You are about to delete the token with ID "${tokenId}". This action cannot be undone.`}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogAction
+                  className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2'
+                  onClick={() => deleteProjectToken(tokenId)}
+                >
+                  Yes, Delete
+                </AlertDialogAction>
+                <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>
+                  No, Cancel
+                </AlertDialogCancel>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        );
+      },
+    },
+        // {
+    //   accessorKey: 'updatedAt',
+    //   header: 'Updated At',
+    //   cell: ({ row }) => <div>{row.getValue('updatedAt')}</div>,
+    // },
+    // {
+    //   accessorKey: 'duration',
+    //   header: 'Duration',
+    //   cell: ({ row }) => <div>{row.getValue('duration')}</div>,
+    // },
+    // {
+    //   accessorKey: 'type',
+    //   header: 'Type',
+    //   cell: ({ row }) => <div>{row.getValue('type')}</div>,
+    // },
+  ];
+  
+
   const table = useReactTable({
     data: tokens,
     columns,
@@ -143,7 +194,6 @@ export function AccessTable({ projectId }: AccessTableProps) {
       rowSelection,
     },
   });
-
   return (
     <div className='w-full mt-7'>
       <div className='flex items-center relative max-md:mb-3 pb-4'>
