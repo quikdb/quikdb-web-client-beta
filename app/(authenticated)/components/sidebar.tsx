@@ -18,6 +18,7 @@ import type { ReactNode } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface GlobalSidebarProps {
   children?: ReactNode;
@@ -47,13 +48,16 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
       if (response.ok && result.status === 'success') {
         setSuccess(true);
         setError('');
+        toast.success('Signed out successfully');
         router.push('/sign-in');
       } else {
         setError(result.error || 'Failed to sign out.');
+        toast.warning(result.message || 'Failed to sign out.');
       }
     } catch (err: any) {
       console.error('Error during sign-out:', err);
       setError('An error occurred during sign-out. Please try again.');
+      toast.error('An error occurred during sign-out. Please try again.');
     } finally {
       setLoading(false);
       router.push('/sign-in');

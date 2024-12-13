@@ -120,7 +120,7 @@ export default function CreateSchema() {
                 <div className='flex-1'>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button className='bg-gray-900 hover:bg-gray-800 hover:text-gray-900 hover:text-white text-white px-4 py-2 w-full'>
+                      <Button className='bg-gray-900 hover:bg-gray-800  hover:text-white text-white px-4 py-2 w-full'>
                         {field.fieldType ? field.fieldType : 'Select Field Type'}
                       </Button>
                     </DropdownMenuTrigger>
