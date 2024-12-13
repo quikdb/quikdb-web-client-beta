@@ -133,7 +133,8 @@ export function AccessTable({ projectId }: AccessTableProps) {
         return (
           <AlertDialog>
             <AlertDialogTrigger asChild className='cursor-pointer'>
-              <Trash2Icon size={18} className='text-red-500 hover:text-red-700' />
+                             <Trash2Icon size={18} />
+             
             </AlertDialogTrigger>
             <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
               <AlertDialogHeader>

@@ -180,9 +180,12 @@ const Schema = () => {
                     <p className='text-base'>{schemaName.charAt(0).toUpperCase() + schemaName.slice(1)}</p>
                     <div>
                       <AlertDialog>
-                        <AlertDialogTrigger asChild className='cursor-pointer'>
-                          <Trash2Icon size={18} className='text-red-500 hover:text-red-700' />{' '}
+                        <AlertDialogTrigger asChild>
+                          <button className='cursor-pointer'>
+                            <Trash2Icon size={18} />
+                          </button>
                         </AlertDialogTrigger>
+
                         <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
                           <AlertDialogHeader>
                             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
