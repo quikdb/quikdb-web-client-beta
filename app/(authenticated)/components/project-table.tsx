@@ -173,11 +173,19 @@ export function ProjectTable({ projects }: ProjectTableProps) {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className='hover:bg-blacko'>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className='py-6 px-10'>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  <Link href={`/project/${row.getValue('_id')}`} passHref>
+                    <TableCell className='py-6 cursor-pointer px-10'>
+                      {flexRender(row.getVisibleCells()[0]?.column.columnDef.cell, row.getVisibleCells()[0]?.getContext())}
                     </TableCell>
-                  ))}
+                  </Link>
+                  {row
+                    .getVisibleCells()
+                    .slice(1)
+                    .map((cell) => (
+                      <TableCell key={cell.id} className='py-6'>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
                 </TableRow>
               ))
             ) : (
