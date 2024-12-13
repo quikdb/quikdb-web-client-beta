@@ -94,7 +94,12 @@ export const columns: ColumnDef<Database>[] = [
       />
     ),
     cell: ({ row }) => (
-      <Checkbox className='ml-5 border-gray-500' checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />
+      <Checkbox
+        className='ml-5 border-gray-500'
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label='Select row'
+      />
     ),
     enableSorting: false,
     enableHiding: false,
@@ -149,7 +154,7 @@ export const columns: ColumnDef<Database>[] = [
       return (
         <AlertDialog>
           <AlertDialogTrigger asChild className='cursor-pointer'>
-            <Trash2Icon size={18} />
+            <Trash2Icon size={18} className='text-red-500 hover:text-red-700' />{' '}
           </AlertDialogTrigger>
           <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
             <AlertDialogHeader>

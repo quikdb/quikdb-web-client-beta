@@ -17,12 +17,7 @@ import { ChevronDown, Trash2Icon } from 'lucide-react';
 
 import { Button } from '@quikdb/design-system/components/ui/button';
 import { Checkbox } from '@quikdb/design-system/components/ui/checkbox';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@quikdb/design-system/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@quikdb/design-system/components/ui/dropdown-menu';
 import { Input } from '@quikdb/design-system/components/ui/input';
 import {
   AlertDialog,
@@ -44,8 +39,8 @@ export type Database = {
 
 interface DatabaseTableProps {
   data: Database[];
-  schemaIndex: string[]; 
-  schemaName: string | null; 
+  schemaIndex: string[];
+  schemaName: string | null;
 }
 
 export const columns: ColumnDef<Database>[] = [
@@ -53,21 +48,14 @@ export const columns: ColumnDef<Database>[] = [
     id: 'select',
     header: ({ table }) => (
       <Checkbox
-        className=""
-        checked={
-          table.getIsAllPageRowsSelected() ? true : table.getIsSomePageRowsSelected() ? 'indeterminate' : false
-        }
+        className=''
+        checked={table.getIsAllPageRowsSelected() ? true : table.getIsSomePageRowsSelected() ? 'indeterminate' : false}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
+        aria-label='Select all'
       />
     ),
     cell: ({ row }) => (
-      <Checkbox
-        className=""
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <Checkbox className='' checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />
     ),
     enableSorting: false,
     enableHiding: false,
@@ -77,7 +65,7 @@ export const columns: ColumnDef<Database>[] = [
     header: 'ID',
     cell: ({ row }) => (
       <pre
-        className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px] cursor-pointer hover:overflow-auto hover:whitespace-normal"
+        className='whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px] cursor-pointer hover:overflow-auto hover:whitespace-normal'
         title={row.getValue('id')}
       >
         {row.getValue('id')}
@@ -96,11 +84,7 @@ export const columns: ColumnDef<Database>[] = [
 
       const fieldsObject = Object.fromEntries(fields);
 
-      return (
-        <pre className="text-gray-200 p-2 rounded-md whitespace-pre-wrap">
-          {JSON.stringify(fieldsObject, null, 2)}
-        </pre>
-      );
+      return <pre className='text-gray-200 p-2 rounded-md whitespace-pre-wrap'>{JSON.stringify(fieldsObject, null, 2)}</pre>;
     },
   },
   {
@@ -111,21 +95,17 @@ export const columns: ColumnDef<Database>[] = [
 
       return (
         <AlertDialog>
-          <AlertDialogTrigger asChild className="cursor-pointer">
-            <Trash2Icon size={18} />
+          <AlertDialogTrigger asChild className='cursor-pointer'>
+            <Trash2Icon size={18} className='text-red-500 hover:text-red-700' />{' '}
           </AlertDialogTrigger>
-          <AlertDialogContent className="bg-[#111015] text-white border-[#242527] font-regular">
+          <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
               <AlertDialogDescription>You are about to remove this dataset from your group list.</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogAction className="bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2">
-                Yes, Delete
-              </AlertDialogAction>
-              <AlertDialogCancel className="bg-transparent border-[#242527] py-2 rounded-3xl">
-                No, Cancel
-              </AlertDialogCancel>
+              <AlertDialogAction className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2'>Yes, Delete</AlertDialogAction>
+              <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>No, Cancel</AlertDialogCancel>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
@@ -191,7 +171,7 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
   };
 
   const table = useReactTable({
-    data: searchResults || data, 
+    data: searchResults || data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -207,29 +187,21 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
   });
 
   return (
-    <div className="w-full">
-      <div className="flex flex-col gap-4 pt-7 pb-5">
-        <div className="flex gap-4">
+    <div className='w-full'>
+      <div className='flex flex-col gap-4 pt-7 pb-5'>
+        <div className='flex gap-4'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="bg-gray-900 hover:bg-gradient hover:text-gray-900 text-white px-4 py-2">
-                {selectedIndexes.length > 0
-                  ? `Indexes (${selectedIndexes.length})`
-                  : 'Select Indexes'}
+              <Button className='bg-gray-900 hover:bg-gradient hover:text-gray-900 text-white px-4 py-2'>
+                {selectedIndexes.length > 0 ? `Indexes (${selectedIndexes.length})` : 'Select Indexes'}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="bg-gray-900 text-white">
+            <DropdownMenuContent align='start' className='bg-gray-900 text-white'>
               {schemaIndex.map((index) => (
                 <DropdownMenuCheckboxItem
                   key={index}
                   checked={selectedIndexes.includes(index)}
-                  onCheckedChange={() =>
-                    setSelectedIndexes((prev) =>
-                      prev.includes(index)
-                        ? prev.filter((i) => i !== index)
-                        : [...prev, index]
-                    )
-                  }
+                  onCheckedChange={() => setSelectedIndexes((prev) => (prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]))}
                 >
                   {index}
                 </DropdownMenuCheckboxItem>
@@ -237,48 +209,43 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button onClick={searchIndex} className="bg-[#72F5DD] text-gray-900 px-4 py-2">
+          <Button onClick={searchIndex} className='bg-[#72F5DD] text-gray-900 px-4 py-2'>
             {loading ? 'Searching...' : 'Search'}
           </Button>
         </div>
 
-        <div className="flex flex-wrap gap-4">
+        <div className='flex flex-wrap gap-4'>
           {selectedIndexes.map((index) => (
             <Input
               key={index}
               placeholder={`Enter ${index}`}
               value={fieldValues[index] || ''}
               onChange={(e) => handleFieldChange(index, e.target.value)}
-              className="max-w-sm h-11"
+              className='max-w-sm h-11'
             />
           ))}
         </div>
       </div>
 
-      <div className="rounded-md border border-[#242527]">
-        <table className="min-w-full divide-y">
+      <div className='rounded-md border border-[#242527]'>
+        <table className='min-w-full divide-y'>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  <th key={header.id} className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'>
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </th>
                 ))}
               </tr>
             ))}
           </thead>
-          <tbody className="divide-y">
+          <tbody className='divide-y'>
             {table.getRowModel().rows.length > 0 ? (
               table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className="hover:bg-gray-700">
+                <tr key={row.id} className='hover:bg-gray-700'>
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-6 py-4 text-sm text-gray-200">
+                    <td key={cell.id} className='px-6 py-4 text-sm text-gray-200'>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -286,10 +253,7 @@ export function DatabaseTable({ data, schemaIndex, schemaName }: DatabaseTablePr
               ))
             ) : (
               <tr>
-                <td
-                  colSpan={columns.length}
-                  className="px-6 py-4 text-center text-sm text-gray-400"
-                >
+                <td colSpan={columns.length} className='px-6 py-4 text-center text-sm text-gray-400'>
                   No results.
                 </td>
               </tr>

@@ -170,9 +170,7 @@ export const columns: ColumnDef<Database>[] = [
   {
     accessorKey: 'projectRoles',
     header: 'Project Roles',
-    cell: ({ row }) => (
-      <div className='bg-[#2F2F35] text-gray-400 font-regular rounded-xl w-fit px-3 py-1'>{row.getValue('projectRoles')}</div>
-    ),
+    cell: ({ row }) => <div className='bg-[#2F2F35] text-gray-400 font-regular rounded-xl w-fit px-3 py-1'>{row.getValue('projectRoles')}</div>,
   },
   {
     id: 'actions',
@@ -184,7 +182,7 @@ export const columns: ColumnDef<Database>[] = [
       return (
         <AlertDialog>
           <AlertDialogTrigger asChild className='cursor-pointer'>
-            <Trash2Icon size={18} />
+            <Trash2Icon size={18} className='text-red-500 hover:text-red-700' />{' '}
           </AlertDialogTrigger>
           <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
             <AlertDialogHeader>
