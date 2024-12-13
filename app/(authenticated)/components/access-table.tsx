@@ -106,7 +106,7 @@ export function AccessTable({ projectId }: AccessTableProps) {
   const deleteProjectToken = async (projectId: string) => {
     try {
       const response = await fetch('/api/delete-project-token', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
