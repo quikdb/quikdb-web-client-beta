@@ -7,6 +7,8 @@ import { Input } from '@quikdb/design-system/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@quikdb/design-system/components/ui/table';
 import Link from 'next/link';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@quikdb/design-system/components/ui/dropdown-menu';
+import { toast } from 'sonner';
+import { useProjects } from '@/hooks';
 
 type Project = {
   _id: string;
@@ -60,6 +62,29 @@ export function ProjectTable({ projects }: ProjectTableProps) {
       sorting,
     },
   });
+  const { refreshProjects } = useProjects();
+
+  const deleteProject = async (projectId: string) => {
+    try {
+      const response = await fetch('/api/delete-project', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ projectId }),
+      });
+
+      if (!response.ok) {
+        toast.warning('Failed to delete Project: ' + projectId);
+        return;
+      }
+
+      toast.success('Project deleted successfully: ' + projectId);
+      refreshProjects();
+    } catch (error) {
+      console.error('Error deleting Project:', error);
+    }
+  };
 
   return (
     <div className='w-full'>

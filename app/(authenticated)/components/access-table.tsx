@@ -19,6 +19,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import Link from 'next/link';
 import CreateToken from './CreateTokenForm';
 import { useProjectTokens } from '@/hooks/fetchProjectTokens';
+import { toast } from 'sonner';
 
 export interface ProjectToken {
   _id: string;
@@ -100,6 +101,29 @@ export function AccessTable({ projectId }: AccessTableProps) {
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const { tokens, isLoading, isError } = useProjectTokens(projectId);
+  const {refreshTokens} = useProjectTokens(projectId);
+
+  const deleteProjectToken = async (projectId: string) => {
+    try {
+      const response = await fetch('/api/delete-project-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ projectId }),
+      });
+
+      if (!response.ok) {
+        toast.warning('Failed to delete Project: ' + projectId);
+        return;
+      }
+
+      toast.success('Project deleted successfully: ' + projectId);
+      refreshTokens();
+    } catch (error) {
+      console.error('Error deleting Project:', error);
+    }
+  };
 
   const table = useReactTable({
     data: tokens,
