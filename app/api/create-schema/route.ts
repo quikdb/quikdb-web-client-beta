@@ -16,6 +16,7 @@ export async function POST(req: Request) {
     const { schemaName, customFields, userDefinedIndexes } = body;
 
     const response = await quikDB.createSchema(schemaName, customFields, userDefinedIndexes);
+    console.log('createSchema response:', response);
 
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
