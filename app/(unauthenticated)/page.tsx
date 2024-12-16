@@ -85,21 +85,9 @@ const SignUpPage = () => {
 
         // Get the user's Principal ID
         const principalId = identity.getPrincipal().toText();
+        // setSuccess(true);
+        router.push("/overview");
         console.log("Authenticated Principal:", principalId);
-
-        const response = await fetch(
-          "https://quikdb-core-beta.onrender.com//api/authenticate",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ principalId }),
-          }
-        );
-
-        const result = await response.json();
-        console.log("Backend response:", result);
       },
       onError: (err) => {
         console.error("Failed to authenticate with Internet Identity:", err);
