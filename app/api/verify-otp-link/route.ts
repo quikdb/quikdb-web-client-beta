@@ -1,49 +1,52 @@
+import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { CryptoUtils } from '@quikdb/design-system/lib/cryptoUtils';
 
-export async function POST(req: Request) {
+export async function GET(req: NextRequest) {
   const cookieStore = await cookies();
-  const EncryptedData = cookieStore.get('encryptedData')?.value || '';
-
-  const decryptedData = CryptoUtils.aesDecrypt(EncryptedData, 'mysecurekey1234567890', 'uniqueiv12345678');
-  const { email, password } = JSON.parse(decryptedData);
 
   try {
-    const body = await req.json();
-    const { otp } = body;
+    const { searchParams } = new URL(req.url);
+    const code = searchParams.get('code');
+    console.log('code:', code);
 
-    const encryptedOTPData = CryptoUtils.aesEncrypt(
-      JSON.stringify({ email, OTPType: 'link', otp }),
-      'mysecurekey1234567890',
-      'uniqueiv12345678'
-    );
+    if (!code) {
+      return NextResponse.json({ error: 'Code parameter is required' }, { status: 400 });
+    }
 
+    // Make a POST request to the external service
     const response = await fetch('https://quikdb-core-beta.onrender.com/a/verifyOtp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ data: encryptedOTPData }),
+      body: JSON.stringify({ data: code }),
     });
 
     const result = await response.json();
+    console.log('verifyOtpLinkresult:', result);
+    const { token } = result.data;
+    const { email } = result.data.user;
 
-    if (response.ok && result.status === 'success') {
-      cookieStore.set({
-        name: 'signupData',
-        value: CryptoUtils.aesEncrypt(JSON.stringify({ email, password }), 'mysecurekey1234567890', 'uniqueiv12345678'),
-        httpOnly: true,
-        path: '/',
-        secure: true,
-        maxAge: 60 * 10, // Cookie expires in 10 minutes
-      });
+    cookieStore.set({
+      name: 'accessToken',
+      value: token,
+      httpOnly: true,
+      path: '/',
+      secure: true,
+      maxAge: 60 * 60 * 24 * 30,
+    });
 
-      cookieStore.delete('encryptedData');
+    cookieStore.set({
+      name: 'userEmail',
+      value: email,
+      path: '/',
+    });
 
-      return new Response(JSON.stringify(result), { status: 200 });
+    if (!response.ok) {
+      return NextResponse.json(result, { status: response.status });
     }
 
-    return new Response(JSON.stringify(result), { status: response.status });
+    return NextResponse.json(result, { status: 200 });
   } catch (error) {
     console.error('Error in /api/verify-otp-link:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -14,6 +14,8 @@ const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [Loading, SetLoading] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
@@ -73,6 +75,7 @@ const SignUpPage = () => {
   };
 
   async function loginWithInternetIdentity() {
+    setIsLoading(true);
     const authClient = await AuthClient.create();
 
     await authClient.login({
@@ -91,49 +94,51 @@ const SignUpPage = () => {
         if (!response.ok) {
           throw new Error('Failed to authenticate with Internet Identity');
         }
-
         router.push('/overview');
 
         console.log('Authenticated Principal:', principalId);
       },
       onError: (err) => {
+        setIsLoading(false);
         console.error('Failed to authenticate with Internet Identity:', err);
       },
     });
   }
 
-  // const handleOneTimeLink =  async (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   setLoading(true);
-  //   setError('');
-  //   setSuccess(false);
+  const handleOneTimeLink = async (event: React.FormEvent) => {
+    event.preventDefault();
+    SetLoading(true);
+    setError('');
+    setSuccess(false);
 
-  //   try {
-  //     const response = await fetch('/api/send-otp-link', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ email, OTPType: 'link' }),
-  //     });
+    try {
+      const response = await fetch('/api/send-otp-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, OTPType: 'link' }),
+      });
 
-  //     const result = await response.json();
-  //     const otp = result.data.otp;
+      const result = await response.json();
+      const otp = result.data.otp;
+      const link = result.data.link;
+      const path = new URL(link).pathname;
 
-  //     if (response.ok && result.status === 'success') {
-  //       setSuccess(true);
-  //       toast.success(`OTP ${otp} sent successfully`);
+      if (response.ok && result.status === 'success') {
+        setSuccess(true);
+        toast.success(`OTP ${otp} sent successfully`);
 
-  //       router.push('/verify-otp-link');
-  //     } else {
-  //       setError(result.error || 'Failed to sign up. Please try again.');
-  //       toast.warning(result.message || 'Failed to send OTP');
-  //     }
-  //   } catch (err: any) {
-  //     console.error('Error during sign-up:', err);
-  //     setError('An error occurred during sign-up. Please try again.');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+        router.push(path);
+      } else {
+        setError(result.error || 'Failed to sign up. Please try again.');
+        toast.warning(result.message || 'Failed to send OTP');
+      }
+    } catch (err: any) {
+      console.error('Error during sign-up:', err);
+      setError('An error occurred during sign-up. Please try again.');
+    } finally {
+      SetLoading(false);
+    }
+  };
 
   return (
     <div className='flex justify-center items-center w-full'>
@@ -158,16 +163,20 @@ const SignUpPage = () => {
             <section className='flex flex-col items-center my-6 gap-y-4 w-full'>
               <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
                 <Button className={buttonStyle} onClick={loginWithInternetIdentity}>
-                  {buttonTextPrefix} with internet identity
+                  {isloading ? 'Signing up...' : 'Sign Up with Internet Identity'}
                 </Button>
-                <Button className={buttonStyle}>{buttonTextPrefix} with one-time link</Button>
+                <Button className={buttonStyle} onClick={handleOneTimeLink}>
+                  {Loading ? 'Signing up...' : 'Sign Up with One Time Link'}
+                </Button>
               </div>
               {seeOtherOptions ? (
                 <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
                   <Button className={buttonStyle} onClick={handleGoogleSignUp}>
                     Sign Up with Google
                   </Button>
-                  <Button className={buttonStyle}>{buttonTextPrefix} with Github</Button>
+                  <Button className={buttonStyle} disabled>
+                    {buttonTextPrefix} with Github
+                  </Button>
                 </div>
               ) : (
                 <Button className={buttonStyle} onClick={() => setSeeOtherOptions(!seeOtherOptions)}>

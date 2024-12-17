@@ -11,6 +11,7 @@ export async function GET(req: Request) {
 
   const decryptedData = CryptoUtils.aesDecrypt(encryptedSignupData, 'mysecurekey1234567890', 'uniqueiv12345678');
   const { email, password } = JSON.parse(decryptedData);
+  console.log('email:', email, 'password:', password);
 
   try {
     const encryptedData = CryptoUtils.aesEncrypt(
@@ -26,6 +27,7 @@ export async function GET(req: Request) {
     });
 
     const result = await response.json();
+    console.log('signupWithEPresult:', result);
 
     if (response.ok && result.status === 'success') {
       cookieStore.delete('signupData');

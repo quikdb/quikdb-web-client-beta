@@ -25,6 +25,7 @@ export async function POST(req: Request) {
     });
 
     const result = await response.json();
+    console.log('verifyOtpresult:', result);
 
     if (response.ok && result.status === 'success') {
       cookieStore.set({

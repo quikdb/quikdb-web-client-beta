@@ -20,6 +20,7 @@ export async function GET(req: Request) {
 
     cookieStore.delete('accessToken');
     cookieStore.delete('userEmail');
+    cookieStore.delete('encryptedData');
 
     const result = await response.json();
 
