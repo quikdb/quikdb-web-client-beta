@@ -41,97 +41,97 @@ const Schema = () => {
     schemaIndexes: [],
   });
 
-  const fetchSchema = async (schemaName: string) => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/get-schema', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ schemaName }),
-      });
+  // const fetchSchema = async (schemaName: string) => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await fetch('/api/get-schema', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ schemaName }),
+  //     });
 
-      if (!response.ok) {
-        toast.warning('Failed to fetch schema: ' + schemaName);
-        return;
-      }
+  //     if (!response.ok) {
+  //       toast.warning('Failed to fetch schema: ' + schemaName);
+  //       return;
+  //     }
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (Array.isArray(data) && data.length > 0) {
-        setSchema(data);
-        setSchemaAttributes(data[0]?.fields || []);
-        setSchemaIndexes(data[0]?.indexes || []);
-        setSelectedSchema(schemaName);
-        setShowSchemaDetails(true);
-      } else {
-        toast.warning('No schema found for: ' + schemaName);
-      }
-    } catch (error) {
-      console.error('Error fetching schema data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (Array.isArray(data) && data.length > 0) {
+  //       setSchema(data);
+  //       setSchemaAttributes(data[0]?.fields || []);
+  //       setSchemaIndexes(data[0]?.indexes || []);
+  //       setSelectedSchema(schemaName);
+  //       setShowSchemaDetails(true);
+  //     } else {
+  //       toast.warning('No schema found for: ' + schemaName);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching schema data:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const fetchSchemaData = async (schemaName: string) => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/get-schema-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ schemaName }),
-      });
+  // const fetchSchemaData = async (schemaName: string) => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await fetch('/api/get-schema-data', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ schemaName }),
+  //     });
 
-      if (!response.ok) {
-        toast.warning('Failed to fetch schema data: ' + schemaName);
-        return;
-      }
+  //     if (!response.ok) {
+  //       toast.warning('Failed to fetch schema data: ' + schemaName);
+  //       return;
+  //     }
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (Array.isArray(data) && data.length > 0) {
-        setDatabaseTableProps({
-          schemaName,
-          schemaData: data,
-          schemaIndexes: schemaIndexes,
-        });
+  //     if (Array.isArray(data) && data.length > 0) {
+  //       setDatabaseTableProps({
+  //         schemaName,
+  //         schemaData: data,
+  //         schemaIndexes: schemaIndexes,
+  //       });
 
-        setShowSchemaDetails(false);
-      } else {
-        toast.warning('No data found in: ' + schemaName);
-      }
-    } catch (error) {
-      console.error('Error fetching schema data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //       setShowSchemaDetails(false);
+  //     } else {
+  //       toast.warning('No data found in: ' + schemaName);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching schema data:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const deleteSchema = async (schemaName: string) => {
-    try {
-      const response = await fetch('/api/delete-schema', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ schemaName }),
-      });
+  // const deleteSchema = async (schemaName: string) => {
+  //   try {
+  //     const response = await fetch('/api/delete-schema', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ schemaName }),
+  //     });
 
-      if (!response.ok) {
-        toast.warning('Failed to delete schema: ' + schemaName);
-        return;
-      }
+  //     if (!response.ok) {
+  //       toast.warning('Failed to delete schema: ' + schemaName);
+  //       return;
+  //     }
 
-      toast.success('Schema deleted successfully: ' + schemaName);
-      refreshSchemas();
-    } catch (error) {
-      console.error('Error deleting schema:', error);
-    }
-  };
+  //     toast.success('Schema deleted successfully: ' + schemaName);
+  //     refreshSchemas();
+  //   } catch (error) {
+  //     console.error('Error deleting schema:', error);
+  //   }
+  // };
 
   const renderSchemaAsDocumentFormat = (schema: any[]) => {
     return schema
@@ -173,7 +173,7 @@ const Schema = () => {
                 <AccordionTrigger
                   onClick={() => {
                     setSelectedSchema(schemaName);
-                    fetchSchemaData(schemaName);
+                    /* fetchSchemaData(schemaName);*/
                   }}
                 >
                   <button className='flex items-center justify-between lg:w-[14vw] max-md:gap-52 w-fit'>
@@ -194,7 +194,9 @@ const Schema = () => {
                           <AlertDialogFooter>
                             <AlertDialogAction
                               className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2'
-                              onClick={() => deleteSchema(schemaName)}
+                              onClick={() => {
+                                /*deleteSchema(schemaName)*/
+                              }}
                             >
                               Yes, Delete
                             </AlertDialogAction>
@@ -210,7 +212,7 @@ const Schema = () => {
                     className='text-sm text-[#72F5DD] underline'
                     onClick={(e) => {
                       e.stopPropagation();
-                      fetchSchema(schemaName);
+                      /* fetchSchema(schemaName); */
                     }}
                   >
                     View Full Schema
