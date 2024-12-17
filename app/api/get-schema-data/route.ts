@@ -4,11 +4,15 @@ import { Database } from '@/app/(authenticated)/components/database-table';
 
 const canisterId = 'bkyz2-fmaaa-aaaaa-qaaaq-cai';
 
-const agent = new HttpAgent({ host: 'http://127.0.0.1:4943' });
+const agent = new HttpAgent({
+  host: process.env.NODE_ENV === 'production' ? 'https://quikdb.com' : 'http://127.0.0.1:4943',
+});
+
+if (process.env.NODE_ENV !== 'production') {
+  agent.fetchRootKey();
+}
 
 const quikDB = Actor.createActor(quikdb_idl, { agent, canisterId });
-
-agent.fetchRootKey();
 
 type DatabaseResponse = {
   ok: Database[];

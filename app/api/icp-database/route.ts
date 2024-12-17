@@ -4,15 +4,15 @@ import { idlFactory as quikdb_idl } from './declarations/icp';
 
 const canisterId = (process.env.CANISTER_ID_ICP as string) || 'bd3sg-teaaa-aaaaa-qaaba-cai';
 
-const agent = new HttpAgent({ host: 'http://127.0.0.1:4943' });
+const agent = new HttpAgent({
+  host: process.env.NODE_ENV === 'production' ? 'https://quikdb.com' : 'http://127.0.0.1:4943',
+});
+
+if (process.env.NODE_ENV !== 'production') {
+  agent.fetchRootKey();
+}
 
 const quikDB = Actor.createActor(quikdb_idl, { agent, canisterId });
-
-// if (process.env.NODE_ENV !== 'production') {
-//   agent.fetchRootKey(); // Fetch root key in non-production environments for local testing
-// }
-
-agent.fetchRootKey(); // Fetch root key in non-production environments for local testing
 
 
 export async function GET(req: Request) {
