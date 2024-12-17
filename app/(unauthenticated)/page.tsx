@@ -77,16 +77,15 @@ const SignUpPage = () => {
   async function loginWithInternetIdentity() {
     const authClient = await AuthClient.create();
 
-    // Log in the user using Internet Identity
     await authClient.login({
-      identityProvider: "https://identity.ic0.app", // Internet Identity URL
+      identityProvider: "https://identity.ic0.app",
       onSuccess: async () => {
         const identity = authClient.getIdentity();
 
-        // Get the user's Principal ID
         const principalId = identity.getPrincipal().toText();
-        // setSuccess(true);
+        
         router.push("/overview");
+
         console.log("Authenticated Principal:", principalId);
       },
       onError: (err) => {

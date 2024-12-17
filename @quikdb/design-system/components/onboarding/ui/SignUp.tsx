@@ -31,7 +31,7 @@ const SignUp: React.FC<SignUpProps> = ({ isSignUp }) => {
               <PasswordInput placeholder='Enter Password' required />
 
               {!isSignUp && (
-                <Link href='/forgot_password' className='text-sm font-light text-right w-full pr-2 text-gradient'>
+                <Link href='/forgot-password' className='text-sm font-light text-right w-full pr-2 text-gradient'>
                   Forgot Password?
                 </Link>
               )}
