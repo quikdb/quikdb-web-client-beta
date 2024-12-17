@@ -1,9 +1,10 @@
 'use client';
 import { useGoogleAuth } from '@/hooks/fetchGoogleAuth';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 const GoogleCallback = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const code = searchParams.get('code');
 
   if (!code) {
@@ -18,6 +19,10 @@ const GoogleCallback = () => {
 
   if (isError) {
     return <main className="min-h-screen px-20 py-7">An error occurred. Please try again.</main>;
+  }
+
+  if (data) {
+    router.push('/overview');
   }
 
   return (
