@@ -20,13 +20,18 @@ const SignInPage = () => {
 
   const handleGoogleSignUp = async () => {
     try {
-      const response = await axios.get('https://quikdb-core-beta.onrender.com/a/get-oauth-url');
-      if (response.status === 200) {
-        window.location.href = response.data.url;
+      const response = await fetch('api/google-auth-url', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const result = await response.json()
+      if (response.ok && result.status === 'success' && result.data.redirectUrl) {
+        window.location.href = result.data.redirectUrl;
       } else {
-        setError('Failed to initiate Google signup. Please try again.');
-      }
-    } catch (err) {
+        console.error('Google sign-up failed: ', result.message || 'Unknown error');
+        setError(result.message || 'An error occurred while initiating Google sign-up. Please try again.');
+      }    } catch (err) {
       console.error('Error during Google sign-up:', err);
       setError('An error occurred while initiating Google sign-up. Please try again.');
     }
