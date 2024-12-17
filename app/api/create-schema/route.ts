@@ -1,17 +1,17 @@
-import { HttpAgent, Actor } from '@dfinity/agent';
-import { idlFactory as quikdb_idl } from '../icp-database/declaration/database';
+// import { HttpAgent, Actor } from '@dfinity/agent';
+// import { idlFactory as quikdb_idl } from '../icp-database/declaration/database';
 
-const canisterId = 'bkyz2-fmaaa-aaaaa-qaaaq-cai';
+// const canisterId = 'bkyz2-fmaaa-aaaaa-qaaaq-cai';
 
-const agent = new HttpAgent({
-  host: process.env.NODE_ENV === 'production' ? 'https://quikdb.com' : 'http://127.0.0.1:4943',
-});
+// // const agent = new HttpAgent({
+// //   host: process.env.NODE_ENV === 'production' ? 'https://quikdb.com' : 'http://127.0.0.1:4943',
+// // });
 
-if (process.env.NODE_ENV !== 'production') {
-  agent.fetchRootKey();
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   agent.fetchRootKey();
+// }
 
-const quikDB = Actor.createActor(quikdb_idl, { agent, canisterId });
+// const quikDB = Actor.createActor(quikdb_idl, { agent, canisterId });
 
 export async function POST(req: Request) {
   try {
@@ -19,9 +19,9 @@ export async function POST(req: Request) {
 
     const { schemaName, customFields, userDefinedIndexes } = body;
 
-    const response = await quikDB.createSchema(schemaName, customFields, userDefinedIndexes);
+    // const response = await quikDB.createSchema(schemaName, customFields, userDefinedIndexes);
 
-    return new Response(JSON.stringify(response), { status: 200 });
+    // return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
     console.error('Error in /api/create-schema:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
