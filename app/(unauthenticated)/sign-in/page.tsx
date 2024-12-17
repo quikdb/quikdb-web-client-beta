@@ -81,6 +81,16 @@ const SignInPage = () => {
 
         const principalId = identity.getPrincipal().toText();
 
+        const response = await fetch('/api/sign-up-ii', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ principalId }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to authenticate with Internet Identity');
+        }
+
         router.push('/overview');
 
         console.log('Authenticated Principal:', principalId);

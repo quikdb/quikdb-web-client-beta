@@ -78,18 +78,28 @@ const SignUpPage = () => {
     const authClient = await AuthClient.create();
 
     await authClient.login({
-      identityProvider: "https://identity.ic0.app",
+      identityProvider: 'https://identity.ic0.app',
       onSuccess: async () => {
         const identity = authClient.getIdentity();
 
         const principalId = identity.getPrincipal().toText();
-        
-        router.push("/overview");
 
-        console.log("Authenticated Principal:", principalId);
+        const response = await fetch('/api/sign-up-ii', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ principalId }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to authenticate with Internet Identity');
+        }
+
+        router.push('/overview');
+
+        console.log('Authenticated Principal:', principalId);
       },
       onError: (err) => {
-        console.error("Failed to authenticate with Internet Identity:", err);
+        console.error('Failed to authenticate with Internet Identity:', err);
       },
     });
   }
