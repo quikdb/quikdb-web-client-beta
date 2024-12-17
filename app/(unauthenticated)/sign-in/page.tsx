@@ -190,9 +190,9 @@ const SignInPage = () => {
               {seeOtherOptions ? (
                 <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
                   <Button className={buttonStyle} onClick={handleGoogleSignUp}>
-                    Sign Up with Google
+                    Sign In with Google
                   </Button>
-                  <Button className={buttonStyle}>{buttonTextPrefix} with Github</Button>
+                  <Button className={buttonStyle} disabled>{buttonTextPrefix} with Github</Button>
                 </div>
               ) : (
                 <Button className={buttonStyle} onClick={() => setSeeOtherOptions(!seeOtherOptions)}>
