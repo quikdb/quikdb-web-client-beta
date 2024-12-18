@@ -6,10 +6,10 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { email, password } = body;
-    // const type = 'recover-password';
+    console.log('Body:', body);
+    const { emailAddress, password } = body;
 
-    const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ email, password }), 'mysecurekey1234567890', 'uniqueiv12345678');
+    const encryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ email: emailAddress, password }), 'mysecurekey1234567890', 'uniqueiv12345678');
 
     cookieStore.set({
       name: 'encryptedData',
@@ -20,7 +20,11 @@ export async function POST(req: Request) {
       maxAge: 60 * 60,
     });
 
-    const EncryptedData = CryptoUtils.aesEncrypt(JSON.stringify({ email, OTPType: 'password' }), 'mysecurekey1234567890', 'uniqueiv12345678');
+    const EncryptedData = CryptoUtils.aesEncrypt(
+      JSON.stringify({ email: emailAddress, OTPType: 'password' }),
+      'mysecurekey1234567890',
+      'uniqueiv12345678'
+    );
 
     const response = await fetch('https://quikdb-core-beta.onrender.com/a/sendOtp', {
       method: 'POST',
