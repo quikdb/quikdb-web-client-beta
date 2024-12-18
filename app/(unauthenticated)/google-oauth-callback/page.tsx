@@ -2,19 +2,20 @@
 import { useDispatch } from 'react-redux';
 import { setAuthState } from '@/app/store';
 import { useGoogleAuth } from '@/hooks/fetchGoogleAuth';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const GoogleCallback = () => {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const [code, setCode] = useState<string | null>(null);
   const dispatch = useDispatch();
+  const [code, setCode] = useState<string | null>(null);
 
   const { data, isError, isLoading } = useGoogleAuth(code || '');
 
   useEffect(() => {
-    const codeParam = searchParams.get('code');
+    // Extract code parameter from window.location
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeParam = urlParams.get('code');
 
     if (codeParam) {
       setCode(codeParam);
@@ -29,7 +30,7 @@ const GoogleCallback = () => {
       }
       router.push('/overview');
     }
-  }, [searchParams, data, router]);
+  }, [data, router, dispatch]);
 
   if (!code) {
     return <main className='min-h-screen px-20 py-7'>No code found in URL</main>;

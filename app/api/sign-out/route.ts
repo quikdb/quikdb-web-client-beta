@@ -22,7 +22,7 @@ export async function GET(req: Request) {
     cookieStore.delete('accessToken');
     cookieStore.delete('userEmail');
     cookieStore.delete('encryptedData');
-    cookieStore.delete('signupData');
+    // cookieStore.delete('signupData');
 
     const result = await response.json();
 
