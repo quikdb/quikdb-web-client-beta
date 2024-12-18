@@ -14,7 +14,7 @@ export async function GET(req: Request) {
     const result = await response.json();
     console.log('google-callback-result:::', result);
 
-    const { accessToken } = result.data;
+    const { accessToken, email } = result.data;
     console.log('accessToken:::', accessToken);
 
     if (response.ok && result.status === 'success') {
