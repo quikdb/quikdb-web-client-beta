@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     });
 
     const result = await response.json();
-    console.log('verifyOtpresult:', result);
+    console.log('verify-otp-result:::', result);
 
     if (response.ok && result.status === 'success') {
       cookieStore.set({

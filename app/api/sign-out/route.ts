@@ -17,6 +17,7 @@ export async function GET(req: Request) {
       method: 'GET',
       headers,
     });
+    console.log('sign-out-result:::', response);
 
     cookieStore.delete('accessToken');
     cookieStore.delete('userEmail');

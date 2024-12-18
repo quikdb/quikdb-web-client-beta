@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     });
 
     const result = await response.json();
-    console.log('send otp result', result);
+    console.log('send-otp-password-result:::', result);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });

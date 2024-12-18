@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     });
 
     const resultFP = await responseFP.json();
-    console.log('forgotPasswordresult:', resultFP);
+    console.log('verify-otp-password:::', resultFP);
 
     if (!responseFP.ok) {
       return new Response(JSON.stringify({ error: 'Failed to update password' }), { status: responseFP.status });

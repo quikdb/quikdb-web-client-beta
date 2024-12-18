@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     });
 
     const result = await response.json();
-    console.log('verifyOtpLinkresult:', result);
+    console.log('verify-otp-link-result:::', result);
     const { token } = result.data;
     const { email } = result.data.user;
 

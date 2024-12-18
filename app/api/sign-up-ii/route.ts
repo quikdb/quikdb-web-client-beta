@@ -15,7 +15,7 @@ export async function GET(req: Request) {
     });
 
     const result = await response.json();
-    console.log('signinWithIIresult:', result);
+    console.log('sign-in-with-ii-result:', result);
 
     return new Response(JSON.stringify(result), { status: response.status });
   } catch (error) {

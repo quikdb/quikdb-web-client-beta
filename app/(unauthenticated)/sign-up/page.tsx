@@ -105,39 +105,8 @@ const SignUpPage = () => {
     });
   }
 
-  const handleOneTimeLink = async (event: React.FormEvent) => {
-    event.preventDefault();
-    SetLoading(true);
-    setError('');
-    setSuccess(false);
-
-    try {
-      const response = await fetch('/api/send-otp-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, OTPType: 'link' }),
-      });
-
-      const result = await response.json();
-      const otp = result.data.otp;
-      const link = result.data.link;
-      const path = new URL(link).pathname;
-
-      if (response.ok && result.status === 'success') {
-        setSuccess(true);
-        toast.success(`OTP ${otp} sent successfully`);
-
-        router.push(path);
-      } else {
-        setError(result.error || 'Failed to sign up. Please try again.');
-        toast.warning(result.message || 'Failed to send OTP');
-      }
-    } catch (err: any) {
-      console.error('Error during sign-up:', err);
-      setError('An error occurred during sign-up. Please try again.');
-    } finally {
-      SetLoading(false);
-    }
+  const handleRedirect = () => {
+    router.push('/one-time'); // Redirect to the desired page
   };
 
   return (
@@ -165,8 +134,8 @@ const SignUpPage = () => {
                 <Button className={buttonStyle} onClick={loginWithInternetIdentity}>
                   {isloading ? 'Signing up...' : 'Sign Up with Internet Identity'}
                 </Button>
-                <Button className={buttonStyle} onClick={handleOneTimeLink}>
-                  {Loading ? 'Signing up...' : 'Sign Up with One Time Link'}
+                <Button className={buttonStyle} onClick={handleRedirect}>
+                  {loading ? 'Signing up...' : 'Sign Up with One Time Link'}
                 </Button>
               </div>
               {seeOtherOptions ? (

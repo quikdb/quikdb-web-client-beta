@@ -4,7 +4,7 @@ export async function GET(req: Request) {
       method: 'GET',
     });
     const result = await response.json();
-    console.log('sign in with google result:::', result);
+    console.log('google-auth-url-result:::', result);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });

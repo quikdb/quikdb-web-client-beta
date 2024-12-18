@@ -27,7 +27,7 @@ export async function GET(req: Request) {
     });
 
     const result = await response.json();
-    console.log('signupWithEPresult:', result);
+    console.log('sign-up-result:::', result);
 
     if (response.ok && result.status === 'success') {
       cookieStore.delete('signupData');

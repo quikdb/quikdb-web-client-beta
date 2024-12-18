@@ -19,6 +19,7 @@ export async function POST(req: Request) {
     });
 
     const result = await response.json();
+    console.log('sign-in-result:::', result);
 
     if (response.ok && result.status === 'success') {
       const { accessToken } = result.data;
