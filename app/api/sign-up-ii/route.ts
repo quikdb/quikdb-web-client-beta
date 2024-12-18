@@ -14,8 +14,8 @@ export async function GET(req: Request) {
       body: JSON.stringify({ data: encryptedData }),
     });
 
+    console.log('sign-in-with-ii-result:', response);
     const result = await response.json();
-    console.log('sign-in-with-ii-result:', result);
 
     return new Response(JSON.stringify(result), { status: response.status });
   } catch (error) {

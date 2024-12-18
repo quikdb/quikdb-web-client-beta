@@ -90,6 +90,7 @@ const SignUpPage = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ principalId }),
         });
+        console.log('response:::', response);
 
         if (!response.ok) {
           throw new Error('Failed to authenticate with Internet Identity');
