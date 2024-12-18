@@ -18,7 +18,10 @@ const SignInPage = () => {
   const [isloading, setIsLoading] = useState(false);
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
   const [Loading, SetLoading] = useState(false);
-
+  const randomString = () => {
+    const randomPart = Math.random().toString(36).substring(2, 10); 
+    return `${randomPart}@internetidentity.com`;
+  };
 
   const handleGoogleSignUp = async () => {
     SetLoading(true);
@@ -101,8 +104,10 @@ const SignInPage = () => {
 
         if (response.ok && result.status === 'success') {
           toast.success('Signed in successfully');
-          const { accessToken, user } = result.data;
-          dispatch(setAuthState({ token: accessToken, userEmail: user.email }));
+          const { accessToken } = result.data;
+          const userEmail = `${randomString()}@internetidentity.com`;
+
+          dispatch(setAuthState({ token: accessToken, userEmail: userEmail }));
           router.push('/overview');
         } else {
           setError(result.error || 'Failed to sign in.');
@@ -163,9 +168,11 @@ const SignInPage = () => {
               {seeOtherOptions ? (
                 <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
                   <Button className={buttonStyle} onClick={handleGoogleSignUp}>
-                 {Loading ? 'Signing in...' : buttonTextPrefix} with Google
+                    {Loading ? 'Signing in...' : buttonTextPrefix} with Google
                   </Button>
-                  <Button className={buttonStyle} disabled>{buttonTextPrefix} with Github</Button>
+                  <Button className={buttonStyle} disabled>
+                    {buttonTextPrefix} with Github
+                  </Button>
                 </div>
               ) : (
                 <Button className={buttonStyle} onClick={() => setSeeOtherOptions(!seeOtherOptions)}>
