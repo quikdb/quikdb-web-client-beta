@@ -1,20 +1,42 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '@quikdb/design-system/components/ui/button';
 import { FormHeader } from '@quikdb/design-system/components/onboarding';
 import { useOneTimeLink } from '@/hooks/fetchOneTimeLink';
-import { usePathname } from 'next/navigation'; // For getting the pathname
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { setAuthState } from '@/app/store';
 
 const OneTimeLink = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const dispatch = useDispatch();
   const linkId = pathname?.split('/')[2];
   console.log('linkId:', linkId);
 
   const { data, isLoading, isError } = useOneTimeLink(linkId);
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    if (isError) {
+      toast.error('Invalid or expired link. Please request a new link.');
+      return;
+    }
+
+    if (data && data.status === 'success') {
+      const userEmail = data.user?.email;
+      const accessToken = data.token;
+
+      if (userEmail && accessToken) {
+        dispatch(setAuthState({ token: accessToken, userEmail }));
+        toast.success('Link verified successfully! Redirecting to overview...');
+      }
+    }
+  }, [data, isLoading, isError, dispatch, router]);
 
   return (
     <div className='flex justify-center items-center w-full'>

@@ -5,13 +5,15 @@ import { Button } from '@quikdb/design-system/components/ui/button';
 import { Input, FormDivider, PasswordInput, FormHeader } from '@quikdb/design-system/components/onboarding';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setAuthState } from '@/app/store';
 
 const OneTime = () => {
-
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -32,14 +34,12 @@ const OneTime = () => {
       });
 
       const result = await response.json();
-      const otp = result.data.otp;
       const link = result.data.link;
       const path = new URL(link).pathname;
 
       if (response.ok && result.status === 'success') {
         setSuccess(true);
-        toast.success(`OTP ${otp} sent successfully`);
-
+        toast.success(`Sign up link sent successfully`);
         router.push(path);
       } else {
         setError(result.error || 'Failed to sign up. Please try again.');
@@ -61,11 +61,7 @@ const OneTime = () => {
           <div className='flex flex-col w-full md:w-[680px] items-center'>
             <form onSubmit={handleOneTimeLink} className='flex flex-col gap-y-4 items-center w-full'>
               <Input type='email' placeholder='Email Address' required value={email} onChange={(e) => setEmail(e.target.value)} />
-              <Button
-                type='submit'
-                className={buttonStyle}
-                disabled={loading}
-              >
+              <Button type='submit' className={buttonStyle} disabled={loading}>
                 {loading ? 'Signing up...' : 'Sign Up with One Time Link'}
               </Button>
             </form>

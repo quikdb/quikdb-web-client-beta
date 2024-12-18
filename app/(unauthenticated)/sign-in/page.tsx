@@ -15,23 +15,27 @@ const SignInPage = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
+  const [Loading, SetLoading] = useState(false);
+
 
   const handleGoogleSignUp = async () => {
+    SetLoading(true);
     try {
-      const response = await fetch('api/google-auth-url', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await axios.get('https://quikdb-core-beta.onrender.com/a/get-oauth-url');
+      console.log('google-response', response);
 
-      const result = await response.json()
-      if (response.ok && result.status === 'success' && result.data.redirectUrl) {
-        window.location.href = result.data.redirectUrl;
+      // Check if response structure is correct
+      if (response.data && response.data.data && response.data.data.redirectUrl) {
+        SetLoading(false);
+        window.location.href = response.data.data.redirectUrl;
       } else {
-        console.error('Google sign-up failed: ', result.message || 'Unknown error');
-        setError(result.message || 'An error occurred while initiating Google sign-up. Please try again.');
-      }    } catch (err) {
+        SetLoading(false);
+        throw new Error('OAuth URL not returned in response');
+      }
+    } catch (err) {
+      SetLoading(false);
       console.error('Error during Google sign-up:', err);
       setError('An error occurred while initiating Google sign-up. Please try again.');
     }
@@ -77,6 +81,7 @@ const SignInPage = () => {
   };
 
   async function loginWithInternetIdentity() {
+    setIsLoading(true);
     const authClient = await AuthClient.create();
 
     await authClient.login({
@@ -92,59 +97,27 @@ const SignInPage = () => {
           body: JSON.stringify({ principalId }),
         });
 
-        if (!response.ok) {
-          throw new Error('Failed to authenticate with Internet Identity');
+        const result = await response.json();
+
+        if (response.ok && result.status === 'success') {
+          toast.success('Signed in successfully');
+          const { accessToken, user } = result.data;
+          dispatch(setAuthState({ token: accessToken, userEmail: user.email }));
+          router.push('/overview');
+        } else {
+          setError(result.error || 'Failed to sign in.');
+          toast.warning(result.message || 'Failed to sign in.');
         }
-
-        router.push('/overview');
-
-        console.log('Authenticated Principal:', principalId);
       },
       onError: (err) => {
+        setIsLoading(false);
         console.error('Failed to authenticate with Internet Identity:', err);
       },
     });
   }
 
-  const handleOneTimeLink = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess(false);
-
-    if (!email) {
-      setError('Please enter your email');
-      toast.error('Please enter your email');
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/send-otp-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, OTPType: 'link' }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.status === 'success') {
-        const link = result.data.link;
-
-        setSuccess(true);
-        toast.success('One time link sent successfully');
-
-        router.push(link);
-      } else {
-        setError(result.error || 'Failed to send OTP');
-        toast.warning(result.message || 'Failed to send OTP');
-      }
-    } catch (err: any) {
-      console.error('Error during OTP link request:', err);
-      setError('An error occurred. Please try again.');
-      toast.error('An error occurred. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+  const handleRedirect = () => {
+    router.push('/one-time'); // Redirect to the desired page
   };
 
   return (
@@ -181,7 +154,7 @@ const SignInPage = () => {
                 <Button className={buttonStyle} onClick={loginWithInternetIdentity}>
                   {buttonTextPrefix} with internet identity
                 </Button>
-                <Button className={buttonStyle} onClick={handleOneTimeLink}>
+                <Button className={buttonStyle} onClick={handleRedirect}>
                   {buttonTextPrefix} with one-time link
                 </Button>
               </div>
@@ -190,7 +163,7 @@ const SignInPage = () => {
               {seeOtherOptions ? (
                 <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
                   <Button className={buttonStyle} onClick={handleGoogleSignUp}>
-                    Sign In with Google
+                 {Loading ? 'Signing in...' : buttonTextPrefix} with Google
                   </Button>
                   <Button className={buttonStyle} disabled>{buttonTextPrefix} with Github</Button>
                 </div>

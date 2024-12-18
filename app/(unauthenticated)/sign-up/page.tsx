@@ -7,6 +7,8 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { AuthClient } from '@dfinity/auth-client';
+import { useDispatch } from 'react-redux';
+import { setAuthState } from '@/app/store';
 
 const SignUpPage = () => {
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
@@ -18,6 +20,7 @@ const SignUpPage = () => {
   const [isloading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -25,17 +28,21 @@ const SignUpPage = () => {
   const buttonTextPrefix = 'Sign Up';
 
   const handleGoogleSignUp = async () => {
+    SetLoading(true);
     try {
       const response = await axios.get('https://quikdb-core-beta.onrender.com/a/get-oauth-url');
       console.log('google-response', response);
 
       // Check if response structure is correct
       if (response.data && response.data.data && response.data.data.redirectUrl) {
+        SetLoading(false);
         window.location.href = response.data.data.redirectUrl;
       } else {
+        SetLoading(false);
         throw new Error('OAuth URL not returned in response');
       }
     } catch (err) {
+      SetLoading(false);
       console.error('Error during Google sign-up:', err);
       setError('An error occurred while initiating Google sign-up. Please try again.');
     }
@@ -90,14 +97,18 @@ const SignUpPage = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ principalId }),
         });
-        console.log('response:::', response);
 
-        if (!response.ok) {
-          throw new Error('Failed to authenticate with Internet Identity');
+        const result = await response.json();
+
+        if (response.ok && result.status === 'success') {
+          toast.success('Signed in successfully');
+          const { accessToken, user } = result.data;
+          dispatch(setAuthState({ token: accessToken, userEmail: user.email }));
+          router.push(result.redirect);
+        } else {
+          setError(result.error || 'Failed to sign in.');
+          toast.warning(result.message || 'Failed to sign in.');
         }
-        router.push('/overview');
-
-        console.log('Authenticated Principal:', principalId);
       },
       onError: (err) => {
         setIsLoading(false);
@@ -142,7 +153,7 @@ const SignUpPage = () => {
               {seeOtherOptions ? (
                 <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
                   <Button className={buttonStyle} onClick={handleGoogleSignUp}>
-                    Sign Up with Google
+                    {Loading ? 'Signing up...' : buttonTextPrefix} with Google
                   </Button>
                   <Button className={buttonStyle} disabled>
                     {buttonTextPrefix} with Github
