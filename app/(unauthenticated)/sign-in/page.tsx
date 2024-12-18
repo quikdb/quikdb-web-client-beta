@@ -18,10 +18,7 @@ const SignInPage = () => {
   const [isloading, setIsLoading] = useState(false);
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
   const [Loading, SetLoading] = useState(false);
-  const randomString = () => {
-    const randomPart = Math.random().toString(36).substring(2, 10); 
-    return `${randomPart}@internetidentity.com`;
-  };
+  const [IsLoading, SetIsLoading] = useState(false);
 
   const handleGoogleSignUp = async () => {
     SetLoading(true);
@@ -29,7 +26,6 @@ const SignInPage = () => {
       const response = await axios.get('https://quikdb-core-beta.onrender.com/a/get-oauth-url');
       console.log('google-response', response);
 
-      // Check if response structure is correct
       if (response.data && response.data.data && response.data.data.redirectUrl) {
         SetLoading(false);
         window.location.href = response.data.data.redirectUrl;
@@ -105,7 +101,7 @@ const SignInPage = () => {
         if (response.ok && result.status === 'success') {
           toast.success('Signed in successfully');
           const { accessToken } = result.data;
-          const userEmail = `${randomString()}@internetidentity.com`;
+          const userEmail = `PrincipalID@internetidentity.com`;
 
           dispatch(setAuthState({ token: accessToken, userEmail: userEmail }));
           router.push('/overview');
@@ -122,7 +118,8 @@ const SignInPage = () => {
   }
 
   const handleRedirect = () => {
-    router.push('/one-time'); // Redirect to the desired page
+    SetIsLoading(true);
+    router.push('/one-time');
   };
 
   return (
@@ -157,10 +154,10 @@ const SignInPage = () => {
             <section className='flex flex-col items-center my-6 gap-y-4 w-full'>
               <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
                 <Button className={buttonStyle} onClick={loginWithInternetIdentity}>
-                  {buttonTextPrefix} with internet identity
+                  {isloading ? 'Signing in...' : buttonTextPrefix} with Internet Identity
                 </Button>
                 <Button className={buttonStyle} onClick={handleRedirect}>
-                  {buttonTextPrefix} with one-time link
+                  {IsLoading ? 'Signing in ...' : 'Sign In with One Time Link'}
                 </Button>
               </div>
 

@@ -33,7 +33,6 @@ const SignUpPage = () => {
       const response = await axios.get('https://quikdb-core-beta.onrender.com/a/get-oauth-url');
       console.log('google-response', response);
 
-      // Check if response structure is correct
       if (response.data && response.data.data && response.data.data.redirectUrl) {
         SetLoading(false);
         window.location.href = response.data.data.redirectUrl;
@@ -102,9 +101,11 @@ const SignUpPage = () => {
 
         if (response.ok && result.status === 'success') {
           toast.success('Signed in successfully');
-          const { accessToken, user } = result.data;
-          dispatch(setAuthState({ token: accessToken, userEmail: user.email }));
-          router.push(result.redirect);
+          const { accessToken } = result.data;
+          const userEmail = `PrincipalID@internetidentity.com`;
+
+          dispatch(setAuthState({ token: accessToken, userEmail: userEmail }));
+          router.push('/overview');
         } else {
           setError(result.error || 'Failed to sign in.');
           toast.warning(result.message || 'Failed to sign in.');
