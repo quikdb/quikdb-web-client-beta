@@ -39,8 +39,8 @@ const OneTime = () => {
 
       if (response.ok && result.status === 'success') {
         setSuccess(true);
-        toast.success(`Sign up link sent successfully`);
-        router.push(path);
+        toast.success(`One-time link sent successfully`);
+        // router.push(path);
       } else {
         setError(result.error || 'Failed to sign up. Please try again.');
         toast.warning(result.message || 'Failed to send OTP');
@@ -56,17 +56,17 @@ const OneTime = () => {
   return (
     <div className='flex justify-center items-center w-full'>
       <div className='flex flex-col w-full max-w-screen-2xl'>
-        <FormHeader title='Sign Up with One Time Link' description='Enter your email to sign up for this app' showLogo />
+        <FormHeader title='Authenticate with One Time Link' description='Enter your email to authenticate with one-time link' showLogo />
         <main className='flex flex-col items-center justify-center w-full'>
           <div className='flex flex-col w-full md:w-[680px] items-center'>
             <form onSubmit={handleOneTimeLink} className='flex flex-col gap-y-4 items-center w-full'>
               <Input type='email' placeholder='Email Address' required value={email} onChange={(e) => setEmail(e.target.value)} />
               <Button type='submit' className={buttonStyle} disabled={loading}>
-                {loading ? 'Signing up...' : 'Sign Up with One Time Link'}
+                {loading ? 'Authenticating...' : 'Authenticate with One Time Link'}
               </Button>
             </form>
             {error && <p className='text-red-500'>{error}</p>}
-            {success && <p className='text-green-500'>Signup successful! Please check your email for OTP.</p>}
+            {success && <p className='text-green-500'>Authentication successful! Please check your email for OTP.</p>}
             <FormDivider />
 
             <section className='flex flex-col items-center gap-y-6'>
