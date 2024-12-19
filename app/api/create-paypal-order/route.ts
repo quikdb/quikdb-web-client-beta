@@ -21,6 +21,7 @@ export async function POST(req: Request) {
     });
 
     const result = await response.json();
+    console.log('create-paypal-order-result:::', result);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });

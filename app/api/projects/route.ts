@@ -13,6 +13,7 @@ export async function GET(req: Request) {
       headers,
     });
     const result = await response.json();
+    console.log('get-projects-result:::', result);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });
