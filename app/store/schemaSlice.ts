@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface SchemaState { // Ensure SchemaState is explicitly exported
+export interface SchemaState { 
   selectedSchema: string | null;
   schema: any[];
   schemaData: any[];

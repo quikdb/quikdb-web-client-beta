@@ -47,6 +47,7 @@ export default function CreateToken({ projectId }: TokenProps) {
       });
 
       const result = await response.json();
+      console.log('create-project-token-result:::', result);
 
       if (response.ok) {
         setDialogOpen(false);

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
-import schemaReducer, { SchemaState } from './schemaSlice'; // Explicitly import SchemaState
+import schemaReducer, { SchemaState } from './schemaSlice'; 
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +11,7 @@ export const store = configureStore({
 
 export type RootState = {
   auth: ReturnType<typeof authReducer>;
-  schema: SchemaState; // Explicitly declare SchemaState in RootState
+  schema: SchemaState; 
 };
 
 export type AppDispatch = typeof store.dispatch;

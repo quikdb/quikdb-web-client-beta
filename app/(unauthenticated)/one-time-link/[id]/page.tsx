@@ -28,8 +28,11 @@ const OneTimeLink = () => {
     }
 
     if (data && data.status === 'success') {
+      console.log('useeffect-data', data);
       const userEmail = data.user?.email;
       const accessToken = data.token;
+      console.log('accessToken', accessToken);
+      console.log('userEmail', userEmail);
 
       if (userEmail && accessToken) {
         dispatch(setAuthState({ token: accessToken, userEmail }));

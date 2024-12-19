@@ -4,21 +4,19 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@quikdb/design-system/components/ui/button';
 import {
-  BarChartIcon,
-  BookmarkFilledIcon,
-  Crosshair2Icon,
   DashboardIcon,
   FileTextIcon,
   GearIcon,
-  ListBulletIcon,
-  PersonIcon,
 } from '@radix-ui/react-icons';
-import { CloudUpload, HeadphonesIcon, LogOutIcon } from 'lucide-react';
+import {  LogOutIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { useDispatch } from 'react-redux';
+import { clearAuthState } from '@/app/store';
+
 
 interface GlobalSidebarProps {
   children?: ReactNode;
@@ -31,21 +29,23 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSignout = async () => {
     setLoading(true);
     setError('');
     setSuccess(false);
-
+  
     try {
       const response = await fetch('/api/sign-out', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok && result.status === 'success') {
+        dispatch(clearAuthState()); // Clear token and user email from Redux store and cookies
         setSuccess(true);
         setError('');
         toast.success('Signed out successfully');
@@ -63,6 +63,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
       router.push('/sign-in');
     }
   };
+  
 
   const navigation = [
     { name: 'Overview', to: '/overview', icon: <DashboardIcon /> },

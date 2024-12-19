@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 export async function POST(req: Request) {
   const cookieStore = await cookies();
   const token = cookieStore.get('accessToken')?.value;
+  console.log('token-from-cookie:::', token);
 
   try {
     const body = await req.json();
@@ -22,8 +23,10 @@ export async function POST(req: Request) {
       headers,
       body: JSON.stringify({ data: encryptedProject }),
     });
+    console.log('create-project-result:::', response);
 
     const result = await response.json();
+    console.log('create-project-result:::', result);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });
