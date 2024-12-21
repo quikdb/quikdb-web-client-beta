@@ -9,6 +9,7 @@ import NotifModal from './NotifModal';
 import MobileSidebar from './mobile-sidebar';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { ModeToggle } from '@quikdb/design-system/components/mode-toggle';
 
 // type DashHeaderProps = {
 //   userEmail: string;  // Define the type for the email prop
@@ -112,6 +113,7 @@ const DashHeader = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+        <ModeToggle/>
       </div>
     </div>
   );
