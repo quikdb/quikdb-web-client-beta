@@ -27,6 +27,8 @@ export async function GET(req: Request) {
     const result = await response.json();
     console.log('get-project-token-result:::', result);
 
+    console.log('get-project-token-response:::', result.data.tokens);
+
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });
     }

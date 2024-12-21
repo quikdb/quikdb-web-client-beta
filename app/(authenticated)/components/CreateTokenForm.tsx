@@ -16,12 +16,15 @@ import { DatabaseVersion } from '@/@types';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useProjectTokens } from '@/hooks';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
 
 interface TokenProps {
   projectId: string | null;
 }
 
 export default function CreateToken({ projectId }: TokenProps) {
+  const { isInternetIdentity } = useSelector((state: RootState) => state.auth); // Access Redux state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -128,7 +131,10 @@ export default function CreateToken({ projectId }: TokenProps) {
                 <pre className='bg-gray-800 text-white p-4 rounded mt-4'>
                   npm i -g quikdb-cli-beta
                   <br />
-                  quikdb config -u &lt;username&gt; -e &lt;email&gt;
+                  {isInternetIdentity
+                    ? `quikdb config -u <username> -i <identity token>` // If signed in with Internet Identity
+                    : `quikdb config -u <username> -e <email>`}{' '}
+                  {/* Default for normal users */}
                   <br />
                   quikdb install
                 </pre>

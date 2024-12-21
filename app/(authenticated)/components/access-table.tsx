@@ -31,7 +31,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@quikdb/design-system/components/ui/alert-dialog';
-import { Trash2Icon } from 'lucide-react';
+import { ClipboardCheck, ClipboardCopy, Trash2Icon } from 'lucide-react';
 export interface ProjectToken {
   _id: string;
   userId: string;
@@ -70,7 +70,7 @@ export function AccessTable({ projectId }: AccessTableProps) {
         return;
       }
 
-      toast.success('Project deleted successfully: ' + projectId);
+      toast.success('Project token deleted successfully: ' + projectId);
       refreshTokens();
     } catch (error) {
       console.error('Error deleting Project:', error);
@@ -89,21 +89,50 @@ export function AccessTable({ projectId }: AccessTableProps) {
         />
       ),
       cell: ({ row }) => (
-        <Checkbox
-          className='ml-5'
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label='Select row'
-        />
+        <Checkbox className='ml-5' checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />
       ),
       enableSorting: false,
       enableHiding: false,
     },
     {
-      accessorKey: '_id',
+      accessorKey: 'token',
       header: 'Token ID',
-      cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('_id')}</div>,
+      cell: ({ row }) => {
+        const token = row.getValue('token') as string;
+        const [copied, setCopied] = React.useState(false);
+    
+        const handleCopy = () => {
+          navigator.clipboard.writeText(token);
+          setCopied(true);
+          toast.success('Token copied to clipboard!');
+    
+          // Reset the copied state after a short delay
+          setTimeout(() => {
+            setCopied(false);
+          }, 2000);
+        };
+    
+        return (
+          <div className="flex items-center w-[150px]">
+            <span className="truncate">{token}</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="ml-2"
+              onClick={handleCopy}
+              aria-label={copied ? 'Token copied' : 'Copy token'}
+            >
+              {copied ? (
+                <ClipboardCheck className="h-4 w-4 text-green-500" />
+              ) : (
+                <ClipboardCopy className="h-4 w-4 text-gray-500 hover:text-gray-700" />
+              )}
+            </Button>
+          </div>
+        );
+      },
     },
+        
     {
       accessorKey: 'userId',
       header: 'User ID',
@@ -115,11 +144,6 @@ export function AccessTable({ projectId }: AccessTableProps) {
       cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('projectId')}</div>,
     },
     {
-      accessorKey: 'token',
-      header: 'Token',
-      cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('token')}</div>,
-    },
-    {
       accessorKey: 'createdAt',
       header: 'Created At',
       cell: ({ row }) => <div>{row.getValue('createdAt')}</div>,
@@ -129,12 +153,11 @@ export function AccessTable({ projectId }: AccessTableProps) {
       header: 'Actions',
       cell: ({ row }) => {
         const tokenId = row.getValue('_id') as string;
-  
+
         return (
           <AlertDialog>
             <AlertDialogTrigger asChild className='cursor-pointer'>
-                             <Trash2Icon size={18} />
-             
+              <Trash2Icon size={18} />
             </AlertDialogTrigger>
             <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
               <AlertDialogHeader>
@@ -144,22 +167,17 @@ export function AccessTable({ projectId }: AccessTableProps) {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogAction
-                  className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2'
-                  onClick={() => deleteProjectToken(tokenId)}
-                >
+                <AlertDialogAction className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2' onClick={() => deleteProjectToken(tokenId)}>
                   Yes, Delete
                 </AlertDialogAction>
-                <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>
-                  No, Cancel
-                </AlertDialogCancel>
+                <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>No, Cancel</AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         );
       },
     },
-        // {
+    // {
     //   accessorKey: 'updatedAt',
     //   header: 'Updated At',
     //   cell: ({ row }) => <div>{row.getValue('updatedAt')}</div>,
@@ -175,7 +193,6 @@ export function AccessTable({ projectId }: AccessTableProps) {
     //   cell: ({ row }) => <div>{row.getValue('type')}</div>,
     // },
   ];
-  
 
   const table = useReactTable({
     data: tokens,
