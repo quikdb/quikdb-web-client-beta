@@ -8,9 +8,9 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { projectName } = body;
+    const { projectName, databaseVersion } = body;
 
-    const encryptedProject = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectName }), 'mysecurekey1234567890', 'uniqueiv12345678');
+    const encryptedProject = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectName, databaseVersion  }), 'mysecurekey1234567890', 'uniqueiv12345678');
 
     const headers = new Headers();
     if (token) {

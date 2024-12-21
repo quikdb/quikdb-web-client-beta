@@ -31,7 +31,7 @@ export default function ListProject() {
   const router = useRouter();
   const { refreshProjects } = useProjects();
 
-  const handleCreateProject = async () => {
+  const handleCreateProject = async (version: DatabaseVersion) => {
     if (!projectName) {
       setError('Project name is required.');
       return;
@@ -45,7 +45,7 @@ export default function ListProject() {
       const response = await fetch('/api/create-project', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ projectName }),
+        body: JSON.stringify({ projectName, databaseVersion: version }),
       });
 
       const result = await response.json();
@@ -150,8 +150,25 @@ export default function ListProject() {
               />
             </div>
           </div>
+          <div className='w-full flex flex-col gap-2'>
+            <Label htmlFor='name' className='mb-2'>Database Version</Label>
+            <Button onClick={() => handleVersionSelection(DatabaseVersion.FREE, projectId ?? '')} className='hover:bg-gradient'>
+              Free <CheckCircle />
+            </Button>
+            <Button onClick={() => handleVersionSelection(DatabaseVersion.PROFESSIONAL, projectId ?? '')} className='hover:bg-gradient'>
+              Professional <Star />
+            </Button>
+            <Button onClick={() => handleVersionSelection(DatabaseVersion.PREMIUM, projectId ?? '')} className='hover:bg-gradient'>
+              Premium <DollarSign />
+            </Button>
+          </div>
           <DialogFooter className='sm:justify-start'>
-            <Button size='lg' className='font-medium bg-gradient px-4 w-fit text-[#0F1407]' onClick={handleCreateProject} disabled={loading}>
+            <Button
+              size='lg'
+              className='font-medium bg-gradient px-4 w-fit text-[#0F1407]'
+              onClick={() => handleCreateProject(selectedVersion)}
+              disabled={loading}
+            >
               {loading ? 'Creating...' : 'Create Project'}
             </Button>
           </DialogFooter>
