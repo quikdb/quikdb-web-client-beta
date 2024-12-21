@@ -100,39 +100,33 @@ export function AccessTable({ projectId }: AccessTableProps) {
       cell: ({ row }) => {
         const token = row.getValue('token') as string;
         const [copied, setCopied] = React.useState(false);
-    
+
         const handleCopy = () => {
           navigator.clipboard.writeText(token);
           setCopied(true);
           toast.success('Token copied to clipboard!');
-    
+
           // Reset the copied state after a short delay
           setTimeout(() => {
             setCopied(false);
           }, 2000);
         };
-    
+
         return (
-          <div className="flex items-center w-[150px]">
-            <span className="truncate">{token}</span>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="ml-2"
-              onClick={handleCopy}
-              aria-label={copied ? 'Token copied' : 'Copy token'}
-            >
+          <div className='flex items-center w-[150px]'>
+            <span className='truncate'>{token}</span>
+            <Button variant='ghost' size='sm' className='ml-2' onClick={handleCopy} aria-label={copied ? 'Token copied' : 'Copy token'}>
               {copied ? (
-                <ClipboardCheck className="h-4 w-4 text-green-500" />
+                <ClipboardCheck className='h-4 w-4 text-green-500' />
               ) : (
-                <ClipboardCopy className="h-4 w-4 text-gray-500 hover:text-gray-700" />
+                <ClipboardCopy className='h-4 w-4 text-gray-500 hover:text-gray-700' />
               )}
             </Button>
           </div>
         );
       },
     },
-        
+
     {
       accessorKey: 'userId',
       header: 'User ID',
@@ -142,6 +136,11 @@ export function AccessTable({ projectId }: AccessTableProps) {
       accessorKey: 'projectId',
       header: 'Project ID',
       cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('projectId')}</div>,
+    },
+    {
+      accessorKey: 'duration',
+      header: 'Duration',
+      cell: ({ row }) => <div>{row.getValue('duration')}</div>,
     },
     {
       accessorKey: 'createdAt',
