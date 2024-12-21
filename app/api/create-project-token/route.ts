@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     );
 
     const tokenData = JSON.stringify({
-      email,
+      // email,
       databaseVersion,
       duration: 1000, 
     });
