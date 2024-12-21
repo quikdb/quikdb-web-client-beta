@@ -6,7 +6,7 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { amount, databaseVersion } = body;
+    const { amount, databaseVersion, projectId } = body;
 
     const headers = new Headers();
     if (token) {
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     const response = await fetch(`https://quikdb-core-beta.onrender.com/v/pay`, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ amount, databaseVersion }),
+      body: JSON.stringify({ amount, databaseVersion, projectId }),
     });
 
     const result = await response.json();

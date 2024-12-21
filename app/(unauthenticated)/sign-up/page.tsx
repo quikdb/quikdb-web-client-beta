@@ -102,9 +102,9 @@ const SignUpPage = () => {
         if (response.ok && result.status === 'success') {
           toast.success('Signed in successfully');
           const { accessToken } = result.data;
-          const userEmail = `PrincipalID@internetidentity.com`;
+          const { email, credits } = result.data.user;
 
-          dispatch(setAuthState({ token: accessToken, userEmail: userEmail }));
+          dispatch(setAuthState({ token: accessToken, userEmail: email, credits, isInternetIdentity: true }));
           router.push('/overview');
         } else {
           setError(result.error || 'Failed to sign in.');
@@ -117,7 +117,6 @@ const SignUpPage = () => {
       },
     });
   }
-
   const handleRedirect = () => {
     router.push('/one-time'); // Redirect to the desired page
   };
