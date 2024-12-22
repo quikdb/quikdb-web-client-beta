@@ -78,7 +78,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
   ];
 
   return (
-    <div className='bg-blackoff w-[18%] border-r-2 border-r-[#1B1C1F] fixed hidden lg:flex flex-col items-center justify-start p-10 py-20 min-h-screen h-full overflow-y-auto'>
+    <div className='bg-blackoff w-[18%] border-r border-r-[#1B1C1F] fixed hidden lg:flex flex-col items-center justify-start p-10 py-20 min-h-screen h-full overflow-y-auto'>
       <div className='flex flex-col justify-between h-full w-full'>
         <div>
           <Link href='/' className='font-medium text-gradient text-2xl pl-10'>

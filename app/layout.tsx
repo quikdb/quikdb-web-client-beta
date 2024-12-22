@@ -10,6 +10,7 @@ import { Provider } from 'react-redux'; // Import Provider
 import { store } from './store';
 import type { ReactNode } from 'react';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import { ThemeHydration } from './utility';
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
@@ -49,11 +50,12 @@ const satoshi = localFont({
 const RootLayout = ({ children }: RootLayoutProperties) => (
   <html lang='en' className={cn(satoshi.className, 'touch-manipulation font-sans antialiased')} suppressHydrationWarning>
     <body>
+      <ThemeHydration />
       <Provider store={store}>
         <PayPalScriptProvider
           options={{
-            clientId: 'Ac_Xli6_91PrL0CLwmnHBEJ8DAuPu9WtEt0YWI5BFOAmEpAigadFBSoGoVS9ZFo2jrqOnTdPrvrD72Y0', 
-            currency: 'USD', 
+            clientId: 'Ac_Xli6_91PrL0CLwmnHBEJ8DAuPu9WtEt0YWI5BFOAmEpAigadFBSoGoVS9ZFo2jrqOnTdPrvrD72Y0',
+            currency: 'USD',
           }}
         >
           <DesignSystemProvider>

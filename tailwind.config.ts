@@ -3,6 +3,7 @@ import type { Config } from 'tailwindcss';
 import animate from 'tailwindcss-animate';
 import defaultTheme from 'tailwindcss/defaultTheme';
 import typographyConfig from './typography.config';
+import { table } from 'console';
 
 const config: Config = {
   darkMode: ['class'],
@@ -26,8 +27,8 @@ const config: Config = {
         sans: ['var(--font-satoshi)', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        blacko: '#030500',
-        blackoff: '#18171C',
+        blacko: 'hsl(var(--blacko) / <alpha-value>)',
+        blackoff: 'hsl(var(--blackoff) / <alpha-value>)',
         border: 'hsl(var(--border) / <alpha-value>)',
         input: 'hsl(var(--input) / <alpha-value>)',
         ring: 'hsl(var(--ring) / <alpha-value>)',
@@ -60,6 +61,11 @@ const config: Config = {
         card: {
           DEFAULT: 'hsl(var(--card) / <alpha-value>)',
           foreground: 'hsl(var(--card-foreground) / <alpha-value>)',
+        },
+        table: {
+          DEFAULT: 'hsl(var(--table) / <alpha-value>)',
+          head: 'hsl(var(--table-head) / <alpha-value>)',
+          foreground: 'hsl(var(--table-foreground) / <alpha-value>)',
         },
         success: {
           DEFAULT: 'hsl(var(--success) / <alpha-value>)',

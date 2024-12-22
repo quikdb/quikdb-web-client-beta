@@ -20,7 +20,7 @@ const Overview = () => {
 
       <Card className='mt-7 p-5 bg-blackoff border-none flex flex-col gap-7'>
         <div className='flex max-md:flex-wrap justify-between max-md:gap-y-3'>
-          <Card className='bg-transparent text-white border-[#242527] p-4 lg:w-[32%] w-full hover:bg-blacko'>
+          <Card className='bg-transparent border-[#242527] p-4 lg:w-[32%] w-full hover:bg-blacko'>
             <Link href='/projects'>
               <p className='text-lg max-md:text-base'>Total projects</p>
               <div className='mt-7 max-md:mt-4'>
@@ -35,7 +35,7 @@ const Overview = () => {
             </Link>
           </Card>
 
-          <Card className='bg-transparent text-white border-[#242527] p-4 lg:w-[32%] w-full'>
+          <Card className='bg-transparent border-[#242527] p-4 lg:w-[32%] w-full'>
             <p className='text-lg max-md:text-base'>Total Users</p>
             <div className='mt-7 max-md:mt-4'>
               <p className='text-3xl max-md:text-2xl font-medium'>5 users</p>
@@ -47,7 +47,7 @@ const Overview = () => {
               </div>
             </div>
           </Card>
-          <Card className='bg-transparent text-white border-[#242527] p-4 lg:w-[32%] w-full'>
+          <Card className='bg-transparent border-[#242527] p-4 lg:w-[32%] w-full'>
             <p className='text-lg max-md:text-base'>Total Data Groups</p>
             <div className='mt-7 max-md:mt-4'>
               <p className='text-3xl max-md:text-2xl font-medium'>5 data groups</p>
@@ -61,7 +61,7 @@ const Overview = () => {
           </Card>
         </div>
 
-        <Card className='bg-transparent text-white border-[#242527] p-4'>
+        <Card className='bg-transparent border-[#242527] p-4'>
           <div className='flex justify-between'>
             <p className='text-lg'>Database Size</p>
             <p className='font-light'>Increase disk size</p>
