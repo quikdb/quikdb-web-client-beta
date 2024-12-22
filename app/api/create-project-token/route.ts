@@ -9,6 +9,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { projectId, databaseVersion } = body;
+    console.log('api-create-project-token-body:::', body);
 
     const encryptedProjectId = CryptoUtils.aesEncrypt(
       JSON.stringify({ id: projectId }),
