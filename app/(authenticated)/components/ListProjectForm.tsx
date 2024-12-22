@@ -144,9 +144,8 @@ export default function ListProject() {
             </div>
           </div>
           <div className='w-full flex flex-col gap-2'>
-            <Label htmlFor='name' className='mb-2'>
-              Database Version
-            </Label>
+            <Label htmlFor='name'>Database Version</Label>
+            <DialogDescription className='mb-2'>Select the version of the database you want to use.</DialogDescription>
             <Button
               onClick={() => handleVersionSelection(DatabaseVersion.FREE)}
               className={`hover:bg-gradient ${selectedVersion === DatabaseVersion.FREE ? 'bg-gradient text-black' : ''}`}
