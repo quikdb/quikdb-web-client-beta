@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Provider as ReduxProvider } from "react-redux";
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { store } from "./store";
+import React from 'react';
+import { Provider as ReduxProvider } from 'react-redux';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import { store } from './store';
 
 // Example PayPal options
 const paypalOptions = {
-  clientId: "YOUR_PAYPAL_CLIENT_ID",
-  currency: "USD",
+  clientId: 'Ac_Xli6_91PrL0CLwmnHBEJ8DAuPu9WtEt0YWI5BFOAmEpAigadFBSoGoVS9ZFo2jrqOnTdPrvrD72Y0',
+  currency: 'USD',
 };
 
 type ClientProvidersProps = {
