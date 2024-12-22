@@ -183,7 +183,7 @@ export default function ListProject() {
         <Dialog open={showPopup} onOpenChange={setShowPopup}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{selectedVersion === DatabaseVersion.FREE ? 'Create Token' : 'Proceed to Checkout'}</DialogTitle>
+              <DialogTitle>{selectedVersion === DatabaseVersion.FREE ? 'Create Token' : `Purchase ${selectedVersion.charAt(0).toUpperCase() + selectedVersion.slice(1)} Database`}</DialogTitle>
             </DialogHeader>
             <hr className='border-gray-400' />
             <div className='w-full flex flex-col gap-2'>
