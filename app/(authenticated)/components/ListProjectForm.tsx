@@ -125,7 +125,7 @@ export default function ListProject() {
             List new project
           </Button>
         </DialogTrigger>
-        <DialogContent className='s:max-w-[425px] bg-card text-card-foreground border-[#242527] font-regular'>
+        <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
           <DialogHeader>
             <DialogTitle className='font-medium'>List Project</DialogTitle>
             <DialogDescription>Create a new project</DialogDescription>
@@ -147,22 +147,31 @@ export default function ListProject() {
             <Label htmlFor='name' className='mb-2'>
               Database Version
             </Label>
-            <Button onClick={() => handleVersionSelection(DatabaseVersion.FREE)} className='hover:bg-gradient'>
+            <Button
+              onClick={() => handleVersionSelection(DatabaseVersion.FREE)}
+              className={`hover:bg-gradient ${selectedVersion === DatabaseVersion.FREE ? 'bg-gradient text-black' : ''}`}
+            >
               Free <CheckCircle />
             </Button>
-            <Button onClick={() => handleVersionSelection(DatabaseVersion.PROFESSIONAL)} className='hover:bg-gradient'>
+            <Button
+              onClick={() => handleVersionSelection(DatabaseVersion.PROFESSIONAL)}
+              className={`hover:bg-gradient ${selectedVersion === DatabaseVersion.PROFESSIONAL ? 'bg-gradient text-black' : ''}`}
+            >
               Professional <Star />
             </Button>
-            <Button onClick={() => handleVersionSelection(DatabaseVersion.PREMIUM)} className='hover:bg-gradient'>
+            <Button
+              onClick={() => handleVersionSelection(DatabaseVersion.PREMIUM)}
+              className={`hover:bg-gradient ${selectedVersion === DatabaseVersion.PREMIUM ? 'bg-gradient text-black' : ''}`}
+            >
               Premium <DollarSign />
             </Button>
           </div>
           <DialogFooter className='sm:justify-start'>
             <Button
               size='lg'
-              className='font-medium bg-gradient px-4 w-fit text-[#0F1407]'
-              onClick={() => handleCreateProject(selectedVersion)}
-              disabled={loading}
+              className={`font-medium bg-gradient px-4 w-fit text-[#0F1407] ${!selectedVersion ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={() => handleCreateProject(selectedVersion!)}
+              disabled={!selectedVersion || loading}
             >
               {loading ? 'Creating...' : 'Create Project'}
             </Button>
