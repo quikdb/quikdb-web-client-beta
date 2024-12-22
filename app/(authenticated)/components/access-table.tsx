@@ -32,10 +32,20 @@ import {
   AlertDialogTrigger,
 } from '@quikdb/design-system/components/ui/alert-dialog';
 import { ClipboardCheck, ClipboardCopy, Trash2Icon } from 'lucide-react';
+export interface Project {
+  _id: string;
+  name: string;
+  owner: string;
+  databaseVersion: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface ProjectToken {
   _id: string;
   userId: string;
-  projectId: string;
+  projectId: Project;
   token: string;
   createdAt: string;
   updatedAt: string;
@@ -82,14 +92,25 @@ export function AccessTable({ projectId }: AccessTableProps) {
       id: 'select',
       header: ({ table }) => (
         <Checkbox
-          className='ml-5'
-          checked={table.getIsAllPageRowsSelected() ? true : table.getIsSomePageRowsSelected() ? 'indeterminate' : false}
+          className="ml-5"
+          checked={
+            table.getIsAllPageRowsSelected()
+              ? true
+              : table.getIsSomePageRowsSelected()
+              ? 'indeterminate'
+              : false
+          }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label='Select all'
+          aria-label="Select all"
         />
       ),
       cell: ({ row }) => (
-        <Checkbox className='ml-5' checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />
+        <Checkbox
+          className="ml-5"
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
       ),
       enableSorting: false,
       enableHiding: false,
@@ -100,18 +121,17 @@ export function AccessTable({ projectId }: AccessTableProps) {
       cell: ({ row }) => {
         const token = row.getValue('token') as string;
         const [copied, setCopied] = React.useState(false);
-    
+  
         const handleCopy = () => {
           navigator.clipboard.writeText(token);
           setCopied(true);
           toast.success('Token copied to clipboard!');
-    
-          // Reset the copied state after a short delay
+  
           setTimeout(() => {
             setCopied(false);
           }, 2000);
         };
-    
+  
         return (
           <div className="flex items-center w-[150px]">
             <span className="truncate">{token}</span>
@@ -132,16 +152,49 @@ export function AccessTable({ projectId }: AccessTableProps) {
         );
       },
     },
-        
     {
       accessorKey: 'userId',
       header: 'User ID',
-      cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('userId')}</div>,
+      cell: ({ row }) => (
+        <div className="w-[150px] overflow-auto">{row.getValue('userId')}</div>
+      ),
     },
     {
       accessorKey: 'projectId',
       header: 'Project ID',
-      cell: ({ row }) => <div className='w-[150px] overflow-auto'>{row.getValue('projectId')}</div>,
+      cell: ({ row }) => {
+        const project = row.getValue('projectId') as Project;
+        return (
+          <div>
+            <span>{project._id}</span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: 'projectId',
+      header: 'Database Version',
+      cell: ({ row }) => {
+        const project = row.getValue('projectId') as Project;
+        return (
+          <div>
+            <span>{project.databaseVersion}</span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: 'projectId',
+      header: 'Is Active',
+      cell: ({ row }) => {
+        const project = row.getValue('projectId') as Project;
+        return <div>{project.isActive ? 'Yes' : 'No'}</div>;
+      },
+    },
+    {
+      accessorKey: 'duration',
+      header: 'Duration',
+      cell: ({ row }) => <div>{row.getValue('duration')}</div>,
     },
     {
       accessorKey: 'createdAt',
@@ -153,13 +206,13 @@ export function AccessTable({ projectId }: AccessTableProps) {
       header: 'Actions',
       cell: ({ row }) => {
         const tokenId = row.getValue('_id') as string;
-
+  
         return (
           <AlertDialog>
-            <AlertDialogTrigger asChild className='cursor-pointer'>
+            <AlertDialogTrigger asChild className="cursor-pointer">
               <Trash2Icon size={18} />
             </AlertDialogTrigger>
-            <AlertDialogContent className='bg-[#111015] text-white border-[#242527] font-regular'>
+            <AlertDialogContent className="bg-[#111015] text-white border-[#242527] font-regular">
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                 <AlertDialogDescription>
@@ -167,32 +220,23 @@ export function AccessTable({ projectId }: AccessTableProps) {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogAction className='bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2' onClick={() => deleteProjectToken(tokenId)}>
+                <AlertDialogAction
+                  className="bg-red-700 hover:bg-red-500 border-none rounded-3xl py-2"
+                  onClick={() => deleteProjectToken(tokenId)}
+                >
                   Yes, Delete
                 </AlertDialogAction>
-                <AlertDialogCancel className='bg-transparent border-[#242527] py-2 rounded-3xl'>No, Cancel</AlertDialogCancel>
+                <AlertDialogCancel className="bg-transparent border-[#242527] py-2 rounded-3xl">
+                  No, Cancel
+                </AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         );
       },
     },
-    // {
-    //   accessorKey: 'updatedAt',
-    //   header: 'Updated At',
-    //   cell: ({ row }) => <div>{row.getValue('updatedAt')}</div>,
-    // },
-    // {
-    //   accessorKey: 'duration',
-    //   header: 'Duration',
-    //   cell: ({ row }) => <div>{row.getValue('duration')}</div>,
-    // },
-    // {
-    //   accessorKey: 'type',
-    //   header: 'Type',
-    //   cell: ({ row }) => <div>{row.getValue('type')}</div>,
-    // },
   ];
+  
 
   const table = useReactTable({
     data: tokens,
