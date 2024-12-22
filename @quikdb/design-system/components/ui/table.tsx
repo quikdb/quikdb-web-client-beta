@@ -3,14 +3,14 @@ import * as React from 'react';
 import { cn } from "@quikdb/design-system/lib/utils"
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(({ className, ...props }, ref) => (
-  <div className='relative w-full overflow-auto bg-[#151418]'>
+  <div className='relative w-full overflow-auto bg-table'>
     <table ref={ref} className={cn('w-full caption-bottom text-sm', className)} {...props} />
   </div>
 ));
 Table.displayName = 'Table';
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn('[&_tr]:border-b-[#242527] bg-[#18181A]', className)} {...props} />
+  <thead ref={ref} className={cn('[&_tr]:border-b-[#242527] bg-table-head', className)} {...props} />
 ));
 TableHeader.displayName = 'TableHeader';
 
@@ -27,7 +27,7 @@ TableFooter.displayName = 'TableFooter';
 const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(({ className, ...props }, ref) => (
   <tr
     ref={ref}
-    className={cn('border-b border-b-[#242527] transition-colors hover:bg-[#18181A]/50 data-[state=selected]:bg-blacko/50', className)}
+    className={cn('border-b border-b-[#242527] transition-colors hover:bg-table-head/50 data-[state=selected]:bg-blacko/50', className)}
     {...props}
   />
 ));

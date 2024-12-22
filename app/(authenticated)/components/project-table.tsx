@@ -138,7 +138,7 @@ export function ProjectTable({ projects }: ProjectTableProps) {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild className='h-11'>
-            <Button className='ml-auto bg-transparent text-white border border-[#242527] max-md:text-xs'>
+            <Button className='ml-auto bg-transparent text-muted-foreground border border-[#242527] max-md:text-xs'>
               Columns <ChevronDown className='max-md:scale-75' />
             </Button>
           </DropdownMenuTrigger>

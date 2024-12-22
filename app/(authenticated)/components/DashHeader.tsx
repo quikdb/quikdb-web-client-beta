@@ -9,6 +9,7 @@ import NotifModal from './NotifModal';
 import MobileSidebar from './mobile-sidebar';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { ModeToggle } from '@quikdb/design-system/components/mode-toggle';
 
 const DashHeader = () => {
   const { userEmail, credits } = useSelector((state: RootState) => state.auth);
@@ -121,6 +122,7 @@ const DashHeader = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+        <ModeToggle/>
       </div>
     </div>
   );

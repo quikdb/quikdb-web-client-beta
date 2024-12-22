@@ -125,7 +125,7 @@ export default function ListProject() {
             List new project
           </Button>
         </DialogTrigger>
-        <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
+        <DialogContent className='s:max-w-[425px] bg-card text-card-foreground border-[#242527] font-regular'>
           <DialogHeader>
             <DialogTitle className='font-medium'>List Project</DialogTitle>
             <DialogDescription>Create a new project</DialogDescription>
