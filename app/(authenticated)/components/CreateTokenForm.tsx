@@ -1,13 +1,7 @@
 'use client';
 
 import { Button } from '@quikdb/design-system/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@quikdb/design-system/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@quikdb/design-system/components/ui/dialog';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useProjectTokens } from '@/hooks';

@@ -99,6 +99,19 @@ const SignInPage = () => {
 
         const result = await response.json();
 
+        const response2 = await fetch('/api/sign-in-cli', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            principalId: result.data.user.principalId,
+            encryptedPassword: result.data.encryptedPassword,
+            token: result.data.accessToken,
+          }),
+        });
+  
+        const result2 = await response2.json();
+        console.log('sign-in-cli-result:::', result2);
+
         if (response.ok && result.status === 'success') {
           toast.success('Signed in successfully');
           const { accessToken } = result.data;
