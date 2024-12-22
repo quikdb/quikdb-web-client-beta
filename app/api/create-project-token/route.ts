@@ -8,8 +8,7 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { projectId, databaseVersion } = body;
-    console.log('api-create-project-token-body:::', body);
+    const { projectId } = body;
 
     const encryptedProjectId = CryptoUtils.aesEncrypt(
       JSON.stringify({ id: projectId }),
@@ -18,8 +17,6 @@ export async function POST(req: Request) {
     );
 
     const tokenData = JSON.stringify({
-      // email,
-      databaseVersion,
       duration: 1000, 
     });
 

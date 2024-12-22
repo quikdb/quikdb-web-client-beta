@@ -10,7 +10,11 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { projectName, databaseVersion } = body;
 
-    const encryptedProject = CryptoUtils.aesEncrypt(JSON.stringify({ id: projectName, databaseVersion  }), 'mysecurekey1234567890', 'uniqueiv12345678');
+    const encryptedProject = CryptoUtils.aesEncrypt(
+      JSON.stringify({ id: projectName, databaseVersion }),
+      'mysecurekey1234567890',
+      'uniqueiv12345678'
+    );
 
     const headers = new Headers();
     if (token) {
@@ -27,6 +31,7 @@ export async function POST(req: Request) {
 
     const result = await response.json();
     console.log('create-project-result:::', result);
+    console.log(' create-project-data:::', result.data.projectData.data);
 
     if (response.ok && result.status === 'success') {
       return new Response(JSON.stringify(result), { status: response.status });

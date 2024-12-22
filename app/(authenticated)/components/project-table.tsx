@@ -43,14 +43,19 @@ export function ProjectTable({ projects }: ProjectTableProps) {
       cell: ({ row }) => <div>{row.getValue('name')}</div>,
     },
     {
-      accessorKey: 'createdAt',
-      header: 'Date Created',
-      cell: ({ row }) => <div>{new Date(row.getValue('createdAt')).toLocaleString()}</div>,
-    },
-    {
       accessorKey: 'owner',
       header: 'Owner',
       cell: ({ row }) => <div>{row.getValue('owner')}</div>,
+    },
+    {
+      accessorKey: 'databaseVersion',
+      header: 'Database Version',
+      cell: ({ row }) => <div>{row.getValue('databaseVersion')}</div>,
+    },
+    {
+      accessorKey: 'createdAt',
+      header: 'Date Created',
+      cell: ({ row }) => <div>{new Date(row.getValue('createdAt')).toLocaleString()}</div>,
     },
     {
       accessorKey: 'isActive',

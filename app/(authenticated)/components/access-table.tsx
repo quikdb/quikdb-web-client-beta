@@ -153,10 +153,10 @@ export function AccessTable({ projectId }: AccessTableProps) {
       },
     },
     {
-      accessorKey: 'userId',
-      header: 'User ID',
+      accessorKey: '_id',
+      header: 'ID',
       cell: ({ row }) => (
-        <div className="w-[150px] overflow-auto">{row.getValue('userId')}</div>
+        <div className="w-[150px] overflow-auto">{row.getValue('_id')}</div>
       ),
     },
     {

@@ -9,6 +9,7 @@ import { setAuthState } from '@/app/store';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { AuthClient } from '@dfinity/auth-client';
+import ScrollingAlert from '@/app/(authenticated)/components/ScrolingAlert';
 
 const SignInPage = () => {
   const [email, setEmail] = useState('');
@@ -123,84 +124,87 @@ const SignInPage = () => {
   };
 
   return (
-    <div className='flex justify-center items-center w-full'>
-      <div className='flex flex-col w-full max-w-screen-2xl'>
-        <FormHeader title='Welcome back' description='Enter your email to sign in to this app' showLogo />
+    <>
+      <ScrollingAlert />
+      <div className='flex justify-center items-center w-full'>
+        <div className='flex flex-col w-full max-w-screen-2xl'>
+          <FormHeader title='Welcome back' description='Enter your email to sign in to this app' showLogo />
 
-        <main className='flex flex-col items-center justify-center w-full'>
-          <div className='flex flex-col w-full md:w-[680px] items-center'>
-            <form onSubmit={handleSignIn} className='flex flex-col gap-y-4 items-center w-full'>
-              <Input type='email' placeholder='Email Address' required value={email} onChange={(e) => setEmail(e.target.value)} />
+          <main className='flex flex-col items-center justify-center w-full'>
+            <div className='flex flex-col w-full md:w-[680px] items-center'>
+              <form onSubmit={handleSignIn} className='flex flex-col gap-y-4 items-center w-full'>
+                <Input type='email' placeholder='Email Address' required value={email} onChange={(e) => setEmail(e.target.value)} />
 
-              <PasswordInput placeholder='Enter Password' required value={password} onChange={(e) => setPassword(e.target.value)} />
+                <PasswordInput placeholder='Enter Password' required value={password} onChange={(e) => setPassword(e.target.value)} />
 
-              <Link href='/forgot-password' className='text-sm font-light text-right w-full pr-2 text-gradient'>
-                Forgot Password?
-              </Link>
+                <Link href='/forgot-password' className='text-sm font-light text-right w-full pr-2 text-gradient'>
+                  Forgot Password?
+                </Link>
 
-              <Button
-                type='submit'
-                className='w-full bg-[#141414] h-[50px] text-lg rounded-2xl p-6 text-[#A5A5A5] hover:text-blacko'
-                disabled={loading}
-              >
-                {loading ? 'Signing in...' : 'Continue'}
-              </Button>
-
-              {error && <p className='text-red-500 text-sm mt-2'>{error}</p>}
-            </form>
-
-            <FormDivider />
-
-            <section className='flex flex-col items-center my-6 gap-y-4 w-full'>
-              <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
-                <Button className={buttonStyle} onClick={loginWithInternetIdentity}>
-                  {isloading ? 'Signing in...' : buttonTextPrefix} with Internet Identity
+                <Button
+                  type='submit'
+                  className='w-full bg-[#141414] h-[50px] text-lg rounded-2xl p-6 text-[#A5A5A5] hover:text-blacko'
+                  disabled={loading}
+                >
+                  {loading ? 'Signing in...' : 'Continue'}
                 </Button>
-                <Button className={buttonStyle} onClick={handleRedirect}>
-                  {IsLoading ? 'Signing in ...' : 'Sign In with One Time Link'}
-                </Button>
-              </div>
 
-              {/* Option to see other sign-in methods */}
-              {seeOtherOptions ? (
+                {error && <p className='text-red-500 text-sm mt-2'>{error}</p>}
+              </form>
+
+              <FormDivider />
+
+              <section className='flex flex-col items-center my-6 gap-y-4 w-full'>
                 <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
-                  <Button className={buttonStyle} onClick={handleGoogleSignUp}>
-                    {Loading ? 'Signing in...' : buttonTextPrefix} with Google
+                  <Button className={buttonStyle} onClick={loginWithInternetIdentity}>
+                    {isloading ? 'Signing in...' : buttonTextPrefix} with Internet Identity
                   </Button>
-                  <Button className={buttonStyle} disabled>
-                    {buttonTextPrefix} with Github
+                  <Button className={buttonStyle} onClick={handleRedirect}>
+                    {IsLoading ? 'Signing in ...' : 'Sign In with One Time Link'}
                   </Button>
                 </div>
-              ) : (
-                <Button className={buttonStyle} onClick={() => setSeeOtherOptions(!seeOtherOptions)}>
-                  See other options
-                </Button>
-              )}
-            </section>
 
-            <section className='flex flex-col items-center gap-y-6'>
-              <p className='text-sm font-light text-[#B3B4B3] text-center'>
-                By clicking continue, you agree to our{' '}
-                <Link href='/terms' className='underline'>
-                  Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link href='/privacy' className='underline'>
-                  Privacy Policy
-                </Link>
-              </p>
+                {/* Option to see other sign-in methods */}
+                {seeOtherOptions ? (
+                  <div className='flex flex-col justify-between w-full md:flex-row items-center gap-y-4 md:gap-x-4'>
+                    <Button className={buttonStyle} onClick={handleGoogleSignUp}>
+                      {Loading ? 'Signing in...' : buttonTextPrefix} with Google
+                    </Button>
+                    <Button className={buttonStyle} disabled>
+                      {buttonTextPrefix} with Github
+                    </Button>
+                  </div>
+                ) : (
+                  <Button className={buttonStyle} onClick={() => setSeeOtherOptions(!seeOtherOptions)}>
+                    See other options
+                  </Button>
+                )}
+              </section>
 
-              <p className='text-lg font-light text-[#B3B4B3]'>
-                Don't have an account?{' '}
-                <Link href='/sign-up' className='text-gradient hover:text-white font-medium'>
-                  Sign up
-                </Link>
-              </p>
-            </section>
-          </div>
-        </main>
+              <section className='flex flex-col items-center gap-y-6'>
+                <p className='text-sm font-light text-[#B3B4B3] text-center'>
+                  By clicking continue, you agree to our{' '}
+                  <Link href='/terms' className='underline'>
+                    Terms of Service
+                  </Link>{' '}
+                  and{' '}
+                  <Link href='/privacy' className='underline'>
+                    Privacy Policy
+                  </Link>
+                </p>
+
+                <p className='text-lg font-light text-[#B3B4B3]'>
+                  Don't have an account?{' '}
+                  <Link href='/sign-up' className='text-gradient hover:text-white font-medium'>
+                    Sign up
+                  </Link>
+                </p>
+              </section>
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
