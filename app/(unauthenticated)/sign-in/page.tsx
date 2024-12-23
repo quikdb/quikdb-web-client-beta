@@ -108,7 +108,7 @@ const SignInPage = () => {
             token: result.data.accessToken,
           }),
         });
-  
+
         const result2 = await response2.json();
         console.log('sign-in-cli-result:::', result2);
 
@@ -117,7 +117,7 @@ const SignInPage = () => {
           const { accessToken } = result.data;
           const { email, credits } = result.data.user;
 
-          dispatch(setAuthState({ token: accessToken, userEmail: email, credits, isInternetIdentity: true }));
+          dispatch(setAuthState({ token: accessToken, userEmail: email, credits, isInternetIdentity: true, internetIdentityCLI: result2 }));
           router.push('/overview');
         } else {
           setError(result.error || 'Failed to sign in.');

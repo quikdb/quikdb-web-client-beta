@@ -7,17 +7,20 @@ import { toast } from 'sonner';
 import { useProjectTokens } from '@/hooks';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
+import { ClipboardCheck, ClipboardCopy } from 'lucide-react';
 
 interface TokenProps {
   projectId: string | null;
 }
 
 export default function CreateToken({ projectId }: TokenProps) {
-  const { isInternetIdentity } = useSelector((state: RootState) => state.auth); // Access Redux state
+  const { isInternetIdentity, internetIdentityCLI, userEmail } = useSelector((state: RootState) => state.auth); // Access Redux state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showFreePopup, setShowFreePopup] = useState(false);
+  const [copiedCommand, setCopiedCommand] = useState<string | null>(null); // Track the copied command
   const { refreshTokens } = useProjectTokens(projectId ?? '');
+  const firstPartEmail = userEmail ? userEmail.split('-')[0] : '';
 
   const createProjectToken = async (projectId: string) => {
     if (!projectId) {
@@ -54,6 +57,13 @@ export default function CreateToken({ projectId }: TokenProps) {
     }
   };
 
+  const handleCopy = (command: string) => {
+    navigator.clipboard.writeText(command);
+    setCopiedCommand(command);
+    toast.success('Command copied to clipboard!');
+    setTimeout(() => setCopiedCommand(null), 2000);
+  };
+
   return (
     <>
       <Button
@@ -74,15 +84,29 @@ export default function CreateToken({ projectId }: TokenProps) {
                 You have successfully created your project token on the free plan.
                 <br />
                 Run the following commands to configure your project:
-                <pre className='bg-gray-800 text-white p-4 rounded mt-4'>
-                  npm i -g quikdb-cli-beta
-                  <br />
-                  {isInternetIdentity
-                    ? `quikdb config -u <username> -i <identity token>` // If signed in with Internet Identity
-                    : `quikdb config -u <username> -e <email>`}{' '}
-                  {/* Default for normal users */}
-                  <br />
-                  quikdb install
+                <pre className='bg-gray-800 text-white p-4 rounded mt-4 whitespace-pre-wrap break-words'>
+                  <code>
+                    {[
+                      'npm i -g quikdb-cli-beta',
+                      isInternetIdentity ? `quikdb config -u ${firstPartEmail} -i ${internetIdentityCLI}` : `quikdb config -u <username> -e <email>`,
+                      'quikdb install',
+                    ].map((command, index) => (
+                      <div key={index} className='mb-2'>
+                        <span>{command}</span>
+                        <button
+                          className='ml-4 p-2 rounded hover:bg-gray-700'
+                          onClick={() => handleCopy(command)}
+                          aria-label={copiedCommand === command ? 'Command copied' : 'Copy command'}
+                        >
+                          {copiedCommand === command ? (
+                            <ClipboardCheck className='h-4 w-4 text-green-500' />
+                          ) : (
+                            <ClipboardCopy className='h-4 w-4 text-gray-500 hover:text-gray-300' />
+                          )}
+                        </button>
+                      </div>
+                    ))}
+                  </code>
                 </pre>
               </DialogDescription>
             </DialogHeader>

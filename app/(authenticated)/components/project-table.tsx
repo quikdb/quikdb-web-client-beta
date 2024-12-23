@@ -7,6 +7,7 @@ import { Input } from '@quikdb/design-system/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@quikdb/design-system/components/ui/table';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@quikdb/design-system/components/ui/dropdown-menu';
 import { toast } from 'sonner';
+import { format } from 'date-fns';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -55,7 +56,7 @@ export function ProjectTable({ projects }: ProjectTableProps) {
     {
       accessorKey: 'createdAt',
       header: 'Date Created',
-      cell: ({ row }) => <div>{new Date(row.getValue('createdAt')).toLocaleString()}</div>,
+      cell: ({ row }) => <div>{format(new Date(row.getValue('createdAt')), 'yyyy-MM-dd HH:mm:ss')}</div>,
     },
     {
       accessorKey: 'isActive',
