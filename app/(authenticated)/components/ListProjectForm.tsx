@@ -14,7 +14,7 @@ import { useState } from 'react';
 import { DatabaseVersion } from '@/@types';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { useProjects, useProjectTokens } from '@/hooks';
+import { useProjects } from '@/hooks';
 
 export default function ListProject() {
   const [isCreating, setIsCreating] = useState(false);
@@ -22,14 +22,11 @@ export default function ListProject() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
-  const [showFreePopup, setShowFreePopup] = useState(false);
   const [projectId, setProjectId] = useState<string | null>(null);
   const [selectedVersion, setSelectedVersion] = useState<DatabaseVersion>(DatabaseVersion.FREE);
 
   const router = useRouter();
   const { refreshProjects } = useProjects();
-  const { refreshTokens } = useProjectTokens(projectId ?? '');
 
   const handleCreateProject = async (version: DatabaseVersion) => {
     if (!projectName) {
@@ -54,59 +51,23 @@ export default function ListProject() {
         setSuccess(true);
         setProjectName('');
         setIsCreating(false);
-        toast.success(`Project ${projectName} created successfully!`);
+        refreshProjects();
 
         const createdProjectId = result.data.projectData.data._id;
         setProjectId(createdProjectId);
 
-        setShowPopup(false);
-        setTimeout(() => {
-          setShowPopup(true);
-        }, 300);
-        refreshProjects();
+        if (version === DatabaseVersion.FREE) {
+          toast.success('Free project created successfully!');
+        } else {
+          router.push(`/checkout/${createdProjectId}/${version}`);
+        }
       } else {
-        toast.warning(result.message || 'Failed to create project token. Please try again later.');
-        setError(result.message || 'Failed to create project token. Please try again later.');
+        toast.warning(result.message || 'Failed to create project. Please try again later.');
+        setError(result.message || 'Failed to create project. Please try again later.');
       }
     } catch (error) {
       console.error('Error creating project:', error);
       setError('Failed to create project. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const createProjectToken = async (projectId: string) => {
-    if (!projectId) {
-      setError('Project ID is required.');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-    try {
-      const response = await fetch('/api/create-project-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ projectId }),
-      });
-
-      const result = await response.json();
-      console.log('create-project-token-result:::', result);
-
-      if (response.ok) {
-        toast.success('Project token created successfully!');
-        setShowFreePopup(true);
-        refreshTokens();
-        setShowPopup(false);
-      } else {
-        setError(result.message || 'Failed to create project token. Please try again later.');
-        toast.warning(result.message || 'Failed to create project token. Please try again later.');
-      }
-    } catch (error) {
-      console.error('Error creating project token:', error);
-      setError('Failed to create project token. Please try again later.');
-      toast.error('Failed to create project token. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -118,34 +79,34 @@ export default function ListProject() {
 
   return (
     <>
-      {/* Select Project and db */}
       <Dialog open={isCreating} onOpenChange={setIsCreating}>
         <DialogTrigger asChild>
-          <Button size='lg' className='bg-gradient w-fit px-4 text-[#0F1407] max-md:scale-90 max-md:text-right'>
+          <Button size="lg" className="bg-gradient w-fit px-4 text-[#0F1407] max-md:scale-90 max-md:text-right">
             List new project
           </Button>
         </DialogTrigger>
-        <DialogContent className='s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular'>
+        <DialogContent className="s:max-w-[425px] bg-[#111015] text-white border-[#242527] font-regular">
           <DialogHeader>
-            <DialogTitle className='font-medium'>List Project</DialogTitle>
+            <DialogTitle className="font-medium">List Project</DialogTitle>
             <DialogDescription>Create a new project</DialogDescription>
           </DialogHeader>
-          <hr className='border-gray-400' />
-          <div className='grid gap-4 py-4'>
-            <div className='grid gap-2'>
-              <Label htmlFor='name'>Project Name</Label>
+          <hr className="border-gray-400" />
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="name">Project Name</Label>
               <input
-                type='text'
-                placeholder='Enter Project Name'
-                className='px-4 py-2 border rounded-md w-full'
+                type="text"
+                placeholder="Enter Project Name"
+                className="px-4 py-2 border rounded-md w-full"
                 value={projectName}
                 onChange={(e) => setProjectName(e.target.value)}
+                required
               />
             </div>
           </div>
-          <div className='w-full flex flex-col gap-2'>
-            <Label htmlFor='name'>Database Version</Label>
-            <DialogDescription className='mb-2'>Select the version of the database you want to use.</DialogDescription>
+          <div className="w-full flex flex-col gap-2">
+            <Label htmlFor="name">Database Version</Label>
+            <DialogDescription className="mb-2">Select the version of the database you want to use.</DialogDescription>
             <Button
               onClick={() => handleVersionSelection(DatabaseVersion.FREE)}
               className={`hover:bg-gradient ${selectedVersion === DatabaseVersion.FREE ? 'bg-gradient text-black' : ''}`}
@@ -165,9 +126,9 @@ export default function ListProject() {
               Premium <DollarSign />
             </Button>
           </div>
-          <DialogFooter className='sm:justify-start'>
+          <DialogFooter className="sm:justify-start">
             <Button
-              size='lg'
+              size="lg"
               className={`font-medium bg-gradient px-4 w-fit text-[#0F1407] ${!selectedVersion ? 'opacity-50 cursor-not-allowed' : ''}`}
               onClick={() => handleCreateProject(selectedVersion!)}
               disabled={!selectedVersion || loading}
@@ -177,35 +138,6 @@ export default function ListProject() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      {/* Second Dialog */}
-      {showPopup && (
-        <Dialog open={showPopup} onOpenChange={setShowPopup}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{selectedVersion === DatabaseVersion.FREE ? 'Create Token' : `Purchase ${selectedVersion.charAt(0).toUpperCase() + selectedVersion.slice(1)} Database`}</DialogTitle>
-            </DialogHeader>
-            <hr className='border-gray-400' />
-            <div className='w-full flex flex-col gap-2'>
-              {selectedVersion === DatabaseVersion.FREE ? (
-                <Button onClick={() => createProjectToken(projectId ?? '')} className='hover:bg-gradient'>
-                  Create Token
-                </Button>
-              ) : (
-                <Button
-                  size='lg'
-                  className='bg-gradient px-4 text-[#0F1407]'
-                  onClick={() => {
-                    router.push(`/checkout/${projectId}/${selectedVersion}`);
-                  }}
-                >
-                  Proceed to Checkout
-                </Button>
-              )}
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
     </>
   );
 }
