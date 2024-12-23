@@ -23,6 +23,8 @@ export default function CreateToken({ projectId }: TokenProps) {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false); // Track confirmation dialog state
   const { refreshTokens } = useProjectTokens(projectId ?? '');
   const firstPartEmail = userEmail ? userEmail.split('-')[0] : '';
+  const Email = userEmail ? userEmail : '';
+  const firstName =  userEmail ? userEmail.split('@')[0] : '';
 
   const createProjectToken = async (projectId: string) => {
     if (!projectId) {
@@ -117,7 +119,7 @@ export default function CreateToken({ projectId }: TokenProps) {
                       'npm i -g quikdb-cli-beta',
                       isInternetIdentity
                         ? `quikdb config -u ${firstPartEmail} -i ${internetIdentityCLI}`
-                        : `quikdb config -u <username> -e <email>`,
+                        : `quikdb config -u ${firstName} -e ${Email}`,
                       'quikdb install',
                     ].map((command, index) => (
                       <div key={index} className="mb-2">
