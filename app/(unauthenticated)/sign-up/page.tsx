@@ -124,7 +124,6 @@ const SignUpPage = () => {
 
   return (
     <>
-      <ScrollingAlert />
       <div className='flex justify-center items-center w-full'>
         <div className='flex flex-col w-full max-w-screen-2xl'>
           <FormHeader title='Create an account' description='Enter your email to sign up for this app' showLogo />
