@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <div className="mt-5 max-md:mt-0 py-16 max-md:py-4 bg-[#090909]">
+        <div className="mt-5 max-md:mt-0 py-16 max-md:py-4 dark:bg-[#090909]">
             <div className="flex items-center justify-around">
                 <div className='text-gradient font-medium text-2xl max-md:text-base'>quikDB</div>
 

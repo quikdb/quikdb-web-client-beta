@@ -5,7 +5,7 @@ import { cn } from '@quikdb/design-system/lib/utils';
 import { DesignSystemProvider } from '@quikdb/design-system/providers';
 import { Analytics } from '@vercel/analytics/react';
 import type { ReactNode } from 'react';
-import { ThemeHydration } from './utility';
+// import { ThemeHydration } from './utility';
 import ClientProviders from './client-providers';
 import ScrollingAlert from './(authenticated)/components/ScrolingAlert';
 
@@ -47,7 +47,7 @@ const satoshi = localFont({
 const RootLayout = ({ children }: RootLayoutProperties) => (
   <html lang='en' className={cn(satoshi.className, 'touch-manipulation font-sans antialiased')} suppressHydrationWarning>
     <body>
-      <ThemeHydration />
+      {/* <ThemeHydration /> */}
       <ClientProviders>
           <DesignSystemProvider>
           <ScrollingAlert />

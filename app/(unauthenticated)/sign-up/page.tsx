@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { AuthClient } from '@dfinity/auth-client';
 import { useDispatch } from 'react-redux';
 import { setAuthState } from '@/app/store';
-import ScrollingAlert from '@/app/(authenticated)/components/ScrolingAlert';
+// import ScrollingAlert from '@/app/(authenticated)/components/ScrolingAlert';
 
 const SignUpPage = () => {
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
@@ -25,7 +25,7 @@ const SignUpPage = () => {
 
   const router = useRouter();
 
-  const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white hover:text-blacko';
+  const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-black';
   const buttonTextPrefix = 'Sign Up';
 
   const handleGoogleSignUp = async () => {

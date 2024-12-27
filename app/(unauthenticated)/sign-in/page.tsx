@@ -44,7 +44,7 @@ const SignInPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-white hover:text-blacko';
+  const buttonStyle = 'w-full border-[1px] bg-transparent border-[#1F1F1F] h-[50px] text-base rounded-2xl px-6 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-black';
   const buttonTextPrefix = 'Sign In';
 
   const handleSignIn = async (e: React.FormEvent) => {

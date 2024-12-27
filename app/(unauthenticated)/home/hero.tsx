@@ -1,6 +1,7 @@
 import { Input } from '@quikdb/design-system/components/onboarding'
 import { Button } from '@quikdb/design-system/components/ui/button'
 import Header from './header'
+import Link from 'next/link'
 
 const Hero = () => {
     return (
@@ -15,7 +16,7 @@ const Hero = () => {
                 <p className='font- lg:w-1/3 max-md:text-sm mx-auto text-[#777A7F]'>Simplify database management and collaboration with QuikDB’s seamless tools and rewarding features.</p>
                 <div className='flex items-center gap-2 mx-auto lg:w-1/3 mt-5 max-md:scale-75'>
                     <Input placeholder='Email address' />
-                    <Button size={'lg'} className='bg-gradient h-11'>Get started</Button>
+                    <Link href="/sign-up"><Button size={'lg'} className='bg-gradient h-11'>Get started</Button></Link>
                 </div>
             </div>
             <img src="/images/grid.png" alt=""/>

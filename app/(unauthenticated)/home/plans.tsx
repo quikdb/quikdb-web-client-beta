@@ -30,7 +30,7 @@ const plans = [
 ]
 const Plans = () => {
     return (
-        <div className="p-20 max-md:p-8 lg:px-36 max-md:px-5 flex max-md:flex-col gap-56 max-md:gap-7 bg-[#0a0a0c]">
+        <div className="p-20 max-md:p-8 lg:px-36 max-md:px-5 flex max-md:flex-col gap-56 max-md:gap-7 dark:bg-[#0a0a0c]">
             <div className="flex flex-col gap-6">
                 <p className="text-2xl max-md:text-xl font-medium max-md:text-center">Flexible plans for all needs</p>
                 <div className="flex flex-col gap-4">
@@ -48,7 +48,7 @@ const Plans = () => {
             <div className="lg:w-1/2">
                 <Table className="text-xs max-md:text-[10px] italic">
                     <TableHeader>
-                        <TableRow className="bg-[#0a0a0c]">
+                        <TableRow className="dark:bg-[#0a0a0c]">
                             <TableHead className="w-[100px] py-4 px-16 max-md:px-6">Price (USD)</TableHead>
                             <TableHead>Credits Earned</TableHead>
                             <TableHead>Storage Equivalent</TableHead>
@@ -56,7 +56,7 @@ const Plans = () => {
                     </TableHeader>
                     <TableBody>
                         {plans.map((plan) => (
-                            <TableRow key={plan.price} className="bg-[#060808]">
+                            <TableRow key={plan.price} className="dark:bg-[#060808]">
                                 <TableCell className="font-medium py-4 px-16 max-md:px-6">{plan.price}</TableCell>
                                 <TableCell>{plan.credits}</TableCell>
                                 <TableCell>{plan.storage}</TableCell>

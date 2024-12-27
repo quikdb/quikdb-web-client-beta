@@ -1,5 +1,6 @@
 import { Button } from '@quikdb/design-system/components/ui/button'
 import HamburgerMenu from './hamburger'
+import Link from 'next/link'
 
 const Header = () => {
   return (
@@ -13,7 +14,7 @@ const Header = () => {
       </div>
       <div className='flex gap-3 lg:w-1/5 max-md:hidden'>
         <Button className='rounded-full'>Learn more</Button>
-        <Button className='bg-gradient rounded-full'>Sign up for free</Button>
+        <Link href="/sign-up"><Button className='bg-gradient rounded-full'>Sign up for free</Button></Link>
       </div>
       <HamburgerMenu />
     </div>
