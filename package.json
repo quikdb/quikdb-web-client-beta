@@ -132,16 +132,20 @@
     "ultracite": "^4.1.6",
     "vitest": "^2.1.4"
   },
-  "build": {
-    "appId": "com.example.nextjselectron",
-    "files": [
-      "**/*",
-      "electron/dist/**"
-    ],
-    "directories": {
-      "buildResources": "build"
-    }
+ "build": {
+  "appId": "com.quikdb.desktopapp",
+  "mac": {
+    "target": "dmg",
+    "category": "public.app-category.developer-tools"
   },
+  "files": [
+    "**/*",
+    "electron/dist/**"
+  ],
+  "directories": {
+    "buildResources": "build"
+  }
+ },
   "exports": {
     "./*": "./src/*.tsx"
   },
