@@ -1,15 +1,28 @@
 {
   "extends": "./@quikdb/typescript-config/nextjs.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "baseUrl": ".",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "target": "esnext",
+    "module": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
     "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
     "typeRoots": ["node_modules/@types"],
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
-    "jsx": "preserve",
     "plugins": [
       {
         "name": "next"
@@ -43,5 +56,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "webpack.config.js"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
