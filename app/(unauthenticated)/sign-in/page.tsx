@@ -137,7 +137,7 @@ const SignInPage = () => {
 
   return (
     <>
-      <div className='flex justify-center items-center w-full h-screen'>
+      <div className='flex justify-center items-center w-full h-[90vh]'>
         <div className='flex flex-col w-full max-w-screen-2xl'>
           <FormHeader title='Welcome back' description='Enter your email to sign in to this app' showLogo />
 
@@ -192,7 +192,7 @@ const SignInPage = () => {
                 )}
               </section>
 
-              <section className='flex flex-col items-center gap-y-6'>
+              <section className='flex flex-col items-center gap-y-4'>
                 <p className='text-sm font-light text-[#B3B4B3] text-center'>
                   By clicking continue, you agree to our{' '}
                   <Link href='/terms' className='underline'>
