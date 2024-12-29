@@ -130,6 +130,7 @@ const SignInPage = () => {
     });
   }
 
+
   const handleRedirect = () => {
     SetIsLoading(true);
     router.push('/one-time');
