@@ -14,7 +14,7 @@ const OrgSidebar = () => {
     ].filter(Boolean);
 
     return (
-        <div className='bg-blackoff w-[18%] border-r-2 border-r-[#1B1C1F] fixed hidden lg:flex flex-col items-center justify-start p-10 py-20 min-h-screen h-full'>
+        <div className='dark:bg-[#18171C] w-[18%] border-r-2 border-r-[#1B1C1F] fixed hidden lg:flex flex-col items-center justify-start p-10 py-20 min-h-screen h-full'>
             <div className="flex flex-col h-full">
                 <Link href="/" className="font-medium text-gradient text-2xl pl-10">
                     quikDB

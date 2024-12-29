@@ -15,7 +15,7 @@ const Hero = () => {
                 <p className='text-4xl max-md:text-2xl font-medium'><span className='text-gradient'>Data management</span> made smarter and faster</p>
                 <p className='font- lg:w-1/3 max-md:text-sm mx-auto text-[#777A7F]'>Simplify database management and collaboration with QuikDB’s seamless tools and rewarding features.</p>
                 <div className='mx-auto lg:w-1/3 mt-5 max-md:scale-75'>
-                    <Link href="/sign-up"><Button size={'lg'} className='bg-gradient h-11'>Get started</Button></Link>
+                    <Link href="/sign-up"><Button size={'lg'} className='bg-gradient h-11 focus:scale-90'>Get started</Button></Link>
                 </div>
             </div>
             <img src="/images/grid.png" alt=""/>

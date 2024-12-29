@@ -15,10 +15,10 @@ const Header = () => {
       </div>
       <div className='flex gap-3 lg:w-1/5 max-md:hidden'>
         <Link href='https://docs.quikdb.com'>
-          <Button className='rounded-full'>Learn more</Button>
+          <Button className='rounded-full focus:scale-90'>Learn more</Button>
         </Link>
         <Link href='/sign-up'>
-          <Button className='bg-gradient rounded-full'>Sign up for free</Button>
+          <Button className='bg-gradient rounded-full focus:scale-90'>Sign up for free</Button>
         </Link>
       </div>
       <HamburgerMenu />
