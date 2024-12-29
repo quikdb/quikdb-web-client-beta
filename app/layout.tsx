@@ -7,7 +7,7 @@ import { Analytics } from '@vercel/analytics/react';
 import type { ReactNode } from 'react';
 // import { ThemeHydration } from './utility';
 import ClientProviders from './client-providers';
-import ScrollingAlert from './(authenticated)/components/ScrolingAlert';
+// import ScrollingAlert from './(authenticated)/components/ScrolingAlert';
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
@@ -49,12 +49,12 @@ const RootLayout = ({ children }: RootLayoutProperties) => (
     <body>
       {/* <ThemeHydration /> */}
       <ClientProviders>
-          <DesignSystemProvider>
-          <ScrollingAlert />
-            <TooltipProvider>{children}</TooltipProvider>
-            <Analytics />
-          </DesignSystemProvider>
-        </ClientProviders>
+        <DesignSystemProvider>
+          {/* <ScrollingAlert /> */}
+          <TooltipProvider>{children}</TooltipProvider>
+          <Analytics />
+        </DesignSystemProvider>
+      </ClientProviders>
     </body>
   </html>
 );

@@ -9,11 +9,9 @@ interface FormHeaderProps {
 }
 
 const FormHeader: React.FC<FormHeaderProps> = ({ title, description, showLogo }) => (
-  <div className='flex flex-col w-full max-w-screen-2xl gap-y-16 mt-10 max-md:px-7'>
+  <div className='flex flex-col w-full max-w-screen-2xl gap-y-16 max-md:px-7'>
     {showLogo && (
-      <header>
         <Logo/>
-      </header>
     )}
     <div className='flex flex-col w-full items-center justify-center'>
       <section className='flex flex-col items-center w-full md:w-[680px] mb-10 gap-y-2'>
