@@ -17,6 +17,7 @@ import { Button } from '@quikdb/design-system/components/ui/button';
 import { Checkbox } from '@quikdb/design-system/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@quikdb/design-system/components/ui/table';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@quikdb/design-system/components/ui/dialog';
 import CreateToken from './CreateTokenForm';
 import { useProjectTokens } from '@/hooks/fetchProjectTokens';
 import { toast } from 'sonner';
@@ -32,6 +33,10 @@ import {
   AlertDialogTrigger,
 } from '@quikdb/design-system/components/ui/alert-dialog';
 import { ClipboardCheck, ClipboardCopy, Trash2Icon } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
+
+
 export interface Project {
   _id: string;
   name: string;
@@ -64,6 +69,19 @@ export function AccessTable({ projectId }: AccessTableProps) {
   const [rowSelection, setRowSelection] = useState({});
   const { tokens, isLoading, isError } = useProjectTokens(projectId);
   const { refreshTokens } = useProjectTokens(projectId);
+  const [showFreePopup, setShowFreePopup] = useState(false);
+  const { isInternetIdentity, internetIdentityCLI, userEmail } = useSelector((state: RootState) => state.auth); // Access Redux state
+  const firstPartEmail = userEmail ? userEmail.split('-')[0] : '';
+  const Email = userEmail ? userEmail : '';
+  const firstName =  userEmail ? userEmail.split('@')[0] : '';
+  const [copiedCommand, setCopiedCommand] = useState<string | null>(null); // Track the copied command
+
+  const handleCopy = (command: string) => {
+    navigator.clipboard.writeText(command);
+    setCopiedCommand(command);
+    toast.success('Command copied to clipboard!');
+    setTimeout(() => setCopiedCommand(null), 2000);
+  };
 
   const deleteProjectToken = async (projectId: string) => {
     try {
@@ -192,15 +210,23 @@ export function AccessTable({ projectId }: AccessTableProps) {
       },
     },
     {
-      accessorKey: 'duration',
-      header: 'Duration',
-      cell: ({ row }) => <div>{row.getValue('duration')}</div>,
-    },
-    {
       accessorKey: 'createdAt',
       header: 'Created At',
       cell: ({ row }) => <div>{row.getValue('createdAt')}</div>,
     },
+    {
+      id: 'duration',
+      header: 'Show Config',
+      cell: ({ row }) => (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setShowFreePopup(true)}
+        >
+          Show Config
+        </Button>
+      ),
+    },    
     {
       id: 'actions',
       header: 'Actions',
@@ -312,6 +338,47 @@ export function AccessTable({ projectId }: AccessTableProps) {
           </Link>
         </div>
       </div>
+
+      {showFreePopup && (
+        <Dialog open={showFreePopup} onOpenChange={setShowFreePopup}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Setup Instructions</DialogTitle>
+              <DialogDescription>
+                You have successfully created your project token on the free plan.
+                <br />
+                Run the following commands to configure your project:
+                <pre className="bg-gray-800 text-white p-4 rounded mt-4 whitespace-pre-wrap break-words">
+                  <code>
+                    {[
+                      'npm i -g quikdb-cli-beta',
+                      isInternetIdentity
+                        ? `quikdb config -u ${firstPartEmail} -i ${internetIdentityCLI}`
+                        : `quikdb config -u ${firstName} -e ${Email}`,
+                      'quikdb install',
+                    ].map((command, index) => (
+                      <div key={index} className="mb-2">
+                        <span>{command}</span>
+                        <button
+                          className="ml-4 p-2 rounded hover:bg-gray-700"
+                          onClick={() => handleCopy(command)}
+                          aria-label={copiedCommand === command ? 'Command copied' : 'Copy command'}
+                        >
+                          {copiedCommand === command ? (
+                            <ClipboardCheck className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <ClipboardCopy className="h-4 w-4 text-gray-500 hover:text-gray-300" />
+                          )}
+                        </button>
+                      </div>
+                    ))}
+                  </code>
+                </pre>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
