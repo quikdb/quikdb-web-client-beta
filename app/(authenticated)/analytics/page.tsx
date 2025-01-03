@@ -22,7 +22,7 @@ const Analytics = () => {
           </Button>
         </div>
       </div>
-      <Card className='mt-7 p-5 bg-blackoff border-none flex flex-col gap-7'>
+      <Card className='mt-7 p-5 dark:bg-[#18171C] border-none flex flex-col gap-7'>
         <div className='flex max-md:flex-wrap max-md:gap-y-5 justify-between'>
           <Card className='bg-transparent text-white border-[#242527] p-4 w-full lg:w-[32%]'>
             <p className='text-lg max-md:text-base'>Total projects</p>

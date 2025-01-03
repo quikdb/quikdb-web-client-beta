@@ -18,7 +18,7 @@ const Overview = () => {
         <ListProject />
       </div>
 
-      <Card className='mt-7 p-5 bg-blackoff border-none flex flex-col gap-7'>
+      <Card className='mt-7 p-5 dark:bg-[#18171C] border-none flex flex-col gap-7'>
         <div className='flex max-md:flex-wrap justify-between max-md:gap-y-3'>
           <Card className='bg-transparent border-[#242527] p-4 lg:w-[32%] w-full hover:bg-blacko'>
             <Link href='/projects'>

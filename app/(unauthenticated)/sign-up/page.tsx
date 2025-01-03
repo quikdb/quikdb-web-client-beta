@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import { AuthClient } from '@dfinity/auth-client';
 import { useDispatch } from 'react-redux';
 import { setAuthState } from '@/app/store';
-// import ScrollingAlert from '@/app/(authenticated)/components/ScrolingAlert';
 
 const SignUpPage = () => {
   const [seeOtherOptions, setSeeOtherOptions] = useState(false);
@@ -124,7 +123,7 @@ const SignUpPage = () => {
 
   return (
     <>
-      <div className='flex justify-center items-center w-full'>
+      <div className='flex justify-center items-center w-full h-[90vh]'>
         <div className='flex flex-col w-full max-w-screen-2xl'>
           <FormHeader title='Create an account' description='Enter your email to sign up for this app' showLogo />
           <main className='flex flex-col items-center justify-center w-full'>
@@ -167,7 +166,7 @@ const SignUpPage = () => {
                   </Button>
                 )}
               </section>
-              <section className='flex flex-col items-center gap-y-6'>
+              <section className='flex flex-col items-center gap-y-4'>
                 <p className='text-sm font-light text-[#B3B4B3] text-center'>
                   By clicking continue, you agree to our{' '}
                   <Link href='/terms' className='underline'>

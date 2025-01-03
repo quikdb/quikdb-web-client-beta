@@ -2,29 +2,19 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 
 const plans = [
     {
+        price: "$0",
+        credits: "0",
+        storage: "3 GBstorage Max",
+    },
+    {
         price: "$10",
         credits: "10,000",
-        storage: "1 GBstorage for 1 year",
+        storage: "1 GBstorage per 1 year",
     },
     {
-        price: "$20",
-        credits: "20,000",
-        storage: "3 GBstorage for 1 year",
-    },
-    {
-        price: "$75",
-        credits: "50,000",
-        storage: "10 GBstorage for 1 year",
-    },
-    {
-        price: "$150",
-        credits: "100,000",
-        storage: "25 GBstorage for 1 year",
-    },
-    {
-        price: "Custom",
-        credits: "Varies",
-        storage: "Scales with purchase",
+        price: "$50",
+        credits: "45,000",
+        storage: "5 GBstorage per 1 year",
     },
 
 ]

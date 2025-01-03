@@ -8,7 +8,7 @@ import {
   FileTextIcon,
   GearIcon,
 } from '@radix-ui/react-icons';
-import {  LogOutIcon } from 'lucide-react';
+import { LogOutIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -35,15 +35,15 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
     setLoading(true);
     setError('');
     setSuccess(false);
-  
+
     try {
       const response = await fetch('/api/sign-out', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok && result.status === 'success') {
         dispatch(clearAuthState()); // Clear token and user email from Redux store and cookies
         setSuccess(true);
@@ -63,7 +63,7 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
       router.push('/sign-in');
     }
   };
-  
+
 
   const navigation = [
     { name: 'Overview', to: '/overview', icon: <DashboardIcon /> },
@@ -78,20 +78,19 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
   ];
 
   return (
-    <div className='bg-blackoff w-[18%] border-r border-r-[#1B1C1F] fixed hidden lg:flex flex-col items-center justify-start p-10 py-20 min-h-screen h-full overflow-y-auto'>
+    <div className='dark:bg-[#18171C] w-[18%] border-r border-r-[#1B1C1F] fixed hidden lg:flex flex-col items-center justify-start p-10 py-20 min-h-screen h-full overflow-y-auto'>
       <div className='flex flex-col justify-between h-full w-full'>
         <div>
-          <Link href='/' className='font-medium text-gradient text-2xl pl-10'>
-            quikDB
+          <Link href='/' className='font-medium text-gradient text-xl pl-10'>
+            QuikDB
           </Link>
           <div className='flex flex-col gap-2 mt-16'>
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.to}
-                className={`flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 ${
-                  pathname === item.to ? 'bg-gradient' : 'hover:bg-gradient'
-                }`}
+                className={`flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 ${pathname === item.to ? 'bg-gradient' : 'hover:bg-gradient'
+                  }`}
               >
                 {item.icon}
                 {item.name}
@@ -100,11 +99,11 @@ const GlobalSidebar: React.FC<GlobalSidebarProps> = ({ children }) => {
           </div>
         </div>
         <div className='py-6 mt-6 flex flex-col gap-2 w-full items-'>
-          {/* <Button size='lg' className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient'>
+          {/* <Button size='lg' className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient dark:bg-[#18171C] text-gradient'>
             <HeadphonesIcon /> Support
           </Button> */}
           <Button
-            className='flex items-center gap-3 rounded-lg px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient w-full'
+            className='flex items-center gap-3 rounded-lg px-8 text-sm leading-7 hover:bg-gradient dark:bg-[#18171C] text-gradient w-full'
             onClick={handleSignout}
             disabled={loading}
           >

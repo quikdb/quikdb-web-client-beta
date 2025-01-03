@@ -76,7 +76,7 @@ const MobileSidebar = () => {
             <HamburgerMenuIcon className='w-4 h-4' aria-hidden='true' />
           </div>
         </DialogTrigger>
-        <DialogContent className='fixed h-full left-32 z-50 w-2/ bg-blackoff text-white px-6 py-6'>
+        <DialogContent className='fixed h-full left-32 z-50 w-2/ dark:bg-[#18171C] text-white px-6 py-6'>
           <div className='flex flex-col justify-between h-full w-full'>
             <div>
               <Link href='/' className='font-medium text-gradient text-2xl pl-10'>
@@ -87,9 +87,8 @@ const MobileSidebar = () => {
                   <Link
                     key={item.name}
                     href={item.to}
-                    className={`flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 ${
-                      pathname === item.to ? 'bg-gradient' : 'hover:bg-gradient'
-                    }`}
+                    className={`flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 ${pathname === item.to ? 'bg-gradient' : 'hover:bg-gradient'
+                      }`}
                   >
                     {item.icon}
                     {item.name}
@@ -98,11 +97,11 @@ const MobileSidebar = () => {
               </div>
             </div>
             <div className='py-6 mt-6 flex flex-col gap-2 w-full items-'>
-              {/* <Button size='lg' className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient'>
+              {/* <Button size='lg' className='flex items-center gap-3 rounded-lg py-2 px-8 text-sm leading-7 hover:bg-gradient dark:bg-[#18171C] text-gradient'>
             <HeadphonesIcon /> Support
           </Button> */}
               <Button
-                className='flex items-center gap-3 rounded-lg px-8 text-sm leading-7 hover:bg-gradient bg-blackoff text-gradient w-full'
+                className='flex items-center gap-3 rounded-lg px-8 text-sm leading-7 hover:bg-gradient dark:bg-[#18171C] text-gradient w-full'
                 onClick={handleSignout}
                 disabled={loading}
               >
