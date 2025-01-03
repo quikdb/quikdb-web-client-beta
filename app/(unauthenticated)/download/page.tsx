@@ -32,11 +32,11 @@ const DownloadPage = () => {
               Download for Mac
             </Button>
           </Link>
-          {/* <Link href='/download-desktop'>
-            <Button className='rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 px-8 text-lg focus:scale-90'>
+          <Link href='/download-desktop'>
+            <Button className='rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 px-8 text-lg focus:scale-90' disabled>
               Download for Windows
             </Button>
-          </Link> */}
+          </Link>
         </div>
       </main>
 
