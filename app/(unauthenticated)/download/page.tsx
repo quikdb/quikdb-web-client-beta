@@ -24,19 +24,19 @@ const DownloadPage = () => {
           Download the <span className='text-gradient'>QuikDB Desktop App</span>
         </h1>
         <p className='text-lg text-gray-300 mb-8'>
-          Experience the power of QuikDB on your desktop for seamless database management, faster performance, and offline access. Available for both Mac and Windows.
+          Experience the power of QuikDB on your desktop for seamless database management, faster performance, and offline access. Available for Mac. Windows is coming soon.
         </p>
         <div className='flex gap-6'>
-          <Link href='/download-desktop'>
+          <Link href='https://drive.google.com/file/d/1TGg06j3vzdq1OSRVnftICObWsdO-dMde/view?usp=sharing'>
             <Button className='rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 px-8 text-lg focus:scale-90'>
               Download for Mac
             </Button>
           </Link>
-          <Link href='/download-desktop'>
+          {/* <Link href='/download-desktop'>
             <Button className='rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 px-8 text-lg focus:scale-90'>
               Download for Windows
             </Button>
-          </Link>
+          </Link> */}
         </div>
       </main>
 
