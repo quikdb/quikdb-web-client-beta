@@ -19,13 +19,17 @@ const Footer = () => {
                 <a href='https://docs.quikdb.com' className='underline'>
                   Documentation
                 </a>
+                |
+                <a href='/download' className='underline'>
+                  Get Desktop App
+                </a>
               </div>
               <div className='flex gap-3'>
                 <img src='/images/youtube.png' alt='' />
                 <img src='/images/instagram.png' alt='' />
                 <img src='/images/twitter.png' alt='' />
               </div>
-              <div>© 2024 quikDB. All rights reserved.</div>
+              <div>© {new Date().getFullYear()} All rights reserved.</div>
             </div>
           </div>
         </div>
@@ -48,7 +52,7 @@ const Footer = () => {
             <img src='/images/instagram.png' alt='' />
             <img src='/images/twitter.png' alt='' />
           </div>
-          <div>© 2024 quikDB. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} quikDB. All rights reserved.</div>
         </div>
       </div>
     );
