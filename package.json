@@ -141,7 +141,7 @@
     "mac": {
       "target": "dmg",
       "category": "public.app-category.developer-tools",
-       "icon": "public/icon.png"
+       "icon": "public/images/quikdb-logo.png"
     },
     "files": [
       "**/*",
